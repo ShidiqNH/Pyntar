@@ -1,0 +1,15 @@
+version: '3'
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: pylearn
+    ports:
+      - "5432:5432"
