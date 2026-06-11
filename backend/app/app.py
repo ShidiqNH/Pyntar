@@ -112,6 +112,21 @@ def module_page(module_id):
     return redirect(url_for('dashboard_page'))
 
 
+@app.route('/course/module/<int:module_id>/quiz')
+def quiz_page(module_id):
+    if 0 <= module_id < len(MODULES):
+        module = MODULES[module_id]
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                content_data = json.load(f)
+        except Exception:
+            content_data = {}
+        content = content_data.get(str(module_id), {})
+        quiz = content.get('quiz', {})
+        return render_template('pages/quiz.html', active_module=module_id, module=module, content=content, quiz=quiz, is_quiz=True)
+    return redirect(url_for('dashboard_page'))
+
+
 
 
 if __name__ == '__main__':

@@ -59,7 +59,22 @@
                 "text": "Selalu pastikan interpreter Python Anda terkonfigurasi dengan benar di VS Code. Jika perintah python tidak dikenali di terminal, biasanya disebabkan karena lupa mencentang kotak 'Add Python to PATH' saat proses instalasi.",
                 "badge": "VS Code Setup"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Program Pertama",
+            "read_time": "5 min",
+            "difficulty": "Beginner",
+            "text": "Mari buat program pertama Anda di Pyntar! Tulis kode untuk mencetak salam pembuka.",
+            "instructions": [
+                "Lihat area editor kode di sebelah kanan.",
+                "Ketik perintah <code>print(\"Hello, Python!\")</code> di baris pertama.",
+                "Klik tombol <strong>Run Code</strong> untuk melihat output teks Anda muncul di layar bawah."
+            ],
+            "tip": "Gunakan tanda kutip ganda atau tunggal yang serasi untuk membungkus kalimat yang ingin Anda tampilkan.",
+            "badge": "print()",
+            "starter_code": "# Tulis kode print Anda di bawah ini\n",
+            "expected_output": "Hello, Python!"
+        }
     },
     "1": {
         "category": "Introduction to Python",
@@ -118,7 +133,22 @@
                 "text": "Pilihlah nama variabel yang deskriptif dan mencerminkan isinya. Menggunakan nama seperti n atau x sering kali membingungkan saat kode kamu sudah bertambah panjang. Gunakan total_harga daripada th.",
                 "badge": "snake_case"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Variabel & Tipe Data",
+            "read_time": "5 min",
+            "difficulty": "Beginner",
+            "text": "Dalam latihan ini, Anda akan memodifikasi isi variabel di memori.",
+            "instructions": [
+                "Perhatikan editor di sebelah kanan. Kita telah menyiapkan variabel <code>name</code> dan <code>age</code>.",
+                "Ubah nilai teks di dalam tanda kutip untuk variabel <code>name</code> menjadi nama Anda sendiri.",
+                "Klik tombol <strong>Run Code</strong> untuk melihat hasil format stringnya."
+            ],
+            "tip": "Nama variabel harus deskriptif. Lebih baik menggunakan <code>user_name</code> dibanding variabel berhuruf tunggal seperti <code>x</code>.",
+            "badge": "Variables",
+            "starter_code": "# Mari buat variabel pertama Anda!\nname = \"Pyntar\"\nage = 5\n\nprint(f\"Hello, {name}! You are {age} units of awesome.\")",
+            "expected_output": "Hello, Pyntar! You are 5 units of awesome."
+        }
     },
     "2": {
         "category": "Flow Control",
@@ -171,7 +201,22 @@
                 "text": "Lupa meletakkan tanda titik dua (:) di akhir baris if, elif, atau else adalah penyebab utama kesalahan sintaks bagi pemula. Selalu biasakan memeriksa tanda baca ini saat membuat percabangan.",
                 "badge": "Syntax Rules"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Struktur If-Else",
+            "read_time": "5 min",
+            "difficulty": "Beginner",
+            "text": "Gunakan struktur pengambilan keputusan untuk menentukan status kelulusan berdasarkan nilai siswa.",
+            "instructions": [
+                "Ubah nilai variabel <code>nilai</code> dari <code>70</code> menjadi <code>80</code>.",
+                "Tulis pernyataan <code>if-else</code>: jika <code>nilai >= 75</code>, cetak <code>\"Lulus\"</code>. Jika tidak, cetak <code>\"Tidak Lulus\"</code>.",
+                "Klik tombol <strong>Run Code</strong> untuk mengeksekusi logika alur program Anda."
+            ],
+            "tip": "Jangan lupa letakkan titik dua (:) di akhir if dan else, serta beri spasi indentasi di awal perintah print.",
+            "badge": "Conditionals",
+            "starter_code": "nilai = 70\n\n# Tulis logika percabangan Anda di bawah ini\n",
+            "expected_output": "Lulus"
+        }
     },
     "3": {
         "category": "Data Structures",
@@ -219,7 +264,22 @@
                 "text": "Berbeda dengan string yang nilainya tidak bisa diganti setelah dibuat, List bersifat mutable. Ini berarti pemanggilan fungsi manipulasi seperti append() akan langsung mengubah variabel asli Anda.",
                 "badge": "List Mutability"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Manipulasi List",
+            "read_time": "5 min",
+            "difficulty": "Beginner",
+            "text": "Tambahkan elemen baru ke list buah dan hitung jumlah elemennya.",
+            "instructions": [
+                "Gunakan method <code>append()</code> untuk menambahkan <code>\"mangga\"</code> ke dalam list <code>buah</code>.",
+                "Cetak panjang (jumlah elemen) list buah menggunakan fungsi <code>len()</code>.",
+                "Klik tombol <strong>Run Code</strong> untuk menjalankan manipulasi list Anda."
+            ],
+            "tip": "Method append() bekerja langsung mengubah list asli di memori Anda (mutable).",
+            "badge": "List append()",
+            "starter_code": "buah = [\"apel\", \"jeruk\"]\n\n# 1. Tambahkan 'mangga' ke list buah\n\n# 2. Cetak jumlah elemen list buah menggunakan len()\n",
+            "expected_output": "3"
+        }
     },
     "4": {
         "category": "Flow Control",
@@ -267,7 +327,22 @@
                 "text": "Jika program Anda tidak kunjung selesai dieksekusi karena terjebak dalam infinite loop (perulangan abadi), tekan tombol kombinasi Ctrl + C secara bersamaan di terminal Anda untuk mematikan program secara paksa.",
                 "badge": "Terminal Control"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Perulangan For",
+            "read_time": "5 min",
+            "difficulty": "Beginner",
+            "text": "Buatlah perulangan untuk mencetak urutan angka menggunakan fungsi range.",
+            "instructions": [
+                "Tulis perulangan <code>for</code> menggunakan variabel kontrol <code>i</code>.",
+                "Gunakan fungsi <code>range(5)</code> untuk mengulangi kode sebanyak 5 kali.",
+                "Di dalam loop, cetak nilai variabel <code>i</code> ke terminal."
+            ],
+            "tip": "Fungsi range(5) akan menghasilkan urutan indeks angka dari 0 sampai 4.",
+            "badge": "for i in range()",
+            "starter_code": "# Tulis perulangan for Anda di bawah ini\n",
+            "expected_output": "0\n1\n2\n3\n4"
+        }
     },
     "5": {
         "category": "Structure",
@@ -315,7 +390,22 @@
                 "text": "Biasakan menyertakan penjelasan singkat (docstring) menggunakan petik tiga (\"\"\") di baris pertama di dalam fungsi Anda. Ini berfungsi untuk menjelaskan tujuan dari fungsi tersebut ke pengembang lain.",
                 "badge": "Best Practice"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Membuat Fungsi Kustom",
+            "read_time": "5 min",
+            "difficulty": "Intermediate",
+            "text": "Rancang fungsi modular yang menerima parameter dan mengembalikan hasil perhitungan.",
+            "instructions": [
+                "Buat fungsi bernama <code>luas_persegi</code> yang menerima parameter input <code>sisi</code>.",
+                "Fungsi tersebut harus mengembalikan (<code>return</code>) hasil perkalian <code>sisi * sisi</code>.",
+                "Panggil fungsi tersebut dengan nilai argumen <code>4</code> dan cetak hasilnya menggunakan <code>print()</code>."
+            ],
+            "tip": "Ingatlah untuk menggunakan kata kunci return untuk mengembalikan nilai hasil perkalian, bukan print langsung di dalam fungsi.",
+            "badge": "def function()",
+            "starter_code": "# 1. Definisikan fungsi luas_persegi Anda di bawah\n\n# 2. Panggil fungsi dengan argumen 4 dan cetak hasilnya\n",
+            "expected_output": "16"
+        }
     },
     "6": {
         "category": "Data Structures",
@@ -364,7 +454,22 @@
                 "text": "String di Python tidak dapat diubah sebagian karakternya di tempat. Percobaan seperti teks[0] = 'a' akan memicu TypeError. Selalu buat variabel baru atau timpa variabel lama dengan string hasil manipulasi.",
                 "badge": "String Safety"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Pembersihan Teks Berantai",
+            "read_time": "5 min",
+            "difficulty": "Intermediate",
+            "text": "Lakukan pembersihan string kotor dengan memotong spasi dan mengganti kata.",
+            "instructions": [
+                "Gunakan method chaining (berantai) pada variabel <code>teks_kotor</code>.",
+                "Panggil <code>strip()</code> untuk memotong spasi, lalu <code>replace(\"kopi\", \"teh\")</code> untuk mengganti kata.",
+                "Simpan hasilnya di variabel baru dan cetak ke layar."
+            ],
+            "tip": "Method chaining memproses transformasi teks secara instan dari kiri ke kanan.",
+            "badge": "Chaining",
+            "starter_code": "teks_kotor = \"   aku suka kopi   \"\n\n# Bersihkan teks kotor dan cetak hasilnya\n",
+            "expected_output": "aku suka teh"
+        }
     },
     "7": {
         "category": "Data Structures",
@@ -412,7 +517,22 @@
                 "text": "Key di dalam dictionary harus unik dan berupa tipe data yang immutable (seperti string atau integer). Nilai di dalamnya bebas diisi dengan tipe data apa saja, bahkan List atau Dictionary lain.",
                 "badge": "Data Constraints"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Menambah Key Dictionary",
+            "read_time": "5 min",
+            "difficulty": "Intermediate",
+            "text": "Tambahkan informasi jurusan perkuliahan mahasiswa ke dictionary key-value.",
+            "instructions": [
+                "Tambahkan pasangan key-value baru ke dictionary <code>mahasiswa</code>.",
+                "Kunci (key) baru bernama <code>\"jurusan\"</code> dengan isi nilai <code>\"Informatika\"</code>.",
+                "Cetak dictionary mahasiswa yang telah terupdate ke terminal."
+            ],
+            "tip": "Penulisan key baru di dictionary menggunakan kurung siku: mahasiswa[\"key_baru\"] = nilai.",
+            "badge": "dict[key] = val",
+            "starter_code": "mahasiswa = {\n    \"nama\": \"Andi\",\n    \"umur\": 21\n}\n\n# 1. Tambahkan key 'jurusan' dengan nilai 'Informatika'\n\n# 2. Cetak dictionary mahasiswa\n",
+            "expected_output": "{'nama': 'Andi', 'umur': 21, 'jurusan': 'Informatika'}"
+        }
     },
     "8": {
         "category": "Error Handling",
@@ -461,7 +581,22 @@
                 "text": "Hindari menulis block except tanpa nama kelas error (bare except). Hal tersebut akan menangkap semua kesalahan termasuk sinyal penghenti terminal (KeyboardInterrupt), sehingga program Anda menjadi sulit dimatikan.",
                 "badge": "Best Practice"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Pengamanan Try-Except",
+            "read_time": "5 min",
+            "difficulty": "Intermediate",
+            "text": "Cegah terjadinya crash sistem akibat pembagian dengan angka nol.",
+            "instructions": [
+                "Gunakan struktur <code>try-except</code>.",
+                "Di dalam blok <code>try</code>, lakukan pembagian <code>10 / 0</code>.",
+                "Di dalam blok <code>except ZeroDivisionError</code>, cetak pesan <code>\"Tidak bisa dibagi nol\"</code>."
+            ],
+            "tip": "Menangkap exception spesifik lebih aman dibandingkan menggunakan except kosong.",
+            "badge": "try-except",
+            "starter_code": "# Tulis blok try-except untuk menangani ZeroDivisionError\n",
+            "expected_output": "Tidak bisa dibagi nol"
+        }
     },
     "9": {
         "category": "Advanced",
@@ -510,7 +645,22 @@
                 "text": "Jika Anda membuka berkas menggunakan fungsi open() biasa tanpa menyertakan 'with', dan terjadi error di tengah jalan, berkas tersebut bisa terkunci di memori dan tidak bisa dimodifikasi oleh aplikasi lain.",
                 "badge": "Resource Leaks"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Menulis Berkas",
+            "read_time": "5 min",
+            "difficulty": "Advanced",
+            "text": "Tulis kata penting ke media penyimpanan lokal secara permanen.",
+            "instructions": [
+                "Gunakan context manager <code>with open()</code> dengan nama file <code>\"out.txt\"</code>.",
+                "Gunakan mode tulis <code>\"w\"</code>.",
+                "Tulis teks <code>\"Pyntar\"</code> ke dalam file tersebut."
+            ],
+            "tip": "Gaya penulisan 'with open' otomatis mengunci dan menutup berkas secara aman setelah selesai ditulis.",
+            "badge": "with open()",
+            "starter_code": "# Tulis kode menulis berkas out.txt di bawah\n",
+            "expected_output": "Pyntar"
+        }
     },
     "10": {
         "category": "Advanced",
@@ -559,7 +709,22 @@
                 "text": "Hindari penggunaan 'from nama_modul import *'. Hal ini dapat mencemari ruang nama variabel Anda (name pollution) dan mengakibatkan bug yang sangat sulit dilacak jika ada fungsi bawaan yang namanya bertabrakan.",
                 "badge": "Import Design"
             }
-        ]
+        ],
+        "quiz": {
+            "title": "Praktik: Pemanfaatan Modul Math",
+            "read_time": "5 min",
+            "difficulty": "Advanced",
+            "text": "Impor modul matematika bawaan dan cari nilai akar kuadrat.",
+            "instructions": [
+                "Impor modul bawaan <code>math</code>.",
+                "Hitung akar kuadrat dari angka <code>25</code> menggunakan <code>math.sqrt()</code>.",
+                "Cetak hasilnya ke terminal."
+            ],
+            "tip": "Jangan lupa untuk melakukan 'import math' terlebih dahulu di baris pertama.",
+            "badge": "import math",
+            "starter_code": "# Impor math dan cetak akar kuadrat dari 25\n",
+            "expected_output": "5.0"
+        }
     },
     "11": {
         "category": "Project",

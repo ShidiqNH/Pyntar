@@ -25,24 +25,50 @@
         {% if active_module is defined %}
         <footer class="max-w-5xl mx-auto w-full px-8 lg:px-12 py-8 border-t border-brand-gray-border/60 mt-auto flex items-center justify-between font-label text-sm">
             <div>
-                {% if active_module > 0 %}
-                    <a href="/course/module/{{ active_module - 1 }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-brand-gray-border rounded-xl text-brand-neutral font-semibold hover:bg-gray-50 hover:border-brand-neutral/40 transition-all shadow-sm active:scale-95">
+                {% if is_quiz %}
+                    <!-- On Quiz page: Previous goes back to the current module content -->
+                    <a href="/course/module/{{ active_module }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-brand-gray-border rounded-xl text-brand-neutral font-semibold hover:bg-gray-50 hover:border-brand-neutral/40 transition-all shadow-sm active:scale-95">
                         <svg class="w-4 h-4 text-brand-neutral/60" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                         </svg>
-                        <span>Modul {{ active_module - 1 }}</span>
+                        <span>Materi Modul {{ active_module }}</span>
                     </a>
+                {% else %}
+                    <!-- On Module page: Previous goes to the previous module's quiz (if any) -->
+                    {% if active_module > 0 %}
+                        <a href="/course/module/{{ active_module - 1 }}/quiz" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-brand-gray-border rounded-xl text-brand-neutral font-semibold hover:bg-gray-50 hover:border-brand-neutral/40 transition-all shadow-sm active:scale-95">
+                            <svg class="w-4 h-4 text-brand-neutral/60" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            <span>Quiz Modul {{ active_module - 1 }}</span>
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
 
             <div class="text-xs font-bold text-brand-neutral/30 uppercase tracking-widest font-headline">
-                Modul {{ active_module + 1 }} / 12
+                {% if is_quiz %}
+                    Modul {{ active_module + 1 }} / Quiz
+                {% else %}
+                    Modul {{ active_module + 1 }} / 12
+                {% endif %}
             </div>
 
             <div>
-                {% if active_module < 11 %}
-                    <a href="/course/module/{{ active_module + 1 }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-semibold rounded-xl transition-all shadow-sm active:scale-95">
-                        <span>Modul {{ active_module + 1 }}</span>
+                {% if is_quiz %}
+                    <!-- On Quiz page: Next goes to next module (if any) -->
+                    {% if active_module < 11 %}
+                        <a href="/course/module/{{ active_module + 1 }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-semibold rounded-xl transition-all shadow-sm active:scale-95">
+                            <span>Modul {{ active_module + 1 }}</span>
+                            <svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <!-- On Module page: Next goes to current module's quiz -->
+                    <a href="/course/module/{{ active_module }}/quiz" class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-semibold rounded-xl transition-all shadow-sm active:scale-95">
+                        <span>Mulai Quiz</span>
                         <svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                         </svg>
