@@ -1,0 +1,66 @@
+{% set modules = [
+    {"id": 0, "title": "Introduction to Python"},
+    {"id": 1, "title": "Variables & Data Types"},
+    {"id": 2, "title": "Conditionals (If-Else)"},
+    {"id": 3, "title": "Lists & Arrays"},
+    {"id": 4, "title": "Loops (For/While)"},
+    {"id": 5, "title": "Functions & Modular Code"},
+    {"id": 6, "title": "String Manipulation"},
+    {"id": 7, "title": "Dictionaries & Sets"},
+    {"id": 8, "title": "Exception Handling"},
+    {"id": 9, "title": "File Handling (Tambahan)"},
+    {"id": 10, "title": "Built-in Libraries (Tambahan)"},
+    {"id": 11, "title": "Final Project"}
+] %}
+
+<aside class="fixed top-0 left-0 z-20 w-80 bg-brand-gray-light h-screen flex flex-col py-6 px-4 font-body border-r border-brand-gray-border">
+    
+    <div class="mb-6 px-2 flex flex-col gap-3">
+        <a href="/dashboard" class="inline-flex items-center gap-1.5 text-[#0A6B8E] hover:text-[#1C4B6B] transition-colors text-sm font-bold font-label group w-fit">
+            <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Dashboard
+        </a>
+        
+        <div class="border-b border-brand-gray-border/60 pb-3 mt-1">
+            <a href="/dashboard" class="flex items-center gap-0.5 select-none">
+                <span class="text-2xl font-extrabold text-[#0A6B8E] tracking-tight">Py</span>
+                <span class="text-2xl font-extrabold text-[#1C4B6B] tracking-tight">ntar</span>
+                <span class="w-2 h-2 bg-[#EF713F] rounded-sm mt-2.5 ml-0.5 shadow-sm"></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modules List (Scrollable) -->
+    <div class="flex-1 overflow-y-auto space-y-1.5 pr-1.5 custom-scrollbar">
+        <div class="px-2 mb-2">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-brand-neutral/30 font-label">Course Modules</span>
+        </div>
+        
+        {% for mod in modules %}
+            <a href="/course/module/{{ mod.id }}" 
+               class="flex flex-col gap-0.5 px-4 py-3 rounded-xl transition-all duration-200 border-l-4 {% if active_module == mod.id %}bg-brand-primary-dark/10 text-brand-primary-dark border-[#0A6B8E] font-bold{% else %}text-brand-neutral/70 hover:bg-brand-gray-border/40 hover:text-brand-neutral border-transparent{% endif %}">
+                <span class="text-[9px] font-extrabold uppercase tracking-wider {% if active_module == mod.id %}text-[#0A6B8E]/70{% else %}text-brand-neutral/40{% endif %} font-label">Modul {{ mod.id }}</span>
+                <span class="text-sm font-semibold font-headline leading-tight">{{ mod.title }}</span>
+            </a>
+        {% endfor %}
+    </div>
+
+</aside>
+
+<style>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #E5E5E5;
+        border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #D4D4D4;
+    }
+</style>
