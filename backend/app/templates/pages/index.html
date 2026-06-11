@@ -1,0 +1,263 @@
+{% extends 'public-base.html' %}
+
+{% block title %}Pyntar - AI Python Learning Platform{% endblock %}
+
+{% block content %}
+<section class="relative flex items-center justify-between py-6 overflow-visible">
+    <div class="absolute -top-16 -right-16 w-80 h-80 rounded-full blur-3xl pointer-events-none" style="background-color: rgba(239, 113, 63, 0.15);"></div>
+    <div class="absolute -bottom-20 -left-20 w-96 h-96 rounded-full blur-3xl pointer-events-none" style="background-color: rgba(75, 174, 219, 0.1);"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full relative z-10">
+        
+        <div class="lg:col-span-5 flex flex-col items-start space-y-6">
+            <div class="inline-flex items-center gap-2 bg-brand-tertiary px-4 py-1.5 rounded-full bg-opacity-20 border border-brand-tertiary border-opacity-40">
+                <span class="text-brand-tertiary text-xs">✦</span>
+                <span class="font-label text-xs font-semibold text-brand-neutral tracking-wide">Python for Absolute Beginners</span>
+            </div>
+
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-brand-neutral leading-tight tracking-tight">
+                Master Python <br>
+                with the <span class="italic text-brand-primary">Power <br>of AI</span>
+            </h1>
+
+            <p class="text-base text-brand-neutral opacity-80 max-w-md font-body leading-relaxed">
+                Our AI tutor guides you through every line of code, from your first "Hello World" to understanding loops and logic.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 pt-2 w-full sm:w-auto">
+                <a href="#" class="inline-flex items-center justify-center text-white font-label font-semibold px-7 py-3.5 rounded-2xl shadow-lg shadow-[#4BAEDB]/20 transition-all duration-300 hover:opacity-90" style="background-color: var(--color-brand-primary, #4BAEDB);">
+                    Start Learning for Free
+                </a>
+                
+                <a href="#" class="inline-flex items-center justify-center border border-brand-neutral/20 bg-white hover:bg-brand-gray-light text-brand-neutral font-label font-semibold px-6 py-3.5 rounded-2xl transition-all duration-300 gap-2 group">
+                    Explore AI Features
+                    <span class="transition-transform group-hover:translate-x-1">→</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="lg:col-span-7 relative flex justify-center lg:justify-end mt-8 lg:mt-0">
+            <div class="relative rounded-[2rem] p-1.5 bg-white shadow-xl border border-brand-gray-border max-w-[480px] w-full overflow-visible">
+                <div class="rounded-[1.8rem] overflow-hidden aspect-[4/3] relative bg-[#0a1120]">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-primary-deep via-transparent to-brand-secondary opacity-40"></div>
+                    
+                    <div class="absolute inset-0 flex items-center justify-center p-6 gap-2">
+                        <div class="w-1/4 h-1/2 border border-white opacity-10 bg-white rounded-lg hidden sm:block"></div>
+                        <div class="w-2/3 h-2/3 border border-white opacity-20 bg-white rounded-xl shadow-2xl flex flex-col p-3 space-y-2">
+                            <div class="flex gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-secondary"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-tertiary"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+                            </div>
+                            <div class="w-full h-1.5 bg-white opacity-20 rounded-sm"></div>
+                            <div class="w-3/4 h-1.5 bg-white opacity-10 rounded-sm"></div>
+                        </div>
+                        <div class="w-1/4 h-1/2 border border-white opacity-10 bg-white rounded-lg hidden sm:block"></div>
+                    </div>
+                </div>
+
+                <div class="absolute -top-6 -left-6 bg-white p-3.5 rounded-xl shadow-lg border border-brand-gray-border flex items-start gap-3 max-w-[240px]">
+                    <div class="w-8 h-8 rounded-lg bg-brand-primary flex items-center justify-center text-white shrink-0 font-bold text-sm">
+                        🤖
+                    </div>
+                    <div class="space-y-0.5">
+                        <span class="block font-label text-[10px] font-bold tracking-wider text-brand-primary-dark uppercase">AI Tutor</span>
+                        <p class="text-xs font-medium text-brand-neutral leading-tight">
+                            "Don't forget the quotes around 'Hello World'!"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="absolute -bottom-4 -right-4 bg-white p-3 rounded-xl shadow-lg border border-brand-gray-border flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-full bg-brand-tertiary flex items-center justify-center text-brand-neutral text-xs font-bold">
+                        ✓
+                    </div>
+                    <span class="font-body text-xs font-semibold text-brand-neutral tracking-wide pr-1">Code looks perfect!</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="py-16 flex flex-col items-center">
+    <div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+        <h2 class="text-4xl font-extrabold text-brand-neutral tracking-tight">
+            Why Pyntar <span class="text-brand-primary">AI?</span>
+        </h2>
+        <p class="text-base text-brand-neutral opacity-80 font-body">
+            Engineered to make your first coding steps 3x easier and way more fun.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl px-4">
+        
+        <div class="bg-white rounded-[2rem] p-8 shadow-xl shadow-brand-neutral/5 border border-brand-gray-border flex flex-col items-start space-y-5 relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-md shadow-[#EF713F]/20" style="background-color: var(--color-brand-secondary, #EF713F);">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.446l-6.002-3.001a1.125 1.125 0 01-.503-.943V6.012c0-.39.247-.735.621-.85l6.002-1.847a1.125 1.125 0 011.379 1.1V17.25c0 .412-.225.792-.592.977l-6.002 3.001c-.024.012-.05.023-.076.034a1.125 1.125 0 01-1.227-.123l-6.002-4.5a1.125 1.125 0 01-.379-.85V5.25a1.125 1.125 0 011.379-1.1l6.002 1.847c.024.007.049.016.074.025a1.125 1.125 0 01.594.977v11.25"></path>
+                </svg>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="text-xl font-bold text-brand-neutral">Beginner Paths</h3>
+                <p class="text-sm sm:text-base text-brand-neutral opacity-70 font-body leading-relaxed">
+                    Start from absolute zero. Our path guides you through basic math, strings, and variables at a pace that feels right for you.
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-[2rem] p-8 shadow-xl shadow-brand-neutral/5 border border-brand-gray-border flex flex-col items-start space-y-5 relative overflow-hidden transition-all duration-300 hover:-translate-y-1">
+            <div class="absolute top-0 right-0 w-28 h-28 bg-brand-tertiary bg-opacity-20 rounded-bl-full pointer-events-none"></div>
+
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-brand-neutral shadow-md shadow-[#F9D423]/20 relative z-10" style="background-color: var(--color-brand-tertiary, #F9D423);">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"></path>
+                </svg>
+            </div>
+
+            <div class="space-y-2 relative z-10">
+                <h3 class="text-xl font-bold text-brand-neutral">Instant Feedback</h3>
+                <p class="text-sm sm:text-base text-brand-neutral opacity-70 font-body leading-relaxed">
+                    Get helpful tips on your naming conventions and code structure right as you type your first programs.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full max-w-6xl mx-auto px-4">
+        
+        <div class="relative w-full max-w-[550px] mx-auto lg:mx-0">
+            <div class="bg-[#2A2A2A] rounded-2xl overflow-hidden shadow-2xl border border-[#3A3A3A] text-left">
+                <div class="bg-[#323232] px-4 py-3 flex items-center justify-between border-b border-[#222]">
+                    <div class="flex gap-2">
+                        <span class="w-3 h-3 rounded-full bg-[#FF5F56] shadow-inner"></span>
+                        <span class="w-3 h-3 rounded-full bg-[#FFBD2E] shadow-inner"></span>
+                        <span class="w-3 h-3 rounded-full bg-[#27C93F] shadow-inner"></span>
+                    </div>
+                    <div class="text-xs text-gray-400 font-mono tracking-wider ml-4">
+                        hello_world.py
+                    </div>
+                    <div class="text-gray-400 opacity-60">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="p-6 text-[13px] sm:text-sm font-mono leading-[1.8] overflow-x-auto text-white pb-24">
+                    <p class="text-[#7D8590] italic"># Welcome to Python!</p>
+                    <p><span class="text-white">name</span> = <span class="text-[#E5C07B]">"Pyntar User"</span></p>
+                    <p><span class="text-white">greeting</span> = <span class="text-[#E5C07B]">"Hello, "</span> + <span class="text-white">name</span></p>
+                    <br>
+                    <p><span class="text-[#61AFEF]">print</span>(greeting)</p>
+                    <br>
+                    <p class="text-[#7D8590] italic"># Let's do some basic math</p>
+                    <br>
+                    <p><span class="text-white">apples</span> = <span class="text-[#D19A66]">5</span></p>
+                    <p><span class="text-white">oranges</span> = <span class="text-[#D19A66]">3</span></p>
+                    <p><span class="text-white">total_fruit</span> = <span class="text-white">apples</span> + <span class="text-white">oranges</span></p>
+                    <br>
+                    <p><span class="text-[#61AFEF]">print</span>(f<span class="text-[#E5C07B]">"You have </span>{total_fruit}<span class="text-[#E5C07B]"> pieces of fruit!"</span>)</p>
+                </div>
+            </div>
+
+            <div class="absolute right-[-10px] sm:-right-8 bottom-10 bg-[#F7F4F0] rounded-xl p-5 shadow-xl w-[280px] sm:w-[300px] border border-[#EBE6E0] overflow-hidden">
+                <div class="absolute bottom-4 left-5 right-5 h-1.5 rounded-full" style="background-color: var(--color-brand-secondary, #EF713F);"></div>
+                
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-4 h-4 text-[#D96B40]" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2a6 6 0 00-6 6c0 2.22 1.21 4.16 3 5.2V17a1 1 0 001 1h4a1 1 0 001-1v-3.8c1.79-1.04 3-2.98 3-5.2a6 6 0 00-6-6zm-1 18h2v2h-2v-2z"/>
+                    </svg>
+                    <span class="font-label text-xs font-bold tracking-widest text-[#D96B40] uppercase">AI Insight</span>
+                </div>
+                
+                <p class="text-[13px] text-[#4A4A4A] font-mono leading-relaxed pb-4">
+                    The <span class="bg-white border border-gray-200 px-1.5 py-0.5 rounded shadow-sm font-bold text-gray-700">+</span> sign joins two strings together. In programming, we call this <strong>concatenation</strong>.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-col space-y-8 mt-10 lg:mt-0">
+            <div class="space-y-4">
+                <h2 class="text-4xl lg:text-5xl font-extrabold text-brand-neutral leading-[1.1] tracking-tight">
+                    Learn by Doing, <br>
+                    Step by Step
+                </h2>
+                <p class="text-base text-brand-neutral opacity-80 font-body leading-relaxed max-w-lg">
+                    Our integrated development environment (IDE) is built for beginners. No complicated setup—just open your browser and start writing your first lines of code with real-time help.
+                </p>
+            </div>
+
+            <div class="space-y-4 max-w-lg">
+                <div class="flex items-center gap-4 bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-brand-gray-border">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center" style="background-color: rgba(75, 174, 219, 0.15); color: var(--color-brand-primary-dark, #0A6B8E);">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
+                        </svg>
+                    </div>
+                    <div class="font-bold text-sm sm:text-base text-brand-neutral leading-snug">
+                        Pure Python environment for beginners
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-brand-gray-border">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center" style="background-color: rgba(239, 113, 63, 0.12); color: #C45025;">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"></path>
+                        </svg>
+                    </div>
+                    <div class="font-bold text-sm sm:text-base text-brand-neutral leading-snug">
+                        Friendly error messages that make sense
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-white p-3.5 sm:p-4 rounded-2xl shadow-sm border border-brand-gray-border">
+                    <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center" style="background-color: rgba(181, 172, 107, 0.15); color: #8C8449;">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.438 4.438 0 002.736-2.736m5.9-4.855c.105.105.21.21.313.313"></path>
+                        </svg>
+                    </div>
+                    <div class="font-bold text-sm sm:text-base text-brand-neutral leading-snug">
+                        100% Browser-based—start in seconds
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="py-16 px-4">
+    <div class="relative max-w-5xl mx-auto rounded-[2.5rem] overflow-hidden shadow-2xl p-10 sm:p-16 lg:p-20 text-center" style="background: linear-gradient(135deg, #208DB8 0%, #367E9F 100%);">
+        
+        <div class="absolute top-[40%] left-6 sm:left-12 w-6 h-6 rounded-full bg-white opacity-20"></div>
+        
+        <div class="absolute top-[25%] right-10 sm:right-28 w-10 h-10 rounded-full border-2 border-white opacity-20"></div>
+        
+        <div class="absolute bottom-[20%] left-[25%] sm:left-[30%] w-12 h-12 rounded-xl border-2 border-white opacity-15 -rotate-12"></div>
+
+        <div class="relative z-10 flex flex-col items-center">
+            
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] tracking-tight mb-6">
+                Ready to Write Your <br>
+                <span style="color: var(--color-brand-tertiary, #F9D423);">First Program?</span>
+            </h2>
+            
+            <p class="text-white opacity-90 text-lg sm:text-xl font-body max-w-2xl mx-auto mb-10 leading-relaxed">
+                Start your Python journey today with your personal AI tutor. No prior experience needed.
+            </p>
+            
+            <a href="#" class="inline-flex items-center justify-center bg-white text-[#208DB8] font-label font-bold text-base sm:text-lg px-10 py-4.5 rounded-full shadow-xl hover:scale-105 hover:bg-brand-gray-light transition-all duration-300">
+                Get Started for Free
+            </a>
+            
+        </div>
+    </div>
+</section>
+{% endblock %}
