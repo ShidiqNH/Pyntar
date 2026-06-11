@@ -21,6 +21,7 @@ crash.*.log
 *.tfvars
 *.tfvars.json
 
+
 # =========================
 # Python
 # =========================
@@ -92,4 +93,3 @@ htmlcov/
 # =========================
 secrets.json
 credentials.json
-app/.env
