@@ -12,93 +12,135 @@
     {% include 'components/_tailwind_theme.html' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
 </head>
-<body class="bg-white text-brand-neutral font-body min-h-screen flex items-center justify-center">
+<body class="bg-[#F8FAFC] text-brand-neutral font-body min-h-screen">
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen w-full">
-        
-        <!-- Left Side (Promo Banner) -->
-        <div class="lg:col-span-6 bg-white p-8 md:p-16 lg:p-24 flex flex-col justify-center items-start lg:border-r lg:border-brand-gray-border">
+    <div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+
+        <!-- Left Side: Promo Banner -->
+        <div class="hidden lg:flex flex-col justify-center items-start bg-white px-16 xl:px-24 py-16 border-r border-brand-gray-border">
+
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-0.5 mb-12 select-none">
+                <span class="text-3xl font-extrabold text-[#0A6B8E] tracking-tight">Py</span>
+                <span class="text-3xl font-extrabold text-[#1C4B6B] tracking-tight">ntar</span>
+                <span class="w-2.5 h-2.5 bg-[#EF713F] rounded-sm mt-3 ml-0.5 shadow-sm"></span>
+            </a>
+
             <span class="bg-[#FDF2E9] text-[#EF713F] px-4 py-1.5 rounded-full text-xs font-bold font-label mb-6 tracking-wide uppercase">
-                Level Up Your Skills
+                Start Your Journey
             </span>
             
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold font-headline text-brand-neutral mb-6 leading-tight">
-                Master Python the <span class="text-[#EF713F]">Fun<br class="hidden md:inline"> Way.</span>
+            <h1 class="text-5xl xl:text-6xl font-extrabold font-headline text-brand-neutral mb-5 leading-tight">
+                Learn Python.<br><span class="text-[#EF713F]">Build Anything.</span>
             </h1>
             
-            <p class="text-brand-neutral/70 mb-8 leading-relaxed font-body text-base max-w-md">
-                Join our community of Pythonistas building everything from web scrapers to neural networks. Our interactive playground makes learning feel like playing.
+            <p class="text-brand-neutral/60 mb-10 leading-relaxed font-body text-base max-w-md">
+                Start from zero and work your way up to building real data science tools. Every concept, step by step, with hands-on coding practice.
             </p>
-            
-            <!-- Code Editor Mockup -->
-            <div class="bg-white rounded-2xl border border-brand-gray-border p-6 shadow-sm w-full max-w-md">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex gap-2">
-                        <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-                        <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-                        <div class="w-3 h-3 rounded-full bg-[#0A6B8E]"></div>
+
+            <!-- Feature List -->
+            <div class="space-y-4 w-full max-w-md">
+                <div class="flex items-center gap-4 p-4 rounded-2xl bg-[#F8FAFC] border border-brand-gray-border">
+                    <div class="w-10 h-10 rounded-xl bg-[#D4EAF5] flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-[#0A6B8E]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
                     </div>
-                    <span class="text-xs font-mono text-brand-neutral/40 font-medium">main.py</span>
+                    <div>
+                        <p class="font-bold font-headline text-brand-neutral text-sm">Interactive Code Editor</p>
+                        <p class="text-xs text-brand-neutral/50 font-body">Write and run Python directly in the browser</p>
+                    </div>
                 </div>
-                
-                <div class="p-5 rounded-xl border border-brand-gray-border bg-[#2D2D2D] font-mono text-xs text-[#E5E5E5] space-y-2.5 shadow-inner">
-                    <p><span class="text-[#EF713F]">def</span> <span class="text-[#4BAEDB]">greet_user</span>(name):</p>
-                    <p class="pl-4"><span class="text-[#EF713F]">if</span> name == <span class="text-[#F9D423]">"Pythonista"</span>:</p>
-                    <p class="pl-8"><span class="text-[#EF713F]">return</span> <span class="text-[#F9D423]">"Welcome back! 🎉"</span></p>
-                    <p class="pl-4"><span class="text-[#EF713F]">return</span> <span class="text-[#F9D423]">"Hello, Friend!"</span></p>
-                    <p class="pt-2">print(greet_user(<span class="text-[#F9D423]">"Pythonista"</span>))</p>
+                <div class="flex items-center gap-4 p-4 rounded-2xl bg-[#F8FAFC] border border-brand-gray-border">
+                    <div class="w-10 h-10 rounded-xl bg-[#FDF2E9] flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-[#EF713F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-bold font-headline text-brand-neutral text-sm">Quiz-Gated Progress</p>
+                        <p class="text-xs text-brand-neutral/50 font-body">Unlock the next module by passing each quiz</p>
+                    </div>
                 </div>
-                
-                <div class="flex items-center justify-end mt-4 text-xs font-label text-brand-neutral/40">
-                    <span>Active coding session...</span>
+                <div class="flex items-center gap-4 p-4 rounded-2xl bg-[#F8FAFC] border border-brand-gray-border">
+                    <div class="w-10 h-10 rounded-xl bg-[#E6F4EA] flex items-center justify-center shrink-0">
+                        <svg class="w-5 h-5 text-[#137333]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-bold font-headline text-brand-neutral text-sm">Track Your Progress</p>
+                        <p class="text-xs text-brand-neutral/50 font-body">Dashboard with XP and completion stats</p>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Right Side (Register Form) -->
-        <div class="lg:col-span-6 p-8 md:p-16 lg:p-24 flex flex-col justify-center items-center">
+
+        <!-- Right Side: Register Form -->
+        <div class="flex flex-col justify-center items-center px-8 sm:px-16 py-16 bg-[#F8FAFC] min-h-screen">
+
+            <!-- Mobile Logo -->
+            <a href="/" class="flex items-center gap-0.5 mb-10 select-none lg:hidden">
+                <span class="text-3xl font-extrabold text-[#0A6B8E] tracking-tight">Py</span>
+                <span class="text-3xl font-extrabold text-[#1C4B6B] tracking-tight">ntar</span>
+                <span class="w-2.5 h-2.5 bg-[#EF713F] rounded-sm mt-3 ml-0.5"></span>
+            </a>
+
             <div class="w-full max-w-md">
-                <h2 class="text-3xl font-extrabold font-headline text-brand-neutral mb-2">Join Pyntar today!</h2>
-                <p class="text-brand-neutral/60 font-body text-sm mb-8">Create your account to start learning Python.</p>
-                
-                <form action="/login" method="GET" class="space-y-6">
+
+                <div class="mb-8">
+                    <h2 class="text-3xl font-extrabold font-headline text-brand-neutral mb-2">Create your account</h2>
+                    <p class="text-brand-neutral/60 font-body text-sm">Join thousands of learners mastering Python for free.</p>
+                </div>
+
+                {% if error %}
+                    <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm font-semibold font-body leading-relaxed flex items-start gap-3">
+                        <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                        {{ error }}
+                    </div>
+                {% endif %}
+
+                <form action="/register" method="POST" class="space-y-5">
                     <div>
                         <label for="username" class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label mb-2">Username</label>
-                        <input type="text" id="username" name="username" placeholder="choose a username" required
-                            class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border focus:outline-none focus:border-[#0A6B8E] transition-all font-body text-sm bg-white">
+                        <input type="text" id="username" name="username" placeholder="Choose a username" required
+                            class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border bg-white focus:outline-none focus:border-[#0A6B8E] focus:ring-2 focus:ring-[#0A6B8E]/10 transition-all font-body text-sm placeholder:text-brand-neutral/30">
                     </div>
 
                     <div>
                         <label for="email" class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label mb-2">Email Address</label>
                         <input type="email" id="email" name="email" placeholder="you@example.com" required
-                            class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border focus:outline-none focus:border-[#0A6B8E] transition-all font-body text-sm bg-white">
+                            class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border bg-white focus:outline-none focus:border-[#0A6B8E] focus:ring-2 focus:ring-[#0A6B8E]/10 transition-all font-body text-sm placeholder:text-brand-neutral/30">
                     </div>
                     
                     <div>
                         <label for="password" class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label mb-2">Password</label>
                         <div class="relative">
                             <input type="password" id="password" name="password" placeholder="••••••••" required
-                                class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border focus:outline-none focus:border-[#0A6B8E] transition-all font-body text-sm bg-white pr-10">
-                            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-neutral/40 hover:text-brand-neutral focus:outline-none cursor-pointer">
-                                <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border bg-white focus:outline-none focus:border-[#0A6B8E] focus:ring-2 focus:ring-[#0A6B8E]/10 transition-all font-body text-sm pr-11 placeholder:text-brand-neutral/30">
+                            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-neutral/30 hover:text-brand-neutral transition-colors focus:outline-none cursor-pointer">
+                                <svg id="eye-icon" class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
                             </button>
                         </div>
+                        <p class="mt-2 text-xs text-brand-neutral/40 font-body">Use at least 8 characters with a mix of letters and numbers.</p>
                     </div>
                     
-                    <button type="submit" class="w-full py-3.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-extrabold font-label rounded-xl transition-all shadow-md shadow-[#0A6B8E]/10 cursor-pointer">
+                    <button type="submit" class="w-full py-3.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-extrabold font-label rounded-xl transition-all shadow-md shadow-[#0A6B8E]/20 cursor-pointer active:scale-[0.98]">
                         Create Account
                     </button>
                 </form>
                 
-                <div class="mt-8 text-center text-sm font-body text-brand-neutral/60">
-                    Already have an account? <a href="/login" class="font-extrabold text-[#EF713F] hover:underline transition-all font-headline">Log in</a>
-                </div>
+                <p class="mt-8 text-center text-sm font-body text-brand-neutral/50">
+                    Already have an account? <a href="/login" class="font-extrabold text-[#EF713F] hover:text-[#d4622a] transition-colors">Log in</a>
+                </p>
             </div>
         </div>
-        
+
     </div>
 
     <script>
@@ -107,15 +149,10 @@
             const eyeIcon = document.getElementById('eye-icon');
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                eyeIcon.innerHTML = `
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
-                `;
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />`;
             } else {
                 passwordInput.type = 'password';
-                eyeIcon.innerHTML = `
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                `;
+                eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
             }
         }
     </script>
