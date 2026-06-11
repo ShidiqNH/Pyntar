@@ -36,6 +36,14 @@
                 <p id="quiz-text" class="text-brand-neutral/70 font-body text-sm leading-relaxed mb-6">
                 </p>
 
+                <div class="bg-gray-50 border border-gray-200 rounded-2xl p-5 mb-6 flex flex-col">
+                    <span
+                        class="text-[10px] font-extrabold text-brand-neutral/50 uppercase tracking-wider block mb-2 font-label">Output
+                        Yang Diharapkan (Target)</span>
+                    <pre
+                        class="bg-[#141414] text-[#A6E22E] font-mono text-xs p-4 rounded-xl border border-brand-gray-border/30 overflow-x-auto"><code id="quiz-expected-output"></code></pre>
+                </div>
+
                 <div id="quiz-tip-box"
                     class="hidden bg-sky-50 border-l-4 border-[#0A6B8E] rounded-r-2xl p-5 mb-8 shadow-sm">
                     <span
@@ -186,6 +194,9 @@
                     document.getElementById('quiz-title').innerText = quiz.title;
                     document.getElementById('quiz-text').innerText = quiz.text;
                     document.getElementById('quiz-read-time').innerText = quiz.read_time || '5 min';
+
+                    // SUNTIKAN BARU: Tampilkan target expected output dari AI ke dalam elemen DOM
+                    document.getElementById('quiz-expected-output').innerText = quiz.expected_output || 'No output expected.';
 
                     // Render Instruksi Langkah demi Langkah
                     const instructionsList = document.getElementById('quiz-instructions-list');

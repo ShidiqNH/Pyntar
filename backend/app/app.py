@@ -3,12 +3,14 @@ import json
 from flask import Flask, render_template, redirect, url_for, request, session, jsonify
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
+import mysql.connector
+from mysql.connector import pooling
 
 # 1. Memuat File .env (Pastikan dipanggil paling atas)
 from dotenv import load_dotenv
 load_dotenv()
 
-# Import fungsi ask_ai dan verify_code dari modul ai_engine yang sudah diperbarui
+# Import fungsi ask_ai dan verify_code dari modul ai_engine
 from ai_engine import ask_ai, verify_code
 
 app = Flask(__name__)
@@ -17,34 +19,32 @@ CORS(app)
 # Ambil SECRET_KEY dari .env, berikan fallback jika tidak ditemukan
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'test-index-secret-key-12345')
 
-# Path data JSON
-json_path = os.path.join(os.path.dirname(__file__), 'modules_content.json')
-users_json_path = os.path.join(os.path.dirname(__file__), 'users.json')
+# ---------------------------------------------------------------------------
+# Konfigurasi & Pooling Koneksi MySQL
+# ---------------------------------------------------------------------------
+db_config = {
+    "host": os.environ.get("DB_HOST", "localhost"),
+    "user": os.environ.get("DB_USER", "root"),
+    "password": os.environ.get("DB_PASSWORD", ""),
+    "database": os.environ.get("DB_NAME", "pyntar_db")
+}
 
-# Load data materi modul static
+# Membuat Connection Pool agar aplikasi web lebih stabil saat diakses banyak user
+try:
+    db_pool = mysql.connector.pooling.MySQLConnectionPool(
+        pool_name="pyntar_pool",
+        pool_size=5,
+        pool_reset_session=True,
+        **db_config
+    )
+except mysql.connector.Error as err:
+    print(f"Error Database Connection Pool: {err}")
+    db_pool = None
+
+# Path data materi modul static
+json_path = os.path.join(os.path.dirname(__file__), 'modules_content.json')
 with open(json_path, 'r', encoding='utf-8') as f:
     MODULES_CONTENT = json.load(f)
-
-def load_users():
-    if os.path.exists(users_json_path):
-        try:
-            with open(users_json_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception:
-            return {}
-    return {}
-
-def save_users(users):
-    with open(users_json_path, 'w', encoding='utf-8') as f:
-        json.dump(users, f, indent=4)
-
-def get_user_completed_modules():
-    if 'username' not in session:
-        return []
-    users = load_users()
-    user = users.get(session['username'], {})
-    raw = user.get('completed_modules', [])
-    return [int(m) for m in raw]
 
 # Definisi Daftar Modul Utama
 MODULES = [
@@ -61,6 +61,25 @@ MODULES = [
     {"id": 10, "title": "Built-in Libraries (Tambahan)", "desc": "Mempercepat pengembangan program dengan memanfaatkan modul siap pakai yang efisien."},
     {"id": 11, "title": "Final Project",               "desc": "Uji kompetensi akhir koding kamu dengan membangun sistem mini-analisis data interaktif."},
 ]
+
+def get_user_completed_modules():
+    """Mengambil list ID modul yang selesai milik user langsung dari tabel MySQL."""
+    if 'username' not in session or not db_pool:
+        return []
+    
+    conn = db_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
+    try:
+        cursor.execute("SELECT completed_modules FROM users WHERE username = %s", (session['username'],))
+        row = cursor.fetchone()
+        if row and row['completed_modules']:
+            return json.loads(row['completed_modules'])
+    except Exception as e:
+        print(f"Error fetching completed modules: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+    return []
 
 @app.context_processor
 def inject_user_progress():
@@ -86,49 +105,69 @@ def landing_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
-    if request.method == 'POST':
+    if request.method == 'POST' and db_pool:
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
-        users = load_users()
-        user = users.get(username)
+        
+        conn = db_pool.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+        user = cursor.fetchone()
+        
+        cursor.close()
+        conn.close()
+        
         if user and check_password_hash(user['password'], password):
             session['username'] = username
+            session['user_id'] = user['id']  # Menyimpan user_id untuk relasi foreign key kuis
             return redirect(url_for('dashboard_page'))
         return render_template('pages/login.html', error='Username atau password salah!')
+        
     if 'username' in session: 
         return redirect(url_for('dashboard_page'))
     return render_template('pages/login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
-    if request.method == 'POST':
+    if request.method == 'POST' and db_pool:
         username = request.form.get('username', '').strip()
         email    = request.form.get('email',    '').strip()
         password = request.form.get('password', '').strip()
         if not username or not email or not password:
             return render_template('pages/register.html', error='Semua kolom input wajib diisi!')
-        users = load_users()
-        if username in users: 
-            return render_template('pages/register.html', error='Username sudah terdaftar!')
-        for existing_user in users.values():
-            if existing_user.get('email') == email: 
-                return render_template('pages/register.html', error='Alamat email sudah digunakan!')
         
-        users[username] = {
-            'email': email,
-            'password': generate_password_hash(password),
-            'completed_modules': [],
-            'generated_quizzes': {}  # Penampung kuis berbasis user
-        }
-        save_users(users)
+        conn = db_pool.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        # Cek ketersediaan username atau email
+        cursor.execute("SELECT id FROM users WHERE username = %s OR email = %s", (username, email))
+        existing_user = cursor.fetchone()
+        
+        if existing_user:
+            cursor.close()
+            conn.close()
+            return render_template('pages/register.html', error='Username atau alamat email sudah digunakan!')
+        
+        # Simpan user baru ke tabel MySQL
+        hashed_password = generate_password_hash(password)
+        cursor.execute(
+            "INSERT INTO users (username, email, password, completed_modules) VALUES (%s, %s, %s, %s)",
+            (username, email, hashed_password, "[]")
+        )
+        conn.commit()
+        
+        cursor.close()
+        conn.close()
         return render_template('pages/login.html', success='Registrasi berhasil! Silakan masuk.')
+        
     if 'username' in session: 
         return redirect(url_for('dashboard_page'))
     return render_template('pages/register.html')
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)
+    session.clear()
     return redirect(url_for('login_page'))
 
 # ---------------------------------------------------------------------------
@@ -176,36 +215,48 @@ def quiz_page(module_id):
 
     module = MODULES[module_id]
     content = MODULES_CONTENT.get(str(module_id), {})
-    
     return render_template('pages/quiz.html', active_module=module_id, module=module, content=content, is_quiz=True)
 
 # ---------------------------------------------------------------------------
-# API Endpoints (Kuis Async & Progress Saving)
+# API Endpoints (Kuis Async & Progress Saving via MySQL)
 # ---------------------------------------------------------------------------
 @app.route('/api/module/<int:module_id>/get_quiz', methods=['GET'])
 def get_or_generate_quiz(module_id):
-    """Mengambil kuis yang sudah tersimpan di database user atau men-generate baru menggunakan Gemini."""
-    if 'username' not in session:
+    """Mengambil kuis dari tabel user_quizzes atau men-generate baru menggunakan Gemini."""
+    if 'username' not in session or not db_pool:
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
-    username = session['username']
-    users = load_users()
-    user = users.get(username, {})
-    
-    # Inisialisasi map pencatatan kuis jika belum ada
-    if 'generated_quizzes' not in user:
-        user['generated_quizzes'] = {}
-
+    user_id = session.get('user_id')
     str_module_id = str(module_id)
     
-    # 1. Kuis sudah ada (Cache Hit): Kembalikan data kuis yang lama tanpa hit API ulang
-    if str_module_id in user['generated_quizzes']:
-        return jsonify({'success': True, 'quiz': user['generated_quizzes'][str_module_id]})
+    conn = db_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    # 1. Cek apakah kuis untuk user dan modul ini sudah tersimpan di database
+    cursor.execute("SELECT * FROM user_quizzes WHERE user_id = %s AND module_id = %s", (user_id, module_id))
+    saved_quiz = cursor.fetchone()
+    
+    if saved_quiz:
+        cursor.close()
+        conn.close()
+        # Rekonstruksi model data kuis ke format JSON standar agar frontend tidak berubah
+        quiz_data = {
+            "title": saved_quiz["title"],
+            "read_time": saved_quiz["read_time"],
+            "difficulty": saved_quiz["difficulty"],
+            "text": saved_quiz["text"],
+            "instructions": json.loads(saved_quiz["instructions"]),
+            "tip": saved_quiz["tip"],
+            "badge": saved_quiz["badge"],
+            "starter_code": saved_quiz["starter_code"],
+            "expected_output": saved_quiz["expected_output"]
+        }
+        return jsonify({'success': True, 'quiz': quiz_data})
 
-    # Ambil kuis default dari materi untuk skenario fallback jika AI bermasalah
+    # Siapkan kuis default statis sebagai skenario fallback keselamatan
     fallback_quiz = MODULES_CONTENT.get(str_module_id, {}).get('quiz', {})
     
-    # 2. Ekstraksi seluruh teks materi dari modul ini sebagai bekal konteks untuk Gemini
+    # 2. Ekstraksi seluruh teks materi dari berkas JSON static sebagai basis konteks AI
     module_title = MODULES[module_id]['title']
     content_data = MODULES_CONTENT.get(str_module_id, {})
     
@@ -220,28 +271,45 @@ def get_or_generate_quiz(module_id):
         if section.get('code'):
             materi_text += f"Contoh Kode:\n{section['code']}\n"
 
-    # 3. Panggil Gemini API untuk generate soal kustom berdasarkan materi nyata
+    # 3. Panggil Gemini API untuk generate soal kustom berbasis materi modul
     try:
         ai_response = ask_ai(module_title, materi_text)
-        
-        # Sanitasi tag markdown pembungkus jika tidak sengaja dibuat oleh model AI
         clean_response = ai_response.strip().replace("```json", "").replace("```", "")
         quiz_data = json.loads(clean_response)
         
-        # Validasi minimal key JSON agar compiler mockup tidak crash
         required_keys = ['title', 'instructions', 'starter_code', 'expected_output']
         if not all(k in quiz_data for k in required_keys):
             raise ValueError("Struktur JSON respon AI kurang lengkap")
             
     except Exception as e:
-        # 4. Skenario FALLBACK: Jika AI error/timeout, gunakan soal dari modules_content.json
-        print(f"[Fallback Active] Modul {module_id} memicu kuis bawaan. Alasan: {str(e)}")
+        print(f"[Fallback MySQL Active] Modul {module_id} memicu kuis bawaan. Alasan: {str(e)}")
         quiz_data = fallback_quiz
 
-    # 5. Salin kuis ke data user dan amankan ke users.json agar tidak hilang saat di-refresh
-    user['generated_quizzes'][str_module_id] = quiz_data
-    users[username] = user
-    save_users(users)
+    # 4. Amankan kuis baru (Hasil AI / Fallback) ke dalam tabel user_quizzes di MySQL
+    try:
+        cursor.execute(
+            """INSERT INTO user_quizzes 
+            (user_id, module_id, title, read_time, difficulty, text, instructions, tip, badge, starter_code, expected_output) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (
+                user_id, module_id,
+                quiz_data.get('title', 'Latihan Kode'),
+                quiz_data.get('read_time', '5 min'),
+                quiz_data.get('difficulty', 'Beginner'),
+                quiz_data.get('text', ''),
+                json.dumps(quiz_data.get('instructions', [])),
+                quiz_data.get('tip', ''),
+                quiz_data.get('badge', ''),
+                quiz_data.get('starter_code', ''),
+                quiz_data.get('expected_output', '')
+            )
+        )
+        conn.commit()
+    except Exception as db_err:
+        print(f"Gagal menyimpan kuis baru ke MySQL: {db_err}")
+    finally:
+        cursor.close()
+        conn.close()
 
     return jsonify({'success': True, 'quiz': quiz_data})
 
@@ -249,27 +317,33 @@ def get_or_generate_quiz(module_id):
 @app.route('/api/module/<int:module_id>/verify', methods=['POST'])
 def verify_user_code(module_id):
     """Endpoint API untuk mengevaluasi baris kode user menggunakan Gemini API Sandbox."""
-    if 'username' not in session:
+    if 'username' not in session or not db_pool:
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
     data = request.get_json() or {}
     user_code = data.get('code', '')
     quiz_title = data.get('quiz_title', 'Latihan Kode')
+    user_id = session.get('user_id')
 
-    username = session['username']
-    users = load_users()
-    user = users.get(username, {})
+    conn = db_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
     
-    str_module_id = str(module_id)
-    saved_quiz = user.get('generated_quizzes', {}).get(str_module_id, {})
+    # Ambil metadata pembanding kuis asli langsung dari baris data MySQL
+    cursor.execute("SELECT starter_code, expected_output FROM user_quizzes WHERE user_id = %s AND module_id = %s", (user_id, module_id))
+    saved_quiz = cursor.fetchone()
     
-    # Ambil metadata pembanding kuis asli yang disimpan di user
-    starter_code = saved_quiz.get('starter_code', '')
-    expected_output = saved_quiz.get('expected_output', '')
+    cursor.close()
+    conn.close()
+    
+    if not saved_quiz:
+        return jsonify({'success': False, 'error': 'Data referensi kuis tidak ditemukan.'}), 404
+        
+    starter_code = saved_quiz['starter_code']
+    expected_output = saved_quiz['expected_output']
     module_title = MODULES[module_id]['title']
 
     try:
-        # Panggil Gemini sandbox eksekusi untuk memeriksa kode & menyusun output + hint
+        # Kirim kode langsung ke Gemini untuk dievaluasi output beserta hint-nya secara cloud sandbox
         ai_response_raw = verify_code(module_title, quiz_title, starter_code, expected_output, user_code)
         evaluation_data = json.loads(ai_response_raw)
         
@@ -280,23 +354,18 @@ def verify_user_code(module_id):
             'hint': evaluation_data.get('hint', '')
         })
     except Exception as e:
-        print(f"[API Verify Error]: {str(e)}")
-        return jsonify({'success': False, 'error': 'Gagal memproses evaluasi kode.'}), 500
+        print(f"[API Verify MySQL Error]: {str(e)}")
+        return jsonify({'success': False, 'error': 'Gagal memproses evaluasi kode oleh AI.'}), 500
 
 
 @app.route('/api/module/<int:module_id>/complete', methods=['POST'])
 def complete_module(module_id):
-    """Mencatat modul yang berhasil diselesaikan dan menambah XP user."""
-    if 'username' not in session: 
+    """Mencatat modul yang berhasil diselesaikan ke database MySQL dan menambah progress user."""
+    if 'username' not in session or not db_pool: 
         return jsonify({'success': False, 'error': 'Not authenticated'}), 401
     
-    users = load_users()
-    username = session['username']
-    user = users.get(username)
-    if not user: 
-        return jsonify({'success': False, 'error': 'User not found'}), 404
-
-    completed = [int(m) for m in user.get('completed_modules', [])]
+    user_id = session.get('user_id')
+    completed = get_user_completed_modules()
     
     # Cek prasyarat urutan modul
     for i in range(module_id):
@@ -305,8 +374,19 @@ def complete_module(module_id):
 
     if module_id not in completed:
         completed.append(module_id)
-        users[username]['completed_modules'] = completed
-        save_users(users)
+        
+        # Perbarui kolom completed_modules dalam bentuk string JSON terkompresi
+        conn = db_pool.get_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("UPDATE users SET completed_modules = %s WHERE id = %s", (json.dumps(completed), user_id))
+            conn.commit()
+        except Exception as e:
+            print(f"Error updating completed modules to database: {e}")
+            return jsonify({'success': False, 'error': 'Database error'}), 500
+        finally:
+            cursor.close()
+            conn.close()
 
     return jsonify({'success': True, 'completed_modules': completed, 'xp': len(completed) * 100})
 
