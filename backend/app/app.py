@@ -1,10 +1,16 @@
-import os
+import os, json
 from flask import Flask, render_template, redirect, url_for
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 app.config['SECRET_KEY'] = 'test-index'
+
+# Load modules content data
+json_path = os.path.join(os.path.dirname(__file__), 'modules_content.json')
+with open(json_path, 'r', encoding='utf-8') as f:
+    MODULES_CONTENT = json.load(f)
+
 
 
 @app.route('/')
@@ -29,25 +35,80 @@ def register_page():
 
 
 MODULES = [
-    {"id": 0, "title": "Introduction to Python", "desc": "Introduction to syntax and printing."},
-    {"id": 1, "title": "Variables & Data Types", "desc": "Storing data and basic operations."},
-    {"id": 2, "title": "Conditionals (If-Else)", "desc": "If statements and decision making."},
-    {"id": 3, "title": "Lists & Arrays", "desc": "Working with ordered lists and arrays."},
-    {"id": 4, "title": "Loops (For/While)", "desc": "For loops, while loops, and iterators."},
-    {"id": 5, "title": "Functions & Modular Code", "desc": "Creating reusable functions and code modules."},
-    {"id": 6, "title": "String Manipulation", "desc": "Slicing, formatting, and processing text strings."},
-    {"id": 7, "title": "Dictionaries & Sets", "desc": "Storing data in key-value pairs and unique sets."},
-    {"id": 8, "title": "Exception Handling", "desc": "Catching errors and writing safe, robust scripts."},
-    {"id": 9, "title": "File Handling (Tambahan)", "desc": "Reading, writing, and managing external text files."},
-    {"id": 10, "title": "Built-in Libraries (Tambahan)", "desc": "Importing math, random, and other standard libraries."},
-    {"id": 11, "title": "Final Project", "desc": "Combine everything you learned into a complete project."}
+    {
+        "id": 0,
+        "title": "Introduction to Python",
+        "desc": "Langkah awal memahami sintaksis Python. Berkenalan dengan lingkungan ekosistem koding tanpa setup yang rumit."
+    },
+    {
+        "id": 1,
+        "title": "Variables & Data Types",
+        "desc": "Fondasi dasar penyimpanan data di memori serta manipulasi nilai objek pertama kamu."
+    },
+    {
+        "id": 2,
+        "title": "Conditionals (If-Else)",
+        "desc": "Mengatur alur pengambilan keputusan program berdasarkan logika dan kondisi tertentu."
+    },
+    {
+        "id": 3,
+        "title": "Lists & Arrays",
+        "desc": "Manajemen kumpulan data linear secara terstruktur untuk persiapan pengolahan data massal."
+    },
+    {
+        "id": 4,
+        "title": "Loops (For/While)",
+        "desc": "Otomatisasi tugas berulang dan pemrosesan baris data secara cepat dan efisien."
+    },
+    {
+        "id": 5,
+        "title": "Functions & Modular Code",
+        "desc": "Menerapkan modularitas dan efisiensi penulisan kode agar bisa digunakan kembali (reusable code)."
+    },
+    {
+        "id": 6,
+        "title": "String Manipulation",
+        "desc": "Teknik pembersihan dan pengolahan data teks dasar sebelum dianalisis oleh sistem."
+    },
+    {
+        "id": 7,
+        "title": "Dictionaries & Sets",
+        "desc": "Penyimpanan struktur data kompleks yang efisien untuk pemodelan data objek modern."
+    },
+    {
+        "id": 8,
+        "title": "Exception Handling",
+        "desc": "Membangun aplikasi yang tangguh (robust) terhadap kesalahan input dan gangguan sistem."
+    },
+    {
+        "id": 9,
+        "title": "File Handling (Tambahan)",
+        "desc": "Kemampuan interaksi program secara langsung dengan media penyimpanan file lokal."
+    },
+    {
+        "id": 10,
+        "title": "Built-in Libraries (Tambahan)",
+        "desc": "Mempercepat pengembangan program dengan memanfaatkan modul siap pakai yang efisien."
+    },
+    {
+        "id": 11,
+        "title": "Final Project",
+        "desc": "Uji kompetensi akhir koding kamu dengan membangun sistem mini-analisis data interaktif."
+    }
 ]
 
 @app.route('/course/module/<int:module_id>')
 def module_page(module_id):
     if 0 <= module_id < len(MODULES):
         module = MODULES[module_id]
-        return render_template('pages/module.html', active_module=module_id, module=module)
+        # Read JSON file dynamically on each request to support hot reloading of content
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                content_data = json.load(f)
+        except Exception:
+            content_data = {}
+        content = content_data.get(str(module_id), {})
+        return render_template('pages/module.html', active_module=module_id, module=module, content=content)
     return redirect(url_for('dashboard_page'))
 
 

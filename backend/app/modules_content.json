@@ -1,0 +1,578 @@
+{
+    "0": {
+        "category": "Introduction to Python",
+        "read_time": "10 min read",
+        "difficulty": "Beginner",
+        "title": "Introduction to Python",
+        "subtitle": "Pengenalan ekosistem Python, kenapa Python dipakai di Data Science/AI, cara kerja interpreter, dan instalasi dasar.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami konsep dasar bahasa pemrograman Python.",
+                    "Mengetahui peran krusial Python dalam bidang Data Science dan AI.",
+                    "Memahami cara interpreter mengeksekusi baris kode secara langsung.",
+                    "Mampu melakukan instalasi dasar Python dan mengatur Code Editor di komputer lokal."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Apa itu Python?",
+                "text": "Python adalah bahasa pemrograman tingkat tinggi yang didesain agar mudah dibaca dan dipahami. Syntax-nya yang sederhana memungkinkan pemula menulis program pertamanya dengan cepat, sementara kekuatannya tetap diandalkan oleh engineer profesional di berbagai industri raksasa.",
+                "bullets": [
+                    "<strong>Syntax Sederhana:</strong> Kode Python sangat mirip dengan bahasa Inggris biasa, meminimalkan simbol-simbol rumit yang sering membingungkan pemula.",
+                    "<strong>Dukungan Industri Luas:</strong> Digunakan oleh perusahaan teknologi terkemuka seperti Google, Netflix, dan Instagram.",
+                    "<strong>Fleksibilitas Tinggi:</strong> Cocok untuk pengembangan web, otomatisasi naskah (scripting), hingga pengembangan riset ilmiah."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "2. Kenapa Python untuk Data Science & AI?",
+                "text": "Python mendominasi ranah kecerdasan buatan dan pengolahan data karena ekosistemnya yang kuat. Alih-alih membuat modul analisis dari awal, developer dapat menggunakan ribuan paket siap pakai.",
+                "bullets": [
+                    "<strong>Library Komputasi Lengkap:</strong> Memiliki NumPy untuk perhitungan matriks, Pandas untuk manipulasi tabel data, dan TensorFlow/PyTorch untuk kecerdasan buatan.",
+                    "<strong>Komunitas Terbesar di Dunia:</strong> Dukungan ribuan forum diskusi memudahkan penyelesaian bug koding secara cepat.",
+                    "<strong>Efisien untuk Prototyping:</strong> Ideal untuk riset eksperimental karena ide dapat dicoba dan divisualisasikan secara instan."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "3. Cara Kerja Interpreter Python",
+                "text": "Berbeda dengan bahasa terkompilasi yang memerlukan proses compile panjang untuk mengubah seluruh file menjadi format mesin, Python menggunakan sistem interpreter. Interpreter membaca dan mengeksekusi kode baris demi baris secara instan.",
+                "code": "# Interpreter langsung mengeksekusi baris ini secara real-time\nprint(\"Hello, World!\")\n\n# Anda dapat langsung melihat hasil perhitungan variabel\nangka_keberuntungan = 7\nprint(f\"Angka keberuntungan saya adalah: {angka_keberuntungan}\")",
+                "footer": "Interpreter membuat siklus koding dan debugging menjadi sangat interaktif karena kesalahan syntax akan langsung terdeteksi pada baris yang bermasalah."
+            },
+            {
+                "type": "content_block",
+                "title": "4. Instalasi dan Setup Lingkungan Koding Lokal",
+                "text": "Untuk mulai koding Python di komputer lokal Anda, ikuti tiga langkah mudah berikut:",
+                "bullets": [
+                    "<strong>Langkah 1 (Download):</strong> Kunjungi situs resmi python.org/downloads dan unduh file installer Python terbaru sesuai sistem operasi Anda (Windows/macOS).",
+                    "<strong>Langkah 2 (Install):</strong> Jalankan installer. PENTING: Selalu centang opsi 'Add Python to PATH' sebelum mengklik Install Now agar command prompt Anda mengenali perintah python.",
+                    "<strong>Langkah 3 (Pilih Editor):</strong> Unduh IDE / Code Editor modern. Sangat direkomendasikan menggunakan Visual Studio Code (VS Code) dengan extension Python, atau Jupyter Notebook untuk analisis data."
+                ]
+            },
+            {
+                "type": "tip",
+                "title": "Pro Tip!",
+                "text": "Selalu pastikan interpreter Python Anda terkonfigurasi dengan benar di VS Code. Jika perintah python tidak dikenali di terminal, biasanya disebabkan karena lupa mencentang kotak 'Add Python to PATH' saat proses instalasi.",
+                "badge": "VS Code Setup"
+            }
+        ]
+    },
+    "1": {
+        "category": "Introduction to Python",
+        "read_time": "12 min read",
+        "difficulty": "Core Concepts",
+        "title": "Variables & Data Types",
+        "subtitle": "Variabel, tipe data dasar (str, int, float, bool), type casting, dan aturan penamaan objek di memori.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami cara kerja variabel sebagai tempat penyimpanan data dalam memori.",
+                    "Mengenal dan membedakan tipe data dasar di Python (string, integer, float, boolean).",
+                    "Melakukan konversi tipe data (type casting) untuk menghindari error operasi.",
+                    "Memahami aturan dan konvensi penamaan variabel untuk menghasilkan kode yang bersih."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Apa itu Variabel?",
+                "text": "Dalam pemrograman, variabel adalah nama referensi yang merujuk pada lokasi penyimpanan di dalam memori komputer. Anggap saja variabel seperti label atau 'kotak penyimpanan' yang menampung suatu nilai agar bisa digunakan kembali nanti.",
+                "bullets": [
+                    "<strong>Penetapan Nilai (Assignment):</strong> Menggunakan tanda sama dengan (=) untuk menyimpan nilai ke dalam variabel.",
+                    "<strong>Dinamis:</strong> Kamu tidak perlu menuliskan tipe data secara eksplisit saat membuat variabel; Python otomatis mendeteksi tipe datanya."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Tipe Data Dasar",
+                "text": "Python memiliki empat tipe data primitif utama yang sering digunakan untuk memodelkan informasi:",
+                "code": "# Tipe Data String (Teks) - str\nteks = \"Hello, Andi\"\nprint(type(teks))\n\n# Tipe Data Integer (Bilangan Bulat) - int\numur = 20\nprint(type(umur))\n\n# Tipe Data Float (Bilangan Desimal) - float\ndesimal = 3.14\nprint(type(desimal))\n\n# Tipe Data Boolean (Kebenaran) - bool\nstatus = True\nprint(type(status))\n\n# Output:\n# <class 'str'>\n# <class 'int'>\n# <class 'float'>\n# <class 'bool'>",
+                "footer": "Gunakan fungsi type(nama_variabel) untuk memeriksa tipe data yang sedang aktif pada objek tersebut."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Type Casting",
+                "text": "Type casting adalah proses mengubah tipe data dari satu bentuk ke bentuk yang lain. Hal ini sangat berguna ketika kamu menerima input dalam bentuk teks (string) tetapi ingin memprosesnya sebagai angka untuk kalkulasi matematika.",
+                "code": "# Mengubah String menjadi Integer\nangka = \"10\"\nangka_int = int(angka)\nprint(angka_int + 5)\n\n# Mengubah Integer menjadi Float\ndesimal_baru = float(5)\nprint(desimal_baru)\n\n# Mengubah Angka menjadi String\nstring_baru = str(100)\nprint(type(string_baru))\n\n# Output:\n# 15\n# 5.0\n# <class 'str'>",
+                "footer": "Jika kamu mencoba mengubah teks yang tidak valid (seperti \"halo\") menjadi integer menggunakan int(), Python akan melemparkan ValueError."
+            },
+            {
+                "type": "content_block",
+                "title": "4. Aturan Penamaan Variabel",
+                "text": "Agar kode program kamu berjalan tanpa error dan mudah dibaca oleh tim developer lain, ikuti aturan wajib berikut:",
+                "bullets": [
+                    "<strong>Tidak boleh diawali angka:</strong> Gunakan user_1 bukan 1_user.",
+                    "<strong>Tidak boleh mengandung spasi:</strong> Gunakan nama_lengkap bukan nama lengkap.",
+                    "<strong>Gaya Penulisan (Case Sensitivity):</strong> Variabel Umur dan umur dianggap sebagai dua objek yang berbeda oleh Python.",
+                    "<strong>Gunakan underscore (_):</strong> Menghubungkan beberapa kata untuk meningkatkan keterbacaan (dikenal dengan sebutan snake_case). Contoh: nama_lengkap = \"Budi\""
+                ]
+            },
+            {
+                "type": "tip",
+                "title": "Pro Tip!",
+                "text": "Pilihlah nama variabel yang deskriptif dan mencerminkan isinya. Menggunakan nama seperti n atau x sering kali membingungkan saat kode kamu sudah bertambah panjang. Gunakan total_harga daripada th.",
+                "badge": "snake_case"
+            }
+        ]
+    },
+    "2": {
+        "category": "Flow Control",
+        "read_time": "15 min read",
+        "difficulty": "Core Concepts",
+        "title": "Conditionals (If-Else)",
+        "subtitle": "Operator perbandingan, operator logika (and, or, not), struktur if, elif, dan else.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami konsep dasar percabangan alur dan bagaimana program mengambil keputusan.",
+                    "Menggunakan operator perbandingan untuk membandingkan nilai numerik dan tekstual.",
+                    "Menggabungkan beberapa kondisi keputusan menggunakan operator logika.",
+                    "Merancang logika keputusan bercabang secara terstruktur menggunakan if, elif, dan else."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Logika Pengambilan Keputusan: Operator Perbandingan & Logika",
+                "text": "Sebelum komputer dapat memilih jalur kode mana yang harus dijalankan, ia perlu menguji suatu kebenaran kondisi. Pengujian ini dilakukan menggunakan operator khusus yang akan menghasilkan jawaban berupa nilai Boolean: True (Benar) atau False (Salah).",
+                "bullets": [
+                    "<strong>Sama Dengan (==):</strong> Menguji apakah nilai kiri sama dengan nilai kanan. Contoh: 5 == 5 (True).",
+                    "<strong>Tidak Sama Dengan (!=):</strong> Menguji apakah kedua nilai berbeda. Contoh: 5 != 3 (True).",
+                    "<strong>Lebih Besar (>) & Lebih Kecil (<):</strong> Membandingkan ukuran angka. Contoh: 10 > 7 (True).",
+                    "<strong>Lebih Besar/Sama Dengan (>=) & Lebih Kecil/Sama Dengan (<=):</strong> Menyertakan batas pembanding.",
+                    "<strong>Operator Logika and:</strong> Menghasilkan True hanya jika semua syarat terpenuhi. Contoh: x > 5 and y < 10.",
+                    "<strong>Operator Logika or:</strong> Menghasilkan True jika minimal salah satu syarat terpenuhi. Contoh: x > 5 or y < 2.",
+                    "<strong>Operator Logika not:</strong> Membalikkan nilai logika. Contoh: not True menghasilkan False."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Struktur Percabangan Dasar: If-Else",
+                "text": "Struktur if-else membagi alur program menjadi dua cabang. Jika kondisi bernilai True, jalankan cabang pertama (blok di bawah if). Jika bernilai False, jalankan cabang alternatif (blok di bawah else).",
+                "code": "# Memeriksa status kategori umur seseorang\numur = 18\n\nif umur >= 18:\n    print(\"Status: Dewasa\")\nelse:\n    print(\"Status: Anak-anak\")",
+                "footer": "Pastikan blok kode di dalam if dan else menjorok ke dalam (indentasi). Indentasi ini memberi tahu Python bahwa baris tersebut merupakan bagian dari cabang keputusan."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Logika Multikondisi: If-Elif-Else",
+                "text": "Untuk kasus yang memiliki lebih dari dua pilihan alur keputusan, kita menggunakan elif (else-if) di antara pernyataan if awal dan else penutup. Anda dapat menambahkan elif sebanyak yang diperlukan.",
+                "code": "# Mengelompokkan predikat nilai secara otomatis\nnilai = 85\n\nif nilai >= 90:\n    print(\"Kategori: A\")\nelif nilai >= 75:\n    print(\"Kategori: B\")\nelse:\n    print(\"Kategori: C\")",
+                "footer": "Sistem membaca kondisi secara berurutan dari atas ke bawah. Blok pertama yang bernilai True akan dijalankan, sementara sisa blok di bawahnya langsung diabaikan."
+            },
+            {
+                "type": "tip",
+                "title": "Titik Dua & Indentasi",
+                "text": "Lupa meletakkan tanda titik dua (:) di akhir baris if, elif, atau else adalah penyebab utama kesalahan sintaks bagi pemula. Selalu biasakan memeriksa tanda baca ini saat membuat percabangan.",
+                "badge": "Syntax Rules"
+            }
+        ]
+    },
+    "3": {
+        "category": "Data Structures",
+        "read_time": "18 min read",
+        "difficulty": "Core Concepts",
+        "title": "Lists & Arrays",
+        "subtitle": "Struktur data linear, indexing, slicing, urutan data, serta built-in methods pada List (append, pop, sort).",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami cara menampung kumpulan elemen data di dalam struktur List.",
+                    "Mengakses elemen List secara spesifik menggunakan indeks positif dan indeks negatif.",
+                    "Memotong bagian tertentu dari List menggunakan teknik slicing secara efisien.",
+                    "Menggunakan fungsi bawaan (methods) untuk memanipulasi susunan item di dalam List."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Wadah Data Fleksibel: Struktur List",
+                "text": "List adalah struktur data bawaan paling populer di Python yang digunakan untuk menyimpan kumpulan item dalam satu variabel. Karakteristik utama List adalah terurut (ordered), isinya dapat diubah (mutable), dan memperbolehkan adanya elemen dengan nilai yang sama (duplikat).",
+                "bullets": [
+                    "<strong>Pemberian Nilai:</strong> Elemen-elemen List diapit oleh tanda kurung siku [] dan dipisahkan dengan tanda koma.",
+                    "<strong>Keberagaman Tipe:</strong> Sebuah List dapat menampung tipe data yang berbeda secara bersamaan, misalnya string, angka bulat, desimal, hingga boolean."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Mengambil Elemen List: Indexing & Slicing",
+                "text": "Setiap item di dalam List memiliki nomor posisi yang disebut indeks, dimulai dari angka 0 untuk elemen pertama. Slicing memungkinkan Anda untuk mengambil rentang elemen tertentu dari List.",
+                "code": "buah = [\"apel\", \"jeruk\", \"mangga\"]\n\n# Indexing Positif: Mengambil item pertama (indeks 0)\nprint(buah[0])  # Hasil: apel\n\n# Indexing Negatif: Mengambil item terakhir dari belakang (indeks -1)\nprint(buah[-1])  # Hasil: mangga\n\n# Slicing: Menyalin elemen dari indeks 0 hingga sebelum indeks 2\n# Elemen pada indeks 2 (mangga) tidak ikut diambil\nprint(buah[0:2])  # Hasil: ['apel', 'jeruk']",
+                "footer": "Gunakan indeks negatif (seperti -1, -2) untuk dengan cepat mengakses data dari posisi paling belakang tanpa harus menghitung panjang List."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Fungsi Manipulasi List: append, pop, dan sort",
+                "text": "Python menyediakan fungsi bawaan (methods) yang melekat pada objek List untuk mengubah susunan data secara langsung di memori.",
+                "code": "buah = [\"apel\", \"jeruk\", \"mangga\"]\n\n# append(): Menyisipkan item baru di ujung paling kanan List\nbuah.append(\"pisang\")\nprint(buah)  # Hasil: ['apel', 'jeruk', 'mangga', 'pisang']\n\n# pop(): Menghapus sekaligus mengembalikan elemen terakhir dari List\nbuah.pop()\nprint(buah)  # Hasil: ['apel', 'jeruk', 'mangga']\n\n# sort(): Mengurutkan elemen di dalam List secara alfabetis\nbuah.sort()\nprint(buah)  # Hasil: ['apel', 'jeruk', 'mangga']",
+                "footer": "Selain method di atas, gunakan fungsi bawaan global seperti len(nama_list) untuk mengetahui jumlah total elemen di dalam List."
+            },
+            {
+                "type": "tip",
+                "title": "Sifat Mutable pada List",
+                "text": "Berbeda dengan string yang nilainya tidak bisa diganti setelah dibuat, List bersifat mutable. Ini berarti pemanggilan fungsi manipulasi seperti append() akan langsung mengubah variabel asli Anda.",
+                "badge": "List Mutability"
+            }
+        ]
+    },
+    "4": {
+        "category": "Flow Control",
+        "read_time": "20 min read",
+        "difficulty": "Core Concepts",
+        "title": "Loops (For/While)",
+        "subtitle": "Perulangan for, while, kontrol perulangan (break, continue), dan teknik iterasi di dalam koleksi data.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami esensi perulangan untuk mengotomatisasi tugas-tugas berulang.",
+                    "Membuat perulangan terstruktur menggunakan For Loop berdasarkan koleksi data atau range.",
+                    "Membuat perulangan dinamis menggunakan While Loop berdasarkan kondisi logika.",
+                    "Menginterupsi atau memodifikasi alur iterasi menggunakan perintah break dan continue."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Mengapa Perulangan Dibutuhkan?",
+                "text": "Perulangan (looping) digunakan untuk mengeksekusi satu blok kode berkali-kali secara otomatis selama kondisi tertentu terpenuhi. Ini menghemat penulisan kode berulang dan mempermudah pemrosesan data bervolume besar.",
+                "bullets": [
+                    "<strong>For Loop:</strong> Digunakan saat jumlah perulangan sudah bisa ditentukan sejak awal (misalnya mengulang sebanyak elemen di dalam List atau range angka).",
+                    "<strong>While Loop:</strong> Digunakan saat perulangan bergantung pada kondisi logika tertentu dan jumlah perulangannya belum pasti."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Menulis Perulangan: For & While Loops",
+                "text": "For Loop biasanya berpasangan dengan fungsi range() untuk menghasilkan deret angka. Sementara pada While Loop, kita membutuhkan variabel kontrol (counter) yang diperbarui nilainya di setiap putaran agar perulangan bisa berhenti.",
+                "code": "# For Loop: Mengulang 5 kali (dari 0 sampai 4)\nprint(\"--- Demonstrasi For Loop ---\")\nfor i in range(5):\n    print(f\"Iterasi ke-{i}\")\n\n# While Loop dengan kondisi penghenti\nprint(\"\\n--- Demonstrasi While Loop ---\")\ni = 0\nwhile i < 5:\n    print(f\"Nilai i: {i}\")\n    i += 1  # Menaikkan nilai variabel kontrol agar loop kelak berhenti",
+                "footer": "Fungsi range(5) menghasilkan deret angka 0, 1, 2, 3, 4. Hati-hati dengan While Loop; jika Anda lupa memperbarui variabel kontrol (i += 1), program akan berjalan selamanya!"
+            },
+            {
+                "type": "code_block",
+                "title": "3. Pengendali Alur Iterasi: Break & Continue",
+                "text": "Python memberikan fleksibilitas untuk mengubah alur perulangan saat sedang berjalan dengan menggunakan dua kata kunci:",
+                "code": "# break: Menghentikan total seluruh perulangan secara paksa\nprint(\"--- Efek break ---\")\nfor i in range(5):\n    if i == 3:\n        print(\"Bertemu angka 3! Perulangan dihentikan.\")\n        break\n    print(f\"Angka: {i}\")\n\n# continue: Melewati sisa baris kode saat ini dan langsung melompat ke putaran berikutnya\nprint(\"\\n--- Efek continue ---\")\nfor i in range(5):\n    if i == 3:\n        print(\"Bertemu angka 3! Dilewati (skip).\")\n        continue\n    print(f\"Angka: {i}\")",
+                "footer": "Gunakan break untuk efisiensi pencarian data, dan gunakan continue untuk mengabaikan data yang tidak memenuhi kriteria penyaringan."
+            },
+            {
+                "type": "tip",
+                "title": "Menghentikan Loop Abadi",
+                "text": "Jika program Anda tidak kunjung selesai dieksekusi karena terjebak dalam infinite loop (perulangan abadi), tekan tombol kombinasi Ctrl + C secara bersamaan di terminal Anda untuk mematikan program secara paksa.",
+                "badge": "Terminal Control"
+            }
+        ]
+    },
+    "5": {
+        "category": "Structure",
+        "read_time": "15 min read",
+        "difficulty": "Intermediate",
+        "title": "Functions & Modular Code",
+        "subtitle": "Definisi fungsi (def), parameter/argumen, nilai kembalian (return), dan konsep scope variabel.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami prinsip modularitas dan menulis kode yang bersih serta terorganisir.",
+                    "Membuat fungsi kustom menggunakan kata kunci def dengan atau tanpa input data.",
+                    "Mengirimkan argumen ke fungsi dan mengolah nilai kembalian menggunakan return.",
+                    "Memahami perbedaan ruang lingkup (scope) variabel lokal dan global."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Prinsip Modularitas: Kekuatan Fungsi",
+                "text": "Fungsi adalah blok kode terpisah yang dirancang khusus untuk menangani satu tugas tertentu. Dengan memecah program besar menjadi bagian-bagian kecil (modular), kode menjadi lebih mudah dibaca, diuji, dan dapat dipanggil berulang kali di berbagai lokasi tanpa harus menulis ulang logika yang sama.",
+                "bullets": [
+                    "<strong>Mendefinisikan Fungsi:</strong> Dibuat dengan menuliskan def diikuti dengan nama fungsi unik dan tanda kurung ().",
+                    "<strong>Reusable Code:</strong> Menuliskan logika sekali di dalam fungsi, lalu memanggilnya berkali-kali secara ringkas."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Struktur Fungsi: Parameter, Argumen, dan Return Value",
+                "text": "Parameter adalah variabel penampung input yang dideklarasikan di dalam tanda kurung fungsi. Argumen adalah nilai nyata yang dilewatkan ke parameter tersebut saat fungsi dipanggil. Fungsi menggunakan kata kunci return untuk mengembalikan hasil akhir.",
+                "code": "# Fungsi sederhana tanpa input data\ndef sapa_dunia():\n    print(\"Halo Dunia!\")\n\n# Fungsi dengan parameter input\ndef sapa_pengguna(nama):\n    print(f\"Halo {nama}, selamat datang!\")\n\n# Fungsi yang mengembalikan hasil kalkulasi (return value)\ndef hitung_tambah(a, b):\n    return a + b\n\n# Cara memanggil fungsi:\nsapa_dunia()\nsapa_pengguna(\"Andi\")\nhasil = hitung_tambah(10, 20)\nprint(f\"Hasil penjumlahan: {hasil}\")",
+                "footer": "Pernyataan return secara otomatis mengakhiri jalannya fungsi. Baris kode apa pun di dalam fungsi yang diletakkan setelah perintah return tidak akan pernah dijalankan."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Batas Wilayah Akses: Scope Variabel",
+                "text": "Variabel memiliki batas wilayah di mana mereka dapat dikenali dan diakses di dalam kode program:",
+                "code": "x = 10  # Variabel Global (dapat diakses di mana saja di dalam file)\n\ndef fungsi_lokal():\n    x = 5  # Variabel Lokal (hanya dikenal di dalam fungsi ini saja)\n    print(f\"Variabel x di dalam fungsi (Lokal): {x}\")\n\nfungsi_lokal()\nprint(f\"Variabel x di luar fungsi (Global): {x}\")",
+                "footer": "Mengubah nilai variabel lokal di dalam fungsi tidak akan memengaruhi nilai variabel global dengan nama yang sama di luar fungsi."
+            },
+            {
+                "type": "tip",
+                "title": "Menulis Docstrings",
+                "text": "Biasakan menyertakan penjelasan singkat (docstring) menggunakan petik tiga (\"\"\") di baris pertama di dalam fungsi Anda. Ini berfungsi untuk menjelaskan tujuan dari fungsi tersebut ke pengembang lain.",
+                "badge": "Best Practice"
+            }
+        ]
+    },
+    "6": {
+        "category": "Data Structures",
+        "read_time": "12 min read",
+        "difficulty": "Intermediate",
+        "title": "String Manipulation",
+        "subtitle": "Operasi string, methods (split, join, replace, strip), format string (f-string), dan pembersihan teks mentah.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami operasi dasar string dan fungsi panjang teks di Python.",
+                    "Menggunakan string methods penting seperti split, join, replace, dan strip untuk manipulasi teks.",
+                    "Memahami cara menggabungkan teks dan variabel menggunakan format string (f-string).",
+                    "Menerapkan pembersihan data teks sederhana (text preprocessing) secara berantai."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Operasi Huruf & Pengukuran Teks",
+                "text": "String di Python dapat diubah format hurufnya dan dihitung jumlah karakternya menggunakan fungsi-fungsi bawaan secara instan.",
+                "bullets": [
+                    "<strong>lower():</strong> Mengubah semua karakter huruf di dalam string menjadi huruf kecil.",
+                    "<strong>upper():</strong> Mengubah semua karakter huruf di dalam string menjadi huruf besar.",
+                    "<strong>len():</strong> Fungsi global untuk menghitung jumlah total karakter (termasuk spasi dan simbol)."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Eksplorasi String Methods Penting",
+                "text": "Berikut adalah empat fungsi (methods) yang paling sering digunakan untuk mengolah dan memodifikasi data teks di Python:",
+                "code": "# split() - Memecah string menjadi list kata berdasarkan spasi\nkalimat = \"saya belajar python\"\nprint(kalimat.split())\n\n# join() - Menggabungkan kembali list string menjadi satu string\nkata = [\"saya\", \"belajar\", \"python\"]\nprint(\" \".join(kata))\n\n# replace() - Mengganti kata tertentu dengan kata baru\nteks_asal = \"aku suka kopi\"\nprint(teks_asal.replace(\"kopi\", \"teh\"))\n\n# strip() - Menghapus spasi kosong di awal dan akhir teks\nteks_kotor = \"   halo   \"\nprint(teks_kotor.strip())\n\n# Output:\n# ['saya', 'belajar', 'python']\n# saya belajar python\n# aku suka teh\n# halo",
+                "footer": "Karena string di Python bersifat immutable, methods ini tidak mengubah string asli melainkan menghasilkan string baru sebagai keluarannya."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Format String (f-string) & Pembersihan Berantai",
+                "text": "Kita bisa menyisipkan variabel langsung ke dalam teks menggunakan f-string. Kita juga dapat merangkai beberapa method sekaligus (method chaining) untuk membersihkan teks secara efisien.",
+                "code": "# Menggunakan f-string untuk menyisipkan variabel ke teks\nnama = \"Budi\"\numur = 20\nprint(f\"Nama saya {nama}, umur {umur}\")\n\n# Pembersihan teks berantai (method chaining)\nteks_kotor = \"   HELLO dunia!!!   \"\nclean = teks_kotor.strip().lower().replace(\"!!!\", \"\")\nprint(clean)\n\n# Output:\n# Nama saya Budi, umur 20\n# hello dunia",
+                "footer": "Metode berantai diproses dari kiri ke kanan. Pastikan urutan fungsi logis untuk mendapatkan hasil pembersihan yang benar."
+            },
+            {
+                "type": "tip",
+                "title": "String Bersifat Immutable",
+                "text": "String di Python tidak dapat diubah sebagian karakternya di tempat. Percobaan seperti teks[0] = 'a' akan memicu TypeError. Selalu buat variabel baru atau timpa variabel lama dengan string hasil manipulasi.",
+                "badge": "String Safety"
+            }
+        ]
+    },
+    "7": {
+        "category": "Data Structures",
+        "read_time": "16 min read",
+        "difficulty": "Intermediate",
+        "title": "Dictionaries & Sets",
+        "subtitle": "Struktur data pasangan kunci-nilai (key-value), pencarian data cepat, manipulasi dictionary, dan keunikan himpunan data.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami dan menggunakan struktur data Dictionary untuk menyimpan data berformat key-value.",
+                    "Mampu melakukan operasi tambah, ubah, dan iterasi pada data Dictionary.",
+                    "Memahami karakteristik Set untuk menampung kumpulan nilai unik.",
+                    "Melakukan operasi matematika himpunan seperti Union dan Intersection pada objek Set."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Struktur Pasangan Key-Value & Himpunan Unik",
+                "text": "Python menyediakan Dictionary dan Set untuk memodelkan struktur data yang lebih kompleks dibanding List biasa:",
+                "bullets": [
+                    "<strong>Dictionary:</strong> Pasangan unik antara Kunci (Key) dan Nilai (Value). Sangat cepat untuk mencari data berdasarkan label kuncinya.",
+                    "<strong>Set:</strong> Kumpulan data acak yang tidak berurutan dan otomatis menyaring keluar semua elemen yang duplikat."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Manipulasi dan Perulangan Dictionary",
+                "text": "Berikut cara membuat Dictionary, menambah data baru, mengubah nilai yang sudah ada, serta membaca seluruh isinya menggunakan perulangan items():",
+                "code": "# Membuat Dictionary\ndata = {\n    \"nama\": \"Andi\",\n    \"umur\": 21\n}\nprint(data[\"nama\"])\n\n# Menambah & Mengubah Data\ndata[\"alamat\"] = \"Bandung\"  # Menambah key baru\ndata[\"umur\"] = 22           # Mengubah nilai key yang ada\nprint(data)\n\n# Melakukan iterasi dictionary dengan key dan value\nfor key, value in data.items():\n    print(f\"{key} -> {value}\")\n\n# Output:\n# Andi\n# {'nama': 'Andi', 'umur': 22, 'alamat': 'Bandung'}\n# nama -> Andi\n# umur -> 22\n# alamat -> Bandung",
+                "footer": "Gunakan method data.get(key, default) untuk menghindari error program jika key yang dicari tidak terdaftar di dalam dictionary."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Set & Operasi Matematika Himpunan",
+                "text": "Set secara otomatis mengeliminasi data ganda. Kita juga bisa melakukan operasi gabungan (union) dan irisan (intersection) layaknya matematika himpunan.",
+                "code": "# Otomatis menyaring nilai yang duplikat\nangka = {1, 2, 2, 3}\nprint(angka)\n\n# Operasi Himpunan\nA = {1, 2, 3}\nB = {3, 4, 5}\n\n# Union (Gabungan seluruh elemen)\nprint(A.union(B))\n\n# Intersection (Irisan elemen yang sama)\nprint(A.intersection(B))\n\n# Output:\n# {1, 2, 3}\n# {1, 2, 3, 4, 5}\n# {3}",
+                "footer": "Set sangat bermanfaat untuk membersihkan duplikasi elemen di dalam sebuah List dengan cara mengonversinya: list(set(nama_list))."
+            },
+            {
+                "type": "tip",
+                "title": "Aturan Kunci Dictionary",
+                "text": "Key di dalam dictionary harus unik dan berupa tipe data yang immutable (seperti string atau integer). Nilai di dalamnya bebas diisi dengan tipe data apa saja, bahkan List atau Dictionary lain.",
+                "badge": "Data Constraints"
+            }
+        ]
+    },
+    "8": {
+        "category": "Error Handling",
+        "read_time": "14 min read",
+        "difficulty": "Intermediate",
+        "title": "Exception Handling",
+        "subtitle": "Antisipasi error menggunakan blok try, except, finally, serta teknik debugging logikal.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami mengapa error saat runtime bisa terjadi dan dampaknya bagi sistem.",
+                    "Menggunakan konstruksi try-except untuk mengamankan jalannya program.",
+                    "Menangani beberapa tipe error yang berbeda secara spesifik (multiple exceptions).",
+                    "Memanfaatkan blok finally untuk mengeksekusi kode cleanup wajib."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Pertahanan Sistem: Mengapa Perlu Menangani Error?",
+                "text": "Ketika interpreter Python menemui baris kode yang salah secara logika atau sintaksis saat berjalan, ia akan melemparkan Exception dan menghentikan seluruh program (crash). Exception Handling menjaga agar aplikasi Anda tetap berjalan dengan cara menangkap dan mengalihkan error tersebut.",
+                "bullets": [
+                    "<strong>try:</strong> Menampung baris kode utama yang berpotensi menimbulkan error.",
+                    "<strong>except:</strong> Berisi langkah cadangan jika blok try memicu error.",
+                    "<strong>finally:</strong> Blok penutup yang dijamin berjalan dalam situasi apa pun."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Menggunakan Try-Except & Multiple Exception",
+                "text": "Berikut cara menangani kegagalan input konversi tipe data secara global maupun menangkap jenis kesalahan spesifik secara terperinci:",
+                "code": "# Penanganan Error Sederhana\ntry:\n    # Mencoba konversi string teks biasa menjadi integer\n    angka = int(\"abc\")\nexcept:\n    print(\"Terjadi error: Input tidak valid!\")\n\n# Menangkap Jenis Exception Tertentu\ntry:\n    x = int(\"abc\")\nexcept ValueError:\n    print(\"Terjadi error: Gagal konversi teks ke angka (ValueError).\")\nexcept ZeroDivisionError:\n    print(\"Terjadi error: Pembagian dengan nol tidak diperbolehkan!\")\n\n# Output:\n# Terjadi error: Input tidak valid!\n# Terjadi error: Gagal konversi teks ke angka (ValueError).",
+                "footer": "Menangkap exception secara spesifik (seperti ValueError) sangat disarankan karena membantu proses debugging dan mencegah tertutupnya error lain yang tidak disengaja."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Blok Finally & Debugging Checkpoints",
+                "text": "Blok finally tetap berjalan meskipun terjadi error. Selain itu, menyisipkan fungsi print sebagai checkpoint adalah teknik debugging manual paling awal yang sangat membantu developer.",
+                "code": "# Penggunaan blok finally\ntry:\n    hasil = 10 / 2\n    print(f\"Hasil bagi: {hasil}\")\nfinally:\n    print(\"Program selesai\")\n\n# Debugging Sederhana dengan Checkpoint\nprint(\"Checkpoint 1: Sebelum operasi\")\nx = 10\nprint(f\"Checkpoint 2: Variabel x bernilai {x}\")\n\n# Output:\n# Hasil bagi: 5.0\n# Program selesai\n# Checkpoint 1: Sebelum operasi\n# Checkpoint 2: Variabel x bernilai 10",
+                "footer": "Blok finally sangat ideal digunakan untuk melepaskan resource sistem seperti menutup koneksi database atau menutup berkas eksternal."
+            },
+            {
+                "type": "tip",
+                "title": "Bahaya Bare Except",
+                "text": "Hindari menulis block except tanpa nama kelas error (bare except). Hal tersebut akan menangkap semua kesalahan termasuk sinyal penghenti terminal (KeyboardInterrupt), sehingga program Anda menjadi sulit dimatikan.",
+                "badge": "Best Practice"
+            }
+        ]
+    },
+    "9": {
+        "category": "Advanced",
+        "read_time": "18 min read",
+        "difficulty": "Advanced Topics",
+        "title": "File Handling",
+        "subtitle": "Membaca dan menulis file lokal (.txt, .csv), menggunakan context manager (with open), dan parsing data sederhana.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami cara membuka, membaca, dan menulis konten ke berkas fisik komputer.",
+                    "Menggunakan context manager (pernyataan with) agar penanganan berkas lebih aman.",
+                    "Mengenal perbedaan mode akses berkas (read, write, append).",
+                    "Membaca dan memparsing isi berkas berformat CSV sederhana."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Akses Berkas & Peran Context Manager",
+                "text": "Untuk memproses data di hard drive, program Python perlu membuka jalur komunikasi berkas. Menggunakan pernyataan 'with open' bertindak sebagai Context Manager yang menjamin berkas akan ditutup secara otomatis setelah blok kode selesai, mencegah kerusakan data.",
+                "bullets": [
+                    "<strong>Mode 'r' (Read):</strong> Hanya untuk membaca konten berkas. Memicu error jika berkas tidak ditemukan.",
+                    "<strong>Mode 'w' (Write):</strong> Menulis berkas baru. Jika berkas sudah ada, seluruh isinya akan ditimpa/dihapus terlebih dahulu.",
+                    "<strong>Mode 'a' (Append):</strong> Menambahkan konten baru di baris paling bawah tanpa mengganggu isi berkas yang sudah ada."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Membaca & Menulis Berkas Teks",
+                "text": "Berikut adalah cara aman untuk membuat berkas teks baru, mengisinya dengan kalimat, lalu membacanya kembali ke terminal:",
+                "code": "# Menulis pesan ke berkas teks\nwith open(\"data.txt\", \"w\") as file:\n    file.write(\"Hello World\\nBelajar Python di Pyntar.\")\n\n# Membaca kembali isi berkas\nwith open(\"data.txt\", \"r\") as file:\n    isi = file.read()\n    print(isi)\n\n# Output:\n# Hello World\n# Belajar Python di Pyntar.",
+                "footer": "Metode read() membaca seluruh isi berkas sekaligus. Untuk file berukuran sangat besar, gunakan readline() atau iterasi baris."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Pengolahan File CSV Sederhana",
+                "text": "CSV (Comma-Separated Values) adalah format penyimpanan tabel data sederhana. Kita dapat membaca baris demi baris dan memisahkan setiap kolom dengan pemotong tanda koma.",
+                "code": "# Membuat berkas CSV simulasi\nwith open(\"data.csv\", \"w\") as file:\n    file.write(\"nama,nilai\\nAndi,90\\nBudi,85\")\n\n# Membaca dan memecah isi berkas CSV\nwith open(\"data.csv\", \"r\") as file:\n    for baris in file:\n        # strip() untuk membuang karakter enter (\\n)\n        data_kolom = baris.strip().split(\",\")\n        print(data_kolom)\n\n# Output:\n# ['nama', 'nilai']\n# ['Andi', '90']\n# ['Budi', '85']",
+                "footer": "Untuk berkas CSV yang memiliki struktur data rumit, disarankan memakai modul bawaan 'csv' atau library 'pandas' di ranah Data Science."
+            },
+            {
+                "type": "tip",
+                "title": "Bahaya Lupa Menutup File",
+                "text": "Jika Anda membuka berkas menggunakan fungsi open() biasa tanpa menyertakan 'with', dan terjadi error di tengah jalan, berkas tersebut bisa terkunci di memori dan tidak bisa dimodifikasi oleh aplikasi lain.",
+                "badge": "Resource Leaks"
+            }
+        ]
+    },
+    "10": {
+        "category": "Advanced",
+        "read_time": "15 min read",
+        "difficulty": "Advanced Topics",
+        "title": "Built-in Libraries",
+        "subtitle": "Pemanfaatan modul bawaan ekosistem Python seperti math untuk komputasi, datetime untuk waktu, dan random untuk simulasi.",
+        "sections": [
+            {
+                "type": "objectives",
+                "title": "Tujuan Pembelajaran",
+                "items": [
+                    "Memahami cara mengimpor modul bawaan Python menggunakan kata kunci import.",
+                    "Menggunakan fungsi dan konstanta matematika presisi dari modul math.",
+                    "Mengambil informasi tanggal dan waktu saat ini menggunakan modul datetime.",
+                    "Menghasilkan angka acak dan merancang simulasi game sederhana menggunakan modul random."
+                ]
+            },
+            {
+                "type": "content_block",
+                "title": "1. Filosofi Batteries Included",
+                "text": "Python dirancang dengan konsep 'batteries included', yang berarti Anda sudah mendapatkan ratusan pustaka bawaan siap pakai (standard library) sejak proses instalasi pertama kali tanpa perlu mengunduh apa pun lagi.",
+                "bullets": [
+                    "<strong>math:</strong> Membantu operasi perhitungan matematika rumit, logaritma, trigonometri, dan konstanta khusus.",
+                    "<strong>datetime:</strong> Berfungsi mengelola kalender, tanggal, jam, menit, hingga kalkulasi perbedaan zona waktu.",
+                    "<strong>random:</strong> Digunakan untuk simulasi peluang, memilih sampel acak, atau mengacak urutan elemen List."
+                ]
+            },
+            {
+                "type": "code_block",
+                "title": "2. Penerapan Modul math, datetime, dan random",
+                "text": "Berikut adalah cara mengimpor dan memanggil fungsi penting dari ketiga modul bawaan tersebut:",
+                "code": "import math\nimport datetime\nimport random\n\n# a. Modul Math: Akar kuadrat dan nilai Pi\nprint(math.sqrt(16))\nprint(math.pi)\n\n# b. Modul Datetime: Mengatur tanggal dan waktu tertentu\n# Catatan: Output tanggal di bawah disesuaikan dengan contoh eksekusi\nwaktu_simulasi = datetime.datetime(2026, 6, 11, 21, 15, 0)\nprint(waktu_simulasi)\n\n# c. Modul Random: Menghasilkan angka acak antara 1 sampai 10\nangka_acak = random.randint(1, 10)\n# Contoh output jika sistem acak menghasilkan angka 7\nprint(angka_acak)\n\n# Output:\n# 4.0\n# 3.141592653589793\n# 2026-06-11 21:15:00\n# 7",
+                "footer": "Selalu letakkan seluruh baris 'import' Anda di bagian paling atas dari script Python agar ketergantungan modul terbaca sejak awal."
+            },
+            {
+                "type": "code_block",
+                "title": "3. Simulasi Interaktif: Tebak Angka",
+                "text": "Dengan memadukan modul random dan struktur percabangan, kita dapat mensimulasikan permainan tebak angka sederhana:",
+                "code": "import random\n\n# Target angka rahasia yang digenerate komputer\nangka_rahasia = 7  # Angka rahasia tetap disimulasikan\nprint(f\"Target Rahasia: {angka_rahasia}\")\n\n# Input tebakan user\ntebakan = 7\nprint(f\"Tebakan user: {tebakan}\")\n\nif tebakan == angka_rahasia:\n    print(\"Selamat! Tebakan Anda benar.\")\nelse:\n    print(\"Sayang sekali, tebakan Anda salah.\")\n\n# Output:\n# Target Rahasia: 7\n# Tebakan user: 7\n# Selamat! Tebakan Anda benar.",
+                "footer": "Keacakan buatan komputer (pseudo-randomness) sangat berguna untuk pengujian program, game, statistik dasar, dan simulasi sains."
+            },
+            {
+                "type": "tip",
+                "title": "Hindari Wildcard Import",
+                "text": "Hindari penggunaan 'from nama_modul import *'. Hal ini dapat mencemari ruang nama variabel Anda (name pollution) dan mengakibatkan bug yang sangat sulit dilacak jika ada fungsi bawaan yang namanya bertabrakan.",
+                "badge": "Import Design"
+            }
+        ]
+    },
+    "11": {
+        "category": "Project",
+        "read_time": "30 min read",
+        "difficulty": "Capstone",
+        "title": "Final Project: Data & AI Engine",
+        "subtitle": "Integrasi seluruh logika pemrograman Python untuk studi kasus nyata: memproses data mentah, melakukan analisis logik, dan menghubungkannya dengan API cerdas (seperti Gemini API).",
+        "card_title": "Project Guidelines",
+        "card_text": "Build a mini command-line system (e.g. Student Grade Manager) that reads from a file, calculates outputs, and formats reports.",
+        "code": "# Final project blueprint\ndef run_project():\n    print(\"Executing Capstone System...\")\n    # Combine your logic here\n\nrun_project()",
+        "card_footer": "Submit your code files to test them against Pyntar's autograder systems to earn your certificate!",
+        "tip_title": "Pro Tip!",
+        "tip_text": "Break your code into small, descriptive functions. This makes your program easy to read, debug, and expand.",
+        "tip_badge": "def main():"
+    }
+}
