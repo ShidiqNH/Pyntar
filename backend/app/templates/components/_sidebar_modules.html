@@ -39,11 +39,25 @@
         </div>
         
         {% for mod in modules %}
-            <a href="/course/module/{{ mod.id }}" 
-               class="flex flex-col gap-0.5 px-4 py-3 rounded-xl transition-all duration-200 border-l-4 {% if active_module == mod.id %}bg-brand-primary-dark/10 text-brand-primary-dark border-[#0A6B8E] font-bold{% else %}text-brand-neutral/70 hover:bg-brand-gray-border/40 hover:text-brand-neutral border-transparent{% endif %}">
-                <span class="text-[9px] font-extrabold uppercase tracking-wider {% if active_module == mod.id %}text-[#0A6B8E]/70{% else %}text-brand-neutral/40{% endif %} font-label">Modul {{ mod.id }}</span>
-                <span class="text-sm font-semibold font-headline leading-tight">{{ mod.title }}</span>
-            </a>
+            {% set is_locked = (mod.id > completed_modules|length) %}
+            {% if is_locked %}
+                <div class="flex items-center justify-between px-4 py-3 rounded-xl text-brand-neutral/30 border-l-4 border-transparent cursor-not-allowed select-none bg-gray-50/5 mb-1">
+                    <div class="flex flex-col gap-0.5">
+                        <span class="text-[9px] font-extrabold uppercase tracking-wider text-brand-neutral/20 font-label">Modul {{ mod.id }}</span>
+                        <span class="text-sm font-semibold font-headline leading-tight">{{ mod.title }}</span>
+                    </div>
+                    <!-- Lock Icon -->
+                    <svg class="w-3.5 h-3.5 text-brand-neutral/30" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                    </svg>
+                </div>
+            {% else %}
+                <a href="/course/module/{{ mod.id }}" 
+                   class="flex flex-col gap-0.5 px-4 py-3 rounded-xl transition-all duration-200 border-l-4 {% if active_module == mod.id %}bg-brand-primary-dark/10 text-brand-primary-dark border-[#0A6B8E] font-bold{% else %}text-brand-neutral/70 hover:bg-brand-gray-border/40 hover:text-brand-neutral border-transparent{% endif %}">
+                    <span class="text-[9px] font-extrabold uppercase tracking-wider {% if active_module == mod.id %}text-[#0A6B8E]/70{% else %}text-brand-neutral/40{% endif %} font-label">Modul {{ mod.id }}</span>
+                    <span class="text-sm font-semibold font-headline leading-tight">{{ mod.title }}</span>
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
 

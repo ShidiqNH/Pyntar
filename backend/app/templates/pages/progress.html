@@ -19,12 +19,12 @@
                 <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                     <path class="text-brand-gray-border" stroke-width="4.5" stroke="currentColor" fill="none"
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path class="text-[#0A6B8E]" stroke-dasharray="40, 100" stroke-width="4.5"
+                    <path class="text-[#0A6B8E]" stroke-dasharray="{{ progress_percent }}, 100" stroke-width="4.5"
                         stroke-linecap="round" stroke="currentColor" fill="none"
                         d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
                 </svg>
                 <div class="absolute flex flex-col items-center justify-center">
-                    <span class="text-4xl font-extrabold font-headline text-[#0A6B8E]">40%</span>
+                    <span class="text-4xl font-extrabold font-headline text-[#0A6B8E]">{{ progress_percent }}%</span>
                 </div>
             </div>
             
@@ -122,20 +122,21 @@
             </div>
             
             {% for mod in modules %}
-                {% if mod.id == 0 %}
-                    <a href="/course/module/0" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
+                {% if mod.id in completed_modules %}
+                    <!-- Completed -->
+                    <a href="/course/module/{{ mod.id }}" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl bg-[#D4EAF5] flex items-center justify-center text-[#0A6B8E]">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <span class="font-extrabold text-brand-neutral font-headline text-base">Modul 0: {{ mod.title }}</span>
+                            <span class="font-extrabold text-brand-neutral font-headline text-base">Modul {{ mod.id }}: {{ mod.title }}</span>
                         </div>
                         <div class="col-span-3">
                             <span class="bg-[#E6F4EA] text-[#137333] border border-[#A3CFB2] px-3.5 py-1 rounded-full text-xs font-bold font-label inline-flex items-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-[#137333]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                                 COMPLETED
                             </span>
@@ -144,19 +145,20 @@
                             <span class="font-extrabold text-brand-neutral/80 font-label text-base">100%</span>
                         </div>
                     </a>
-                {% elif mod.id == 1 %}
-                    <a href="/course/module/1" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
+                {% elif mod.id == completed_count %}
+                    <!-- In Progress -->
+                    <a href="/course/module/{{ mod.id }}" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl bg-[#FDF2E9] flex items-center justify-center text-[#EF713F]">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
                                 </svg>
                             </div>
-                            <span class="font-extrabold text-brand-neutral font-headline text-base">Modul 1: {{ mod.title }}</span>
+                            <span class="font-extrabold text-brand-neutral font-headline text-base">Modul {{ mod.id }}: {{ mod.title }}</span>
                         </div>
                         <div class="col-span-3">
                             <span class="bg-[#FFF4EC] text-[#B05B2D] border border-[#FAD7C3] px-3.5 py-1 rounded-full text-xs font-bold font-label inline-flex items-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-[#B05B2D]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <circle cx="12" cy="12" r="9" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l2.5 2.5" />
                                 </svg>
@@ -164,22 +166,23 @@
                             </span>
                         </div>
                         <div class="col-span-3 text-right">
-                            <span class="font-extrabold text-[#B05B2D] font-label text-base">65%</span>
+                            <span class="font-extrabold text-[#B05B2D] font-label text-base">0%</span>
                         </div>
                     </a>
                 {% else %}
-                    <a href="/course/module/{{ mod.id }}" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
+                    <!-- Locked -->
+                    <div class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 items-center opacity-50 cursor-not-allowed select-none">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl bg-[#F1F3F4] flex items-center justify-center text-[#5F6368]/60">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4-4m-4 4l4 4" />
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
                                 </svg>
                             </div>
                             <span class="font-bold text-brand-neutral/40 font-headline text-base">Modul {{ mod.id }}: {{ mod.title }}</span>
                         </div>
                         <div class="col-span-3">
                             <span class="bg-[#F1F3F4] text-[#5F6368] border border-[#DADCE0] px-3.5 py-1 rounded-full text-xs font-bold font-label inline-flex items-center gap-1.5">
-                                <svg class="w-3.5 h-3.5 text-[#5F6368]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                                 LOCKED
@@ -188,7 +191,7 @@
                         <div class="col-span-3 text-right">
                             <span class="font-bold text-brand-neutral/30 font-label text-base">0%</span>
                         </div>
-                    </a>
+                    </div>
                 {% endif %}
             {% endfor %}
         </div>
