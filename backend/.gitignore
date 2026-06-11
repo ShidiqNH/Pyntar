@@ -1,0 +1,71 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+env/
+
+# =========================
+# Flask
+# =========================
+instance/
+.webassets-cache
+
+# =========================
+# Environment Variables (PENTING!)
+# =========================
+.env
+.env.*
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
+# Database
+# =========================
+*.sqlite3
+*.db
+
+# =========================
+# VS Code / IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Jupyter Notebook (kalau dipakai)
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Build / Distribution
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Testing / Coverage
+# =========================
+.coverage
+htmlcov/
+
+# =========================
+# API Keys & Secrets (WAJIB!)
+# =========================
+secrets.json
+credentials.json
