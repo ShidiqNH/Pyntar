@@ -1,0 +1,44 @@
+<aside class="fixed top-0 left-0 z-20 w-64 bg-brand-gray-light h-screen flex flex-col justify-between py-8 px-5 font-body">
+    
+    <div class="space-y-10">
+        <div class="px-2">
+            <a href="/" class="flex items-center gap-0.5 select-none group">
+                <span class="text-3xl font-extrabold text-[#0A6B8E] tracking-tight group-hover:text-[#4BAEDB] transition-colors">Py</span>
+                <span class="text-3xl font-extrabold text-[#1C4B6B] tracking-tight">ntar</span>
+                <span class="w-2.5 h-2.5 bg-[#EF713F] rounded-sm mt-3 ml-0.5 shadow-sm shadow-[#EF713F]/30 animate-pulse"></span>
+            </a>
+        </div>
+
+        <nav class="space-y-2">
+            {% set is_progress = (request.path == '/progress') %}
+            
+            <a href="/dashboard" class="flex items-center gap-3 px-4 py-3 {% if not is_progress %}bg-brand-primary-dark/10 text-brand-primary-dark font-semibold border-r-4 border-brand-primary-dark{% else %}text-brand-neutral/70 hover:bg-brand-gray-border/50 hover:text-brand-neutral font-medium{% endif %} rounded-xl transition-all">
+                <svg class="w-5 h-5 {% if not is_progress %}text-brand-primary-dark{% else %}text-brand-neutral/60{% endif %}" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2.81-1.53V17h2V8.29L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                </svg>
+                <span class="font-label text-sm tracking-wide">Courses</span>
+            </a>
+
+            <a href="/progress" class="flex items-center gap-3 px-4 py-3 {% if is_progress %}bg-brand-primary-dark/10 text-brand-primary-dark font-semibold border-r-4 border-brand-primary-dark{% else %}text-brand-neutral/70 hover:bg-brand-gray-border/50 hover:text-brand-neutral font-medium{% endif %} rounded-xl transition-all">
+                <svg class="w-5 h-5 {% if is_progress %}text-brand-primary-dark{% else %}text-brand-neutral/60{% endif %}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                    <circle cx="18.7" cy="8" r="1.5" fill="currentColor"/>
+                    <circle cx="13.6" cy="13.2" r="1.5" fill="currentColor"/>
+                    <circle cx="10.8" cy="10.5" r="1.5" fill="currentColor"/>
+                </svg>
+                <span class="font-label text-sm tracking-wide">Progress</span>
+            </a>
+        </nav>
+    </div>
+
+    <div class="pb-2">
+        <a href="/logout" class="flex items-center justify-center gap-2 w-full py-2.5 bg-white border border-brand-gray-border rounded-xl text-brand-neutral font-semibold text-sm transition-all hover:bg-gray-50 active:scale-95 shadow-sm">
+            <svg class="w-4 h-4 text-brand-neutral" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span>Logout</span>
+        </a>
+    </div>
+
+</aside>

@@ -1,0 +1,9 @@
+/* --- OPTIONAL: GLOBAL UTILITIES --- */
+body {
+    font-family: var(--font-body);
+    color: var(--color-brand-neutral);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headline);
+}
