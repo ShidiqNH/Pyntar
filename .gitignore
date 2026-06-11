@@ -69,5 +69,4 @@ htmlcov/
 # =========================
 secrets.json
 credentials.json
-Dockerfile
 backend/.env
