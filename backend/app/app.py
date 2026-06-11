@@ -19,6 +19,15 @@ def dashboard_page():
 def progress_page():
     return render_template('pages/progress.html')
 
+@app.route('/login')
+def login_page():
+    return render_template('pages/login.html')
+
+@app.route('/register')
+def register_page():
+    return render_template('pages/register.html')
+
+
 
 
 if __name__ == '__main__':
