@@ -732,12 +732,32 @@
         "difficulty": "Capstone",
         "title": "Final Project: Data & AI Engine",
         "subtitle": "Integrasi seluruh logika pemrograman Python untuk studi kasus nyata: memproses data mentah, melakukan analisis logik, dan menghubungkannya dengan API cerdas (seperti Gemini API).",
-        "card_title": "Project Guidelines",
-        "card_text": "Build a mini command-line system (e.g. Student Grade Manager) that reads from a file, calculates outputs, and formats reports.",
-        "code": "# Final project blueprint\ndef run_project():\n    print(\"Executing Capstone System...\")\n    # Combine your logic here\n\nrun_project()",
-        "card_footer": "Submit your code files to test them against Pyntar's autograder systems to earn your certificate!",
-        "tip_title": "Pro Tip!",
-        "tip_text": "Break your code into small, descriptive functions. This makes your program easy to read, debug, and expand.",
-        "tip_badge": "def main():"
+        "sections": [
+            {
+                "type": "content_block",
+                "title": "Panduan Capstone Project",
+                "text": "Build a mini command-line system (e.g. Student Grade Manager) that reads from a file, calculates outputs, and formats reports.",
+                "bullets": [
+                    "<strong>Struktur Modular:</strong> Pecah kode Anda ke dalam fungsi-fungsi kecil yang deskriptif agar mudah di-debug.",
+                    "<strong>Integrasi AI & File:</strong> Gabungkan pemrosesan file lokal (.txt/.csv) dengan logika evaluasi keputusan menggunakan Gemini API.",
+                    "<strong>Validasi Output:</strong> Pastikan sistem eksekusi akhir mengeluarkan log penanda utama bahwa seluruh arsitektur berjalan sukses."
+                ]
+            }
+        ],
+        "quiz": {
+            "title": "Final Project Blueprint Verification",
+            "read_time": "10 min",
+            "difficulty": "Capstone",
+            "text": "Submit your code files to test them against Pyntar's autograder systems to earn your certificate!",
+            "instructions": [
+                "Perhatikan struktur fungsi utama di sebelah kanan.",
+                "Pastikan fungsi <code>run_project()</code> memanggil perintah print dengan teks <code>\"Executing Capstone System...\"</code> secara eksak.",
+                "Klik tombol <strong>Run Code</strong> untuk memvalidasi kesiapan sistem automasi Anda."
+            ],
+            "tip": "Gunakan blok pembungkus fungsi <code>def main():</code> atau langsung panggil fungsi pemicu di baris paling bawah tanpa indentasi.",
+            "badge": "def main():",
+            "starter_code": "# Final project blueprint\ndef run_project():\n    print(\"Executing Capstone System...\")\n    # Combine your logic here\n\nrun_project()",
+            "expected_output": "Executing Capstone System..."
+        }
     }
 }
