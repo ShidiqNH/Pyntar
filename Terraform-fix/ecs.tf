@@ -77,6 +77,8 @@ resource "aws_ecs_task_definition" "app" {
       # Cloudflare R2 Configs
       { name = "R2_BUCKET_NAME", value = cloudflare_r2_bucket.media_bucket.name },
       { name = "R2_ACCOUNT_ID", value = var.cloudflare_account_id },
+      { name = "R2_ACCESS_KEY_ID", value = var.cloudflare_access_key },
+      { name = "R2_SECRET_ACCESS_KEY", value = var.cloudflare_secret_key },
 
       # PERBAIKAN: Menyuntikkan Gemini API Key ke runtime kontainer secara aman
       { name = "GEMINI_API_KEY", value = var.gemini_api_key }

@@ -11,7 +11,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Import fungsi ask_ai dan verify_code dari modul ai_engine
-from ai_engine import ask_ai, verify_code
+from ai_engine import ask_ai, verify_code, generate_final_project_task, evaluate_final_project
+from storage import upload_file_to_r2
 
 app = Flask(__name__)
 CORS(app)
@@ -285,6 +286,8 @@ def quiz_page(module_id):
 
     module = MODULES[module_id]
     content = MODULES_CONTENT.get(str(module_id), {})
+    if module_id == 11:
+        return render_template('pages/final_project.html', active_module=module_id, module=module, content=content, is_quiz=True)
     return render_template('pages/quiz.html', active_module=module_id, module=module, content=content, is_quiz=True)
 
 # ---------------------------------------------------------------------------
@@ -343,7 +346,10 @@ def get_or_generate_quiz(module_id):
 
     # 3. Panggil Gemini API untuk generate soal kustom berbasis materi modul
     try:
-        ai_response = ask_ai(module_title, materi_text)
+        if module_id == 11:
+            ai_response = generate_final_project_task()
+        else:
+            ai_response = ask_ai(module_title, materi_text)
         clean_response = ai_response.strip().replace("```json", "").replace("```", "")
         quiz_data = json.loads(clean_response)
         
@@ -464,6 +470,104 @@ def complete_module(module_id):
             conn.close()
 
     return jsonify({'success': True, 'completed_modules': completed, 'xp': len(completed) * 100})
+
+
+@app.route('/api/module/11/upload', methods=['POST'])
+def upload_final_project():
+    """Menerima unggahan file.py proyek akhir, mengunggah ke Cloudflare R2, dan mengevaluasi menggunakan Gemini API."""
+    if 'username' not in session or not db_pool:
+        print("[API Upload Error] Unauthorized request")
+        return jsonify({'success': False, 'error': 'Unauthorized'}), 401
+        
+    user_id = session.get('user_id')
+    username = session.get('username')
+    
+    # 1. Validasi file upload
+    if 'file' not in request.files:
+        return jsonify({'success': False, 'error': 'Tidak ada berkas file yang dikirimkan.'}), 400
+        
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'success': False, 'error': 'Nama berkas kosong.'}), 400
+        
+    if not file.filename.endswith('.py'):
+        return jsonify({'success': False, 'error': 'Tipe file harus berupa berkas Python (.py).'}), 400
+        
+    try:
+        # Membaca isi konten file untuk dikirim ke AI Reviewer
+        file_content = file.read().decode('utf-8')
+        # Reset pointer file agar bisa di-upload ke R2
+        file.seek(0)
+    except Exception as read_err:
+        print(f"[API Upload Error] Gagal membaca isi file: {read_err}")
+        return jsonify({'success': False, 'error': 'Gagal membaca isi berkas.'}), 400
+        
+    # 2. Ambil detail tugas dari database user_quizzes untuk module_id = 11
+    conn = db_pool.get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT title, instructions FROM user_quizzes WHERE user_id = %s AND module_id = 11", (user_id,))
+    saved_quiz = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    
+    if not saved_quiz:
+        return jsonify({'success': False, 'error': 'Soal tugas Proyek Akhir belum digenerate.'}), 400
+        
+    project_title = saved_quiz['title']
+    project_instructions = saved_quiz['instructions']
+    
+    # 3. Unggah file ke Cloudflare R2 menggunakan boto3
+    try:
+        object_name = f"final_projects/user_{user_id}_{username}_final_project.py"
+        print(f"[R2 Upload] Mengunggah file ke R2: {object_name}")
+        presigned_url = upload_file_to_r2(file.stream, object_name)
+        print(f"[R2 Upload] Berhasil! Presigned URL: {presigned_url}")
+    except Exception as r2_err:
+        print(f"[R2 Upload Error] Gagal mengunggah ke Cloudflare R2: {r2_err}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': f'Gagal mengunggah berkas ke Cloudflare R2: {str(r2_err)}'}), 500
+        
+    # 4. Evaluasi konten file menggunakan Gemini AI
+    try:
+        print(f"[AI Evaluation] Mengevaluasi final project untuk user_id={user_id}")
+        ai_response_raw = evaluate_final_project(project_title, project_instructions, file_content)
+        evaluation_data = json.loads(ai_response_raw)
+        
+        # Validasi struktur respons AI
+        is_correct = evaluation_data.get('is_correct', False)
+        score = evaluation_data.get('score', 0)
+        feedback = evaluation_data.get('feedback', '')
+        
+        # 5. Jika AI menyatakan jawaban benar, tandai modul 11 sebagai lengkap
+        if is_correct:
+            completed = get_user_completed_modules()
+            if 11 not in completed:
+                completed.append(11)
+                conn = db_pool.get_connection()
+                cursor = conn.cursor()
+                try:
+                    cursor.execute("UPDATE users SET completed_modules = %s WHERE id = %s", (json.dumps(completed), user_id))
+                    conn.commit()
+                except Exception as db_err:
+                    print(f"[API Upload Error] Gagal menyimpan kelulusan ke MySQL: {db_err}")
+                finally:
+                    cursor.close()
+                    conn.close()
+                    
+        return jsonify({
+            'success': True,
+            'is_correct': is_correct,
+            'score': score,
+            'feedback': feedback,
+            'file_url': presigned_url
+        })
+        
+    except Exception as ai_err:
+        print(f"[AI Evaluation Error] Gagal memproses penilaian AI: {ai_err}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'success': False, 'error': 'Gagal memproses penilaian otomatis oleh AI.'}), 500
 
 
 if __name__ == '__main__':

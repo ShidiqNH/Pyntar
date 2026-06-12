@@ -40,3 +40,15 @@ variable "gemini_api_key" {
   description = "API Key Gemini untuk ai_engine"
   sensitive   = true
 }
+
+variable "cloudflare_access_key" {
+  type        = string
+  description = "Access Key ID hasil dari Create API Token"
+  sensitive   = true
+}
+
+variable "cloudflare_secret_key" {
+  type        = string
+  description = "Secret Access Key hasil dari Create API Token"
+  sensitive   = true
+}
