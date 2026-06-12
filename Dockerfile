@@ -18,5 +18,4 @@ COPY app/ .
 # Ekspos port 8000 sesuai dengan target group ECS dan ALB
 EXPOSE 8000
 
-# Perintah produksi menggunakan Gunicorn (Membuka port 8000 dengan nama modul 'app' dan instance 'app')
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "--timeout", "120", "app:app"]

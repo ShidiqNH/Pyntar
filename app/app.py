@@ -27,21 +27,29 @@ db_config = {
     "user": os.environ.get("DB_USER", "root"),
     "password": os.environ.get("DB_PASSWORD", ""),
     "database": os.environ.get("DB_NAME", "pyntardb"),
-    "port": int(os.environ.get("DB_PORT", 3306))
+    "port": int(os.environ.get("DB_PORT", 3306)),
+    "connection_timeout": 5  # Membatasi waktu tunggu handshake database agar tidak membekukan worker
 }
 
-# Membuat Connection Pool agar aplikasi web lebih stabil saat diakses banyak user
-try:
-    db_pool = mysql.connector.pooling.MySQLConnectionPool(
-        pool_name="pyntar_pool",
-        pool_size=5,
-        pool_reset_session=True,
-        **db_config
-    )
-    
-    if db_pool:
+# Definisikan variabel pool secara global
+db_pool = None
+
+def init_database():
+    """Menginisialisasi connection pool dan merakit struktur tabel DDL secara aman."""
+    global db_pool
+    try:
+        db_pool = mysql.connector.pooling.MySQLConnectionPool(
+            pool_name="pyntar_pool",
+            pool_size=5,
+            pool_reset_session=True,
+            **db_config
+        )
+        
+        # Lakukan pembuatan tabel otomatis saat pool pertama kali terbentuk
         conn = db_pool.get_connection()
         cursor = conn.cursor()
+        
+        # 1. Membuat Tabel Utama: users
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `users` (
             `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -52,6 +60,8 @@ try:
             `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """)
+        
+        # 2. Membuat Tabel Relasi: user_quizzes
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `user_quizzes` (
             `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -72,12 +82,21 @@ try:
                 REFERENCES `users` (`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """)
+        
         conn.commit()
         cursor.close()
         conn.close()
-except mysql.connector.Error as err:
-    print(f"Error Database Connection Pool: {err}")
-    db_pool = None
+        print("[Database Init] Struktur tabel 'users' & 'user_quizzes' siap digunakan.")
+    except mysql.connector.Error as err:
+        print(f"Error Database Connection Pool / DDL Migration: {err}")
+        db_pool = None
+
+@app.before_request
+def setup_on_first_request():
+    """Menjalankan inisialisasi database hanya saat ada request pertama kali masuk."""
+    global db_pool
+    if db_pool is None:
+        init_database()
 
 # Path data materi modul static
 json_path = os.path.join(os.path.dirname(__file__), 'modules_content.json')
