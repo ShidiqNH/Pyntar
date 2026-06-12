@@ -462,14 +462,53 @@ from flask import Flask
 
 app = Flask(__name__)
 
+# =========================
+# ROOT CHECK
+# =========================
 @app.route("/")
 def root():
-    return "OK", 200
+    return "Pyntar Backend Running", 200
 
+
+# =========================
+# HEALTH CHECK (WAJIB ALB)
+# =========================
 @app.route("/health")
 def health():
     return "OK", 200
 
+
+# =========================
+# SIMPLE PING TEST
+# =========================
 @app.route("/ping")
 def ping():
     return "pong", 200
+
+
+# =========================
+# LOGIN DEBUG (TANPA DB)
+# =========================
+@app.route("/login", methods=["GET"])
+def login_debug():
+    return "Login endpoint reachable", 200
+
+
+# =========================
+# ERROR HANDLER DEBUG
+# =========================
+@app.errorhandler(404)
+def not_found(e):
+    return {"error": "route not found"}, 404
+
+
+@app.errorhandler(500)
+def server_error(e):
+    return {"error": "internal server error"}, 500
+
+
+# =========================
+# MAIN RUN (LOCAL ONLY)
+# =========================
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
