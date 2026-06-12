@@ -1,0 +1,25 @@
+{
+    "fadhil.teguh": {
+        "email": "fadhil.teguh@mhs.itenas.ac.id",
+        "password": "scrypt:32768:8:1$gYnlk6V00jWqohmK$6ee2277a2093243b68947faab4aa8a1d1ba056e0c30c8e16ce9110e11cd34b36cb82cfe043a8ca667727a3c318bbd61b80e10bedcb217278c421c1bc8851485f",
+        "completed_modules": [],
+        "generated_quizzes": {
+            "0": {
+                "title": "Program Pertama: Menyapa Dunia Pyntar!",
+                "read_time": "5 min",
+                "difficulty": "Pemula",
+                "text": "Selamat datang di Pyntar! Sesuai dengan materi yang telah Anda pelajari tentang cara kerja interpreter Python dan fungsi `print()`, mari kita mulai dengan menulis program Python pertama Anda. Anda akan diminta untuk mencetak dua pesan ke konsol, termasuk menggunakan variabel sederhana.",
+                "instructions": [
+                    "Di baris pertama, gunakan fungsi `print()` untuk mencetak kalimat: `Halo, Pyntar! Selamat datang di dunia Python.`",
+                    "Di baris berikutnya, deklarasikan sebuah variabel dengan nama `versi_python` dan berikan nilai string `'3.10'` (gunakan tanda kutip tunggal atau ganda).",
+                    "Terakhir, cetak pesan: `Anda sedang menggunakan Python versi: [nilai dari variabel versi_python]` menggunakan f-string (disarankan) atau operator konkatenasi string.",
+                    "Jalankan kode Anda dan pastikan outputnya sesuai dengan yang diharapkan."
+                ],
+                "tip": "Pastikan teks atau string yang ingin dicetak atau diberikan ke variabel diapit oleh tanda kutip tunggal (' ') atau ganda (\" \"). Ingat juga bahwa Python sensitif terhadap kapitalisasi nama variabel!",
+                "badge": "pengenalan_python",
+                "starter_code": "# Tulis kode Anda di bawah ini\n# Gunakan fungsi print() untuk menampilkan pesan selamat datang.\n# Deklarasikan sebuah variabel untuk menyimpan informasi versi Python.\n# Gunakan print() lagi untuk menampilkan pesan kedua yang menyertakan nilai dari variabel tersebut.",
+                "expected_output": "Halo, Pyntar! Selamat datang di dunia Python.\nAnda sedang menggunakan Python versi: 3.10"
+            }
+        }
+    }
+}
