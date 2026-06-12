@@ -8,7 +8,8 @@ from mysql.connector import pooling
 
 # 1. Memuat File .env (Pastikan dipanggil paling atas)
 from dotenv import load_dotenv
-load_dotenv()
+dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+load_dotenv(dotenv_path=dotenv_path)
 
 # Import fungsi ask_ai dan verify_code dari modul ai_engine
 from ai_engine import ask_ai, verify_code, generate_final_project_task, evaluate_final_project
@@ -85,10 +86,26 @@ def init_database():
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """)
         
+        # 3. Membuat Tabel Relasi: user_exam_results
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS `user_exam_results` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `user_id` INT NOT NULL,
+            `module_id` INT NOT NULL,
+            `file_url` VARCHAR(512) NOT NULL,
+            `score` INT NOT NULL,
+            `feedback` TEXT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY `user_module_unique` (`user_id`, `module_id`),
+            CONSTRAINT `fk_exam_user` FOREIGN KEY (`user_id`) 
+                REFERENCES `users` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """)
+        
         conn.commit()
         cursor.close()
         conn.close()
-        print("[Database Init] Struktur tabel 'users' & 'user_quizzes' siap digunakan.")
+        print("[Database Init] Struktur tabel 'users', 'user_quizzes' & 'user_exam_results' siap digunakan.")
     except mysql.connector.Error as err:
         print(f"[Database Init Error] Gagal membuat Connection Pool / DDL Migration: {err}")
         import traceback
@@ -254,7 +271,24 @@ def dashboard_page():
 def progress_page():
     if 'username' not in session: 
         return redirect(url_for('login_page'))
-    return render_template('pages/progress.html', username=session.get('username'))
+        
+    user_id = session.get('user_id')
+    exam_results = {}
+    if db_pool:
+        conn = db_pool.get_connection()
+        cursor = conn.cursor(dictionary=True)
+        try:
+            cursor.execute("SELECT module_id, file_url, score, feedback, created_at FROM user_exam_results WHERE user_id = %s", (user_id,))
+            rows = cursor.fetchall()
+            for row in rows:
+                exam_results[row['module_id']] = row
+        except Exception as e:
+            print(f"[Database Error] Gagal mengambil hasil ujian untuk progress page: {e}")
+        finally:
+            cursor.close()
+            conn.close()
+            
+    return render_template('pages/progress.html', username=session.get('username'), exam_results=exam_results)
 
 @app.route('/course/module/<int:module_id>')
 def module_page(module_id):
@@ -554,6 +588,23 @@ def upload_final_project():
                 finally:
                     cursor.close()
                     conn.close()
+                    
+        # 6. Simpan detail hasil penilaian (skor, ulasan, file URL) ke tabel user_exam_results
+        conn = db_pool.get_connection()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("""
+                INSERT INTO user_exam_results (user_id, module_id, file_url, score, feedback)
+                VALUES (%s, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE file_url = VALUES(file_url), score = VALUES(score), feedback = VALUES(feedback)
+            """, (user_id, 11, presigned_url, score, feedback))
+            conn.commit()
+            print(f"[Database Save] Hasil Proyek Akhir disimpan untuk user_id={user_id}")
+        except Exception as db_err:
+            print(f"[Database Save Error] Gagal menyimpan hasil ke user_exam_results: {db_err}")
+        finally:
+            cursor.close()
+            conn.close()
                     
         return jsonify({
             'success': True,

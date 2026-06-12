@@ -6,11 +6,20 @@ def get_r2_client():
     r2_account_id = os.environ.get("R2_ACCOUNT_ID")
     r2_access_key_id = os.environ.get("R2_ACCESS_KEY_ID")
     r2_secret_access_key = os.environ.get("R2_SECRET_ACCESS_KEY")
+    endpoint_url = os.environ.get("R2_ENDPOINT_URL")
     
-    if not all([r2_account_id, r2_access_key_id, r2_secret_access_key]):
+    # Fallback jika R2_ACCOUNT_ID tidak didefinisikan secara eksplisit tetapi R2_ENDPOINT_URL ada
+    if not r2_account_id and endpoint_url:
+        import re
+        match = re.search(r"https://([^.]+)\.r2\.cloudflarestorage\.com", endpoint_url)
+        if match:
+            r2_account_id = match.group(1)
+            
+    if not all([r2_account_id or endpoint_url, r2_access_key_id, r2_secret_access_key]):
         raise ValueError("Kredensial Cloudflare R2 tidak lengkap di environment variables")
         
-    endpoint_url = f"https://{r2_account_id}.r2.cloudflarestorage.com"
+    if not endpoint_url:
+        endpoint_url = f"https://{r2_account_id}.r2.cloudflarestorage.com"
     
     return boto3.client(
         service_name="s3",
