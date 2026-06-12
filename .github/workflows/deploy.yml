@@ -1,22 +1,78 @@
-name: CI/CD
+name: Deploy to AWS ECS Fargate
 
-on: [push]
+on:
+  push:
+    branches:
+      - main # Pipeline otomatis berjalan setiap kali ada push ke branch main
+
+env:
+  AWS_REGION: ap-southeast-1                   # Wilayah AWS Singapore
+  ECR_REPOSITORY: pyntar-backend                # Nama repositori ECR kamu
+  ECS_SERVICE: pyntar-service                   # Nama service ECS kamu
+  ECS_CLUSTER: pyntar-cluster                   # Nama cluster ECS kamu
+  ECS_TASK_DEFINITION: .aws/task-definition.json # Jalur file task definition di root project
+  CONTAINER_NAME: pyntar-container              # Nama container di dalam task-def
 
 jobs:
-  build:
+  deploy:
+    name: Build, Push, and Deploy
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-    - name: Install
-      run: pip install flask google-generativeai
+    # 1. Autentikasi Jabat Tangan ke Akun AWS menggunakan Secrets
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
 
-    - name: Test
-      run: echo "Testing OK"
+    # 2. Login Aman ke AWS ECR Docker Registry
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
 
-    - name: Build Docker
-      run: docker build -t pylearn-ai .
+    # 3. Build Docker Image Flask dengan Context Root agar bisa membaca folder app/
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        # Build dijalankan dari root directory agar baris 'COPY app/ .' di Dockerfile bekerja
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f Dockerfile .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-    - name: Deploy
-      run: echo "Deploy ke cloud"
+    # 4. Injeksi Seluruh Environment Variables dari GitHub Secrets ke dalam Task Definition
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: render-task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+        environment-variables: |
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          FLASK_SECRET_KEY=${{ secrets.FLASK_SECRET_KEY }}
+          GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+          R2_BUCKET_NAME=${{ secrets.R2_BUCKET_NAME }}
+          R2_ENDPOINT_URL=${{ secrets.R2_ENDPOINT_URL }}
+          R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}
+
+    # 5. Eksekusi Deploy Update dan Restart Container Baru di AWS ECS Fargate
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+      with:
+        task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-steady-state: true
