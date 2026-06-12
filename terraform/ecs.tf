@@ -160,9 +160,8 @@ resource "aws_ecs_service" "pyntar_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = [aws_subnet.backend_pub_a.id]
-    security_groups  = [aws_security_group.ecs_sg.id]
-    assign_public_ip = true
+    subnets = [private_a, private_b]
+    assign_public_ip = false
   }
 
   load_balancer {

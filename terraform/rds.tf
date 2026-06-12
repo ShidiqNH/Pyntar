@@ -33,6 +33,17 @@ resource "aws_security_group" "rds_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+resource "aws_db_subnet_group" "rds_subnet_group" {
+  name = "pyntar-rds-subnet-group"
+  subnet_ids = [
+    aws_subnet.private_a.id,
+    aws_subnet.private_b.id
+  ]
+
+  tags = {
+    Name = "Pyntar-RDS-Subnet-Group"
+  }
+}
 
 # 3. Spesifikasi Instance Database RDS MySQL
 resource "aws_db_instance" "pyntar_db" {
