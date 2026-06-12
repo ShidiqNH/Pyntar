@@ -1,23 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Pyntar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&family=Source+Sans+3:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     {% include 'components/_tailwind_theme.html' %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
 </head>
+
 <body class="bg-[#F8FAFC] text-brand-neutral font-body min-h-screen">
 
     <div class="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-        
+
         <!-- Left Side: Promo Banner -->
-        <div class="hidden lg:flex flex-col justify-center items-start bg-white px-16 xl:px-24 py-16 border-r border-brand-gray-border">
+        <div
+            class="hidden lg:flex flex-col justify-center items-start bg-white px-16 xl:px-24 py-16 border-r border-brand-gray-border">
 
             <!-- Logo -->
             <a href="/" class="flex items-center gap-0.5 mb-12 select-none">
@@ -26,18 +31,20 @@
                 <span class="w-2.5 h-2.5 bg-[#EF713F] rounded-sm mt-3 ml-0.5 shadow-sm"></span>
             </a>
 
-            <span class="bg-[#FDF2E9] text-[#EF713F] px-4 py-1.5 rounded-full text-xs font-bold font-label mb-6 tracking-wide uppercase">
-                Level Up Your Skills
+            <span
+                class="bg-[#FDF2E9] text-[#EF713F] px-4 py-1.5 rounded-full text-xs font-bold font-label mb-6 tracking-wide uppercase">
+                Level Up Your Skill
             </span>
-            
+
             <h1 class="text-5xl xl:text-6xl font-extrabold font-headline text-brand-neutral mb-5 leading-tight">
                 Master Python<br>the <span class="text-[#EF713F]">Fun Way.</span>
             </h1>
-            
+
             <p class="text-brand-neutral/60 mb-10 leading-relaxed font-body text-base max-w-md">
-                Join our community of Pythonistas building everything from web scrapers to neural networks. Our interactive playground makes learning feel like playing.
+                Join our community of Pythonistas building everything from web scrapers to neural networks. Our
+                interactive playground makes learning feel like playing.
             </p>
-            
+
             <!-- Code Editor Mockup -->
             <div class="bg-[#1E1E1E] rounded-2xl p-5 shadow-xl w-full max-w-md border border-[#2D2D2D]">
                 <div class="flex items-center gap-2 mb-4">
@@ -46,15 +53,18 @@
                     <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
                     <span class="ml-3 text-xs font-mono text-[#5A5A5A] font-medium">main.py</span>
                 </div>
-                
+
                 <div class="font-mono text-xs text-[#E5E5E5] space-y-2 leading-relaxed">
                     <p><span class="text-[#569CD6]">def</span> <span class="text-[#DCDCAA]">greet_user</span>(name):</p>
-                    <p class="pl-4"><span class="text-[#569CD6]">if</span> name == <span class="text-[#CE9178]">"Pythonista"</span>:</p>
-                    <p class="pl-8"><span class="text-[#569CD6]">return</span> <span class="text-[#CE9178]">"Welcome back!"</span></p>
-                    <p class="pl-4"><span class="text-[#569CD6]">return</span> <span class="text-[#CE9178]">"Hello, Friend!"</span></p>
+                    <p class="pl-4"><span class="text-[#569CD6]">if</span> name == <span
+                            class="text-[#CE9178]">"Pythonista"</span>:</p>
+                    <p class="pl-8"><span class="text-[#569CD6]">return</span> <span class="text-[#CE9178]">"Welcome
+                            back!"</span></p>
+                    <p class="pl-4"><span class="text-[#569CD6]">return</span> <span class="text-[#CE9178]">"Hello,
+                            Friend!"</span></p>
                     <p class="pt-1">print(greet_user(<span class="text-[#CE9178]">"Pythonista"</span>))</p>
                 </div>
-                
+
                 <div class="mt-4 pt-3 border-t border-[#2D2D2D] flex items-center gap-2">
                     <div class="w-2 h-2 rounded-full bg-[#27C93F] animate-pulse"></div>
                     <span class="text-xs font-mono text-[#5A5A5A]">Active coding session...</span>
@@ -79,10 +89,10 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Right Side: Login Form -->
         <div class="flex flex-col justify-center items-center px-8 sm:px-16 py-16 bg-[#F8FAFC] min-h-screen">
-            
+
             <!-- Mobile Logo -->
             <a href="/" class="flex items-center gap-0.5 mb-10 select-none lg:hidden">
                 <span class="text-3xl font-extrabold text-[#0A6B8E] tracking-tight">Py</span>
@@ -98,57 +108,74 @@
                 </div>
 
                 {% if error %}
-                    <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm font-semibold font-body leading-relaxed flex items-start gap-3">
-                        <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                        </svg>
-                        {{ error }}
-                    </div>
+                <div
+                    class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm font-semibold font-body leading-relaxed flex items-start gap-3">
+                    <svg class="w-4 h-4 mt-0.5 shrink-0 text-red-500" fill="none" stroke="currentColor"
+                        stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                    {{ error }}
+                </div>
                 {% endif %}
                 {% if success %}
-                    <div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 text-sm font-semibold font-body leading-relaxed flex items-start gap-3">
-                        <svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ success }}
-                    </div>
+                <div
+                    class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 text-sm font-semibold font-body leading-relaxed flex items-start gap-3">
+                    <svg class="w-4 h-4 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor"
+                        stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ success }}
+                </div>
                 {% endif %}
-                
+
                 <form action="/login" method="POST" class="space-y-5">
                     <div>
-                        <label for="username" class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label mb-2">Username</label>
+                        <label for="username"
+                            class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label mb-2">Username</label>
                         <input type="text" id="username" name="username" placeholder="Enter your username" required
                             class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border bg-white focus:outline-none focus:border-[#0A6B8E] focus:ring-2 focus:ring-[#0A6B8E]/10 transition-all font-body text-sm placeholder:text-brand-neutral/30">
                     </div>
-                    
+
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <label for="password" class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label">Password</label>
-                            <a href="#" class="text-xs font-semibold text-[#0A6B8E] hover:text-[#1C4B6B] transition-colors font-label">Forgot password?</a>
+                            <label for="password"
+                                class="block text-xs font-bold text-brand-neutral/50 tracking-wider uppercase font-label">Password</label>
+                            <a href="#"
+                                class="text-xs font-semibold text-[#0A6B8E] hover:text-[#1C4B6B] transition-colors font-label">Forgot
+                                password?</a>
                         </div>
                         <div class="relative">
                             <input type="password" id="password" name="password" placeholder="••••••••" required
                                 class="w-full px-4 py-3.5 rounded-xl border border-brand-gray-border bg-white focus:outline-none focus:border-[#0A6B8E] focus:ring-2 focus:ring-[#0A6B8E]/10 transition-all font-body text-sm pr-11 placeholder:text-brand-neutral/30">
-                            <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-neutral/30 hover:text-brand-neutral transition-colors focus:outline-none cursor-pointer">
-                                <svg id="eye-icon" class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            <button type="button" onclick="togglePasswordVisibility()"
+                                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-neutral/30 hover:text-brand-neutral transition-colors focus:outline-none cursor-pointer">
+                                <svg id="eye-icon" class="w-4.5 h-4.5" fill="none" stroke="currentColor"
+                                    stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
                             </button>
                         </div>
                     </div>
-                    
-                    <button type="submit" class="w-full py-3.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-extrabold font-label rounded-xl transition-all shadow-md shadow-[#0A6B8E]/20 cursor-pointer active:scale-[0.98] mt-2">
+
+                    <button type="submit"
+                        class="w-full py-3.5 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white font-extrabold font-label rounded-xl transition-all shadow-md shadow-[#0A6B8E]/20 cursor-pointer active:scale-[0.98] mt-2">
                         Log In to Pyntar
                     </button>
                 </form>
-                
+
                 <p class="mt-8 text-center text-sm font-body text-brand-neutral/50">
-                    New to Python coding? <a href="/register" class="font-extrabold text-[#EF713F] hover:text-[#d4622a] transition-colors">Create an account</a>
+                    New to Python coding? <a href="/register"
+                        class="font-extrabold text-[#EF713F] hover:text-[#d4622a] transition-colors">Create an
+                        account</a>
                 </p>
             </div>
         </div>
-        
+
     </div>
 
     <script>
@@ -165,4 +192,5 @@
         }
     </script>
 </body>
+
 </html>
