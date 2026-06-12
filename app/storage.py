@@ -8,14 +8,14 @@ def get_r2_client():
 
     r2_account_id = os.environ.get("R2_ACCOUNT_ID")
     r2_access_key_id = os.environ.get("R2_ACCESS_KEY_ID")
-    r2_secret_access_key = os.environ.get("R2_SECRET_ACCESS_KEY")
+    cloudflare_secret_key = os.environ.get("R2_SECRET_ACCESS_KEY")
     endpoint_url = os.environ.get("R2_ENDPOINT_URL")
 
     # DEBUG LOG
     print("========== R2 DEBUG ==========")
     print("R2_ACCOUNT_ID:", repr(r2_account_id))
     print("R2_ACCESS_KEY_ID:", repr(r2_access_key_id))
-    print("R2_SECRET_ACCESS_KEY exists:", bool(r2_secret_access_key))
+    print("R2_SECRET_ACCESS_KEY exists:", bool(cloudflare_secret_key))
     print("R2_ENDPOINT_URL:", repr(endpoint_url))
     print("R2_BUCKET_NAME:", repr(os.environ.get("R2_BUCKET_NAME")))
     print("==============================")
@@ -32,8 +32,7 @@ def get_r2_client():
     # Validasi kredensial
     if not all([
         r2_account_id or endpoint_url,
-        r2_access_key_id,
-        r2_secret_access_key
+        r2_access_key_id
     ]):
         raise ValueError(
             "Kredensial Cloudflare R2 tidak lengkap di environment variables"
@@ -49,7 +48,7 @@ def get_r2_client():
         service_name="s3",
         endpoint_url=endpoint_url,
         aws_access_key_id=r2_access_key_id,
-        aws_secret_access_key=r2_secret_access_key,
+        aws_secret_access_key=cloudflare_secret_key,
         region_name="auto",
         config=Config(signature_version="s3v4")
     )
