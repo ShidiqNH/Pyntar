@@ -162,6 +162,10 @@ def inject_user_progress():
 def landing_page(): 
     return render_template('pages/index.html')
 
+@app.route("/health")
+def health():
+    return "OK", 200
+
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     if request.method == 'POST' and db_pool:
@@ -448,19 +452,7 @@ def complete_module(module_id):
             conn.close()
 
     return jsonify({'success': True, 'completed_modules': completed, 'xp': len(completed) * 100})
-@app.route("/")
-def home():
-    return "OK", 200
 
-
-@app.route("/health")
-def health():
-    return "OK", 200
-
-
-@app.route("/login")
-def login_health():
-    return "OK", 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True)
