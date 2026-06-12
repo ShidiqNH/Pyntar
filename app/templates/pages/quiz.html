@@ -74,6 +74,14 @@
                                 Kode Anda berhasil diverifikasi oleh AI dan menghasilkan output yang sesuai. Silakan
                                 melanjutkan ke modul berikutnya.
                             </p>
+                            <div class="mt-4">
+                                <a id="next-module-btn" href="#" class="inline-flex items-center gap-2 bg-[#0A6B8E] hover:bg-[#1C4B6B] text-white px-4 py-2.5 rounded-xl text-xs font-bold font-label transition-colors">
+                                    <span>Lanjut ke Modul Berikutnya</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -346,7 +354,32 @@
                     if (data.is_correct) {
                         // JAWABAN SUBSTANSIAL COCOK (BENAR)
                         showToast("Jawaban Benar! Selamat.", "success");
-                        document.getElementById('success-banner').classList.remove('hidden');
+                        
+                        // Kirim request ke endpoint /complete untuk mencatat progres di DB
+                        fetch(`/api/module/${activeModuleId}/complete`, { method: 'POST' })
+                            .then(res => res.json())
+                            .then(completeData => {
+                                if (completeData.success) {
+                                    // Tampilkan success banner
+                                    document.getElementById('success-banner').classList.remove('hidden');
+                                    
+                                    // Set href tombol Lanjut ke modul berikutnya
+                                    const nextModuleId = activeModuleId + 1;
+                                    const nextBtn = document.getElementById('next-module-btn');
+                                    if (nextModuleId < 12) {
+                                        nextBtn.href = `/course/module/${nextModuleId}`;
+                                    } else {
+                                        nextBtn.innerText = "Kembali ke Dashboard";
+                                        nextBtn.href = "/dashboard";
+                                    }
+                                } else {
+                                    showToast("Gagal menyimpan progres ke database.", "error");
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                showToast("Gagal menghubungi server untuk menyimpan progres.", "error");
+                            });
                     } else {
                         // JAWABAN EKSPLISIT SALAH ATAU KRITERIA LOGIKA TIDAK SESUAI
                         showToast("Output kode tidak sesuai kriteria.", "error");
