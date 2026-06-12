@@ -448,11 +448,18 @@ def complete_module(module_id):
             conn.close()
 
     return jsonify({'success': True, 'completed_modules': completed, 'xp': len(completed) * 100})
+@app.route("/")
+def home():
+    return "OK", 200
+
+
 @app.route("/health")
 def health():
     return "OK", 200
-@app.route("/")
-def root():
+
+
+@app.route("/login")
+def login_health():
     return "OK", 200
 
 if __name__ == '__main__':
