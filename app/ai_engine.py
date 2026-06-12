@@ -12,7 +12,7 @@ if not GEMINI_API_KEY:
 genai.configure(api_key=GEMINI_API_KEY)
 
 # FIXED MODEL (NO list_models -> biar tidak timeout di AWS)
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-2.5-flash"
 
 
 # =========================
