@@ -161,7 +161,9 @@ def inject_user_progress():
 @app.route('/')
 def landing_page(): 
     return render_template('pages/index.html')
-
+@app.route("/ping")
+def ping():
+    return "pong", 200
 @app.route("/health")
 def health():
     return "OK", 200
