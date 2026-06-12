@@ -26,7 +26,8 @@ db_config = {
     "host": os.environ.get("DB_HOST", "localhost"),
     "user": os.environ.get("DB_USER", "root"),
     "password": os.environ.get("DB_PASSWORD", ""),
-    "database": os.environ.get("DB_NAME", "pyntar_db")
+    "database": os.environ.get("DB_NAME", "pyntardb"),
+    "port": int(os.environ.get("DB_PORT", 3306))
 }
 
 # Membuat Connection Pool agar aplikasi web lebih stabil saat diakses banyak user
@@ -37,6 +38,43 @@ try:
         pool_reset_session=True,
         **db_config
     )
+    
+    if db_pool:
+        conn = db_pool.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS `users` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `username` VARCHAR(50) NOT NULL UNIQUE,
+            `email` VARCHAR(100) NOT NULL UNIQUE,
+            `password` VARCHAR(255) NOT NULL,
+            `completed_modules` TEXT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """)
+        cursor.execute("""
+        CREATE TABLE IF NOT EXISTS `user_quizzes` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `user_id` INT NOT NULL,
+            `module_id` INT NOT NULL,
+            `title` VARCHAR(150) NOT NULL,
+            `read_time` VARCHAR(20) DEFAULT '5 min',
+            `difficulty` VARCHAR(50) NULL,
+            `text` TEXT NOT NULL,
+            `instructions` TEXT NOT NULL,
+            `tip` TEXT NULL,
+            `badge` VARCHAR(50) NULL,
+            `starter_code` TEXT NOT NULL,
+            `expected_output` TEXT NOT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE KEY `user_module_unique` (`user_id`, `module_id`),
+            CONSTRAINT `fk_quiz_user` FOREIGN KEY (`user_id`) 
+                REFERENCES `users` (`id`) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        """)
+        conn.commit()
+        cursor.close()
+        conn.close()
 except mysql.connector.Error as err:
     print(f"Error Database Connection Pool: {err}")
     db_pool = None
@@ -67,9 +105,9 @@ def get_user_completed_modules():
     if 'username' not in session or not db_pool:
         return []
     
-    conn = db_pool.get_connection()
-    cursor = conn.cursor(dictionary=True)
     try:
+        conn = db_pool.get_connection()
+        cursor = conn.cursor(dictionary=True)
         cursor.execute("SELECT completed_modules FROM users WHERE username = %s", (session['username'],))
         row = cursor.fetchone()
         if row and row['completed_modules']:
@@ -77,8 +115,10 @@ def get_user_completed_modules():
     except Exception as e:
         print(f"Error fetching completed modules: {e}")
     finally:
-        cursor.close()
-        conn.close()
+        if 'cursor' in locals():
+            cursor.close()
+        if 'conn' in locals():
+            conn.close()
     return []
 
 @app.context_processor
@@ -392,4 +432,4 @@ def complete_module(module_id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)

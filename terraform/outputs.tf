@@ -18,8 +18,12 @@ output "cloudflare_r2_bucket_name" {
   value       = aws_s3_bucket.pyntar_storage.bucket
 }
 
-# BONUS: Menampilkan URL Endpoint khusus Cloudflare R2 secara otomatis buat dipaste ke file .env Flask
 output "cloudflare_r2_endpoint_url" {
   description = "S3 Endpoint URL untuk konfigurasi boto3 di Flask"
   value       = "https://${var.cloudflare_account_id}.r2.cloudflarestorage.com"
+}
+
+output "rds_endpoint" {
+  description = "Alamat Host Database RDS MySQL (Gunakan ini untuk DB_HOST di .env Flask)"
+  value       = aws_db_instance.pyntar_db.endpoint
 }
