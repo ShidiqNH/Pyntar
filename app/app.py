@@ -16,13 +16,6 @@ from ai_engine import ask_ai, verify_code
 app = Flask(__name__)
 CORS(app)
 
-    
-@app.route("/health")
-def health():
-    return jsonify({
-        "status": "healthy"
-    }), 200
-    
 
 # Ambil SECRET_KEY dari .env, berikan fallback jika tidak ditemukan
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'test-index-secret-key-12345')
