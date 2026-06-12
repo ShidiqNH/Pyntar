@@ -53,11 +53,9 @@ resource "aws_ecs_task_definition" "app" {
 
   container_definitions = jsonencode([{
     name      = "flask-app"
-    # PERBAIKAN: Menggunakan nginx sebagai placeholder awal agar TF Apply pertama tidak macet
     image     = var.flask_app_image != "" ? var.flask_app_image : "nginx:latest"
     essential = true
     portMappings = [{
-      # Jika masih pakai nginx placeholder, arahkan ke port 80 (default nginx). Jika sudah diisi image Flask, gunakan port 5000.
       containerPort = var.flask_app_image != "" ? 5000 : 80
       hostPort      = var.flask_app_image != "" ? 5000 : 80
     }]
@@ -78,7 +76,10 @@ resource "aws_ecs_task_definition" "app" {
       
       # Cloudflare R2 Configs
       { name = "R2_BUCKET_NAME", value = cloudflare_r2_bucket.media_bucket.name },
-      { name = "R2_ACCOUNT_ID", value = var.cloudflare_account_id }
+      { name = "R2_ACCOUNT_ID", value = var.cloudflare_account_id },
+
+      # PERBAIKAN: Menyuntikkan Gemini API Key ke runtime kontainer secara aman
+      { name = "GEMINI_API_KEY", value = var.gemini_api_key }
     ]
   }])
 }
@@ -94,14 +95,15 @@ resource "aws_lb" "main" {
 
 resource "aws_lb_target_group" "app" {
   name        = "${var.environment}-tg"
-  # Target Group tetap mendengarkan port kontainer yang aktif secara dinamis
   port        = var.flask_app_image != "" ? 5000 : 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "ip"
 
   health_check {
-    path                = "/"
+    # PERBAIKAN: Diarahkan ke /health secara dinamis jika image Flask sudah aktif.
+    # Jika masih tahap placeholder Nginx, fallback ke / agar tidak error 404.
+    path                = var.flask_app_image != "" ? "/health" : "/"
     healthy_threshold   = 3
     unhealthy_threshold = 3
     timeout             = 5

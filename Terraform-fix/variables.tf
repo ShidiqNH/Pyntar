@@ -35,3 +35,8 @@ variable "flask_app_image" {
   default     = "" 
 }
 
+variable "gemini_api_key" {
+  type        = string
+  description = "API Key Gemini untuk ai_engine"
+  sensitive   = true
+}
