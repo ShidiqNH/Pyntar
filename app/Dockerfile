@@ -20,8 +20,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 6. Menyalin seluruh source code Flask ke dalam container
 COPY . .
 
-# 7. Menginformasikan bahwa container ini akan berjalan di port 5000 (disesuaikan dengan ecs.tf)
-EXPOSE 5000
+# 7. Menginformasikan bahwa container ini akan berjalan di port 80 (disesuaikan dengan ecs.tf)
+EXPOSE 80
 
-# 8. Menjalankan Flask menggunakan Gunicorn di port 5000
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+# 8. Menjalankan Flask menggunakan Gunicorn di port 80
+CMD ["gunicorn", "-b", "0.0.0.0:80", "app:app"]
