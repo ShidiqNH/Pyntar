@@ -1,21 +1,27 @@
+# 1. Menggunakan base image Python resmi yang ringan (slim)
 FROM python:3.10-slim
 
-# Set working directory di dalam container
+# 2. Menentukan working directory di dalam container
 WORKDIR /app
 
-# Install dependensi sistem yang dibutuhkan untuk mysql-connector/cryptography
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+# 3. Install system dependencies yang dibutuhkan oleh driver MySQL (mencegah error build)
+RUN apt-get update && apt-get install -y \
+    gcc \
+    pkg-config \
+    default-libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copas requirements dari folder app lokal ke container
-COPY app/requirements.txt .
+# 4. Menyalin requirements.txt terlebih dahulu untuk memanfaatkan cache Docker
+COPY requirements.txt .
+
+# 5. Menginstal semua dependencies Python tanpa menyimpan cache installer
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copas seluruh isi folder app lokal ke dalam working directory container
-COPY app/ .
+# 6. Menyalin seluruh source code Flask ke dalam container
+COPY . .
 
-# Ekspos port 8000 sesuai dengan target group ECS dan ALB
-EXPOSE 8000
+# 7. Menginformasikan bahwa container ini akan berjalan di port 5000 (disesuaikan dengan ecs.tf)
+EXPOSE 5000
 
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "--timeout", "120", "app:app"]
+# 8. Menjalankan Flask menggunakan Gunicorn di port 5000
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
