@@ -68,11 +68,11 @@ jobs:
           R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }}
           R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }}
 
-    # 5. Eksekusi Deploy Update dan Restart Container Baru di AWS ECS Fargate
+# 5. Eksekusi Deploy Update dan Restart Container Baru di AWS ECS Fargate
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
       with:
         task-definition: ${{ steps.render-task-def.outputs.task-definition }}
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER }}
-        wait-for-steady-state: true
+        wait-for-service-stability: true 
