@@ -101,9 +101,7 @@ resource "aws_lb_target_group" "app" {
   target_type = "ip"
 
   health_check {
-    # PERBAIKAN: Diarahkan ke /health secara dinamis jika image Flask sudah aktif.
-    # Jika masih tahap placeholder Nginx, fallback ke / agar tidak error 404.
-    path                = var.flask_app_image != "" ? "/health" : "/"
+    path                = "/" # Memaksa AWS mengecek kesehatan ke halaman utama landing page
     healthy_threshold   = 3
     unhealthy_threshold = 3
     timeout             = 5
