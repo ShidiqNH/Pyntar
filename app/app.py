@@ -38,6 +38,7 @@ def init_database():
     """Menginisialisasi connection pool dan merakit struktur tabel DDL secara aman."""
     global db_pool
     try:
+        print(f"[Database Init] Mencoba menghubungkan ke MySQL: host={db_config.get('host')}, user={db_config.get('user')}, database={db_config.get('database')}, port={db_config.get('port')}")
         db_pool = mysql.connector.pooling.MySQLConnectionPool(
             pool_name="pyntar_pool",
             pool_size=5,
@@ -88,7 +89,9 @@ def init_database():
         conn.close()
         print("[Database Init] Struktur tabel 'users' & 'user_quizzes' siap digunakan.")
     except mysql.connector.Error as err:
-        print(f"Error Database Connection Pool / DDL Migration: {err}")
+        print(f"[Database Init Error] Gagal membuat Connection Pool / DDL Migration: {err}")
+        import traceback
+        traceback.print_exc()
         db_pool = None
 
 @app.before_request
@@ -385,6 +388,7 @@ def get_or_generate_quiz(module_id):
 def verify_user_code(module_id):
     """Endpoint API untuk mengevaluasi baris kode user menggunakan Gemini API Sandbox."""
     if 'username' not in session or not db_pool:
+        print(f"[API Verify Error] Request ditolak karena session/db_pool tidak siap. session_has_username={'username' in session}, db_pool_is_none={db_pool is None}")
         return jsonify({'success': False, 'error': 'Unauthorized'}), 401
     
     data = request.get_json() or {}
@@ -403,6 +407,7 @@ def verify_user_code(module_id):
     conn.close()
     
     if not saved_quiz:
+        print(f"[API Verify Error] Data referensi kuis tidak ditemukan di MySQL untuk user_id={user_id}, module_id={module_id}")
         return jsonify({'success': False, 'error': 'Data referensi kuis tidak ditemukan.'}), 404
         
     starter_code = saved_quiz['starter_code']
@@ -410,6 +415,7 @@ def verify_user_code(module_id):
     module_title = MODULES[module_id]['title']
 
     try:
+        print(f"[API Verify] Mengevaluasi kode user untuk module_id={module_id}: {quiz_title}")
         # Kirim kode langsung ke Gemini untuk dievaluasi output beserta hint-nya secara cloud sandbox
         ai_response_raw = verify_code(module_title, quiz_title, starter_code, expected_output, user_code)
         evaluation_data = json.loads(ai_response_raw)
@@ -421,7 +427,9 @@ def verify_user_code(module_id):
             'hint': evaluation_data.get('hint', '')
         })
     except Exception as e:
-        print(f"[API Verify MySQL Error]: {str(e)}")
+        print(f"[API Verify MySQL Error] Gagal memproses evaluasi kode oleh AI: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'success': False, 'error': 'Gagal memproses evaluasi kode oleh AI.'}), 500
 
 

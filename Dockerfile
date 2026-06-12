@@ -1,5 +1,7 @@
 # 1. Menggunakan base image Python resmi yang ringan (slim)
 FROM python:3.10-slim
+ENV PYTHONUNBUFFERED=1
+
 
 # 2. Menentukan working directory di dalam container
 WORKDIR /app
