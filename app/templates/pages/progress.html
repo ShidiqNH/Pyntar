@@ -11,7 +11,6 @@
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <!-- Overall Completion Card -->
         <div class="bg-white rounded-[2rem] border border-brand-gray-border p-8 flex flex-col items-center justify-between shadow-sm min-h-[320px]">
             <h3 class="text-xs font-bold font-label tracking-wider text-brand-neutral/50 uppercase text-center w-full">Overall Completion</h3>
             
@@ -31,56 +30,47 @@
             <p class="text-sm font-semibold text-brand-neutral/70 font-headline text-center">Core Python Curriculum</p>
         </div>
 
-        <!-- Learning Activity Card -->
         <div class="lg:col-span-2 bg-white rounded-[2rem] border border-brand-gray-border p-8 flex flex-col justify-between shadow-sm min-h-[320px]">
             <h3 class="text-xs font-bold font-label tracking-wider text-brand-neutral/50 uppercase w-full">Learning Activity (Last 7 Days)</h3>
             
             <div class="flex-1 flex flex-col justify-end mt-4">
-                <!-- Chart Bars -->
                 <div class="flex items-end justify-between h-40 px-2 sm:px-6 border-b border-brand-gray-border pb-3">
-                    <!-- Mon (45m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             45m
                         </div>
                         <div class="w-8 sm:w-10 bg-[#0A6B8E]/30 hover:bg-[#0A6B8E] rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer" style="height: 45%;"></div>
                     </div>
-                    <!-- Tue (60m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             1h 00m
                         </div>
                         <div class="w-8 sm:w-10 bg-[#0A6B8E]/30 hover:bg-[#0A6B8E] rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer" style="height: 60%;"></div>
                     </div>
-                    <!-- Wed (30m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             30m
                         </div>
                         <div class="w-8 sm:w-10 bg-[#0A6B8E]/30 hover:bg-[#0A6B8E] rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer" style="height: 30%;"></div>
                     </div>
-                    <!-- Thu (90m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             1h 30m
                         </div>
                         <div class="w-8 sm:w-10 bg-[#0A6B8E]/30 hover:bg-[#0A6B8E] rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer" style="height: 90%;"></div>
                     </div>
-                    <!-- Fri (15m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             15m
                         </div>
                         <div class="w-8 sm:w-10 bg-[#0A6B8E]/30 hover:bg-[#0A6B8E] rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer" style="height: 15%;"></div>
                     </div>
-                    <!-- Sat (0m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             0m
                         </div>
                         <div class="w-8 sm:w-10 bg-transparent rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer animate-pulse" style="height: 0%;"></div>
                     </div>
-                    <!-- Sun (12m) -->
                     <div class="flex flex-col items-center flex-1 group relative">
                         <div class="absolute -top-10 scale-0 group-hover:scale-100 transition-all duration-200 bg-brand-neutral text-white text-xs font-semibold px-2 py-1.5 rounded-lg shadow-md pointer-events-none mb-2 z-10">
                             12m
@@ -88,7 +78,6 @@
                         <div class="w-8 sm:w-10 bg-[#0A6B8E]/30 hover:bg-[#0A6B8E] rounded-t-lg transition-all duration-300 shadow-sm cursor-pointer" style="height: 12%;"></div>
                     </div>
                 </div>
-                <!-- Day Labels -->
                 <div class="flex justify-between px-2 sm:px-6 pt-3">
                     <div class="flex-1 text-center text-sm font-semibold text-brand-neutral/50 font-label">Mon</div>
                     <div class="flex-1 text-center text-sm font-semibold text-brand-neutral/50 font-label">Tue</div>
@@ -108,7 +97,6 @@
     </div>
     
     {% if exam_results and 11 in exam_results %}
-    <!-- Final Project Result Card -->
     <div class="bg-white rounded-[2rem] border border-[#0A6B8E]/30 p-8 shadow-md mb-8 animate-fade-in">
         <div class="border-b border-brand-gray-border pb-5 mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
@@ -130,7 +118,6 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-            <!-- Score Gauge -->
             <div class="md:col-span-4 flex flex-col items-center justify-center bg-slate-50/70 rounded-2xl border border-brand-gray-border/60 p-6 text-center">
                 <span class="text-[10px] font-extrabold text-brand-neutral/40 uppercase tracking-wider block mb-4 font-label">Skor Capstone</span>
                 
@@ -162,7 +149,6 @@
                 </div>
             </div>
             
-            <!-- AI Feedback Panel -->
             <div class="md:col-span-8 flex flex-col h-full">
                 <span class="text-[10px] font-extrabold text-brand-neutral/40 uppercase tracking-wider block mb-2 font-label">Ulasan AI Reviewer</span>
                 <div class="bg-slate-50 border border-brand-gray-border/50 rounded-2xl p-6 flex-1 flex flex-col justify-between">
@@ -181,14 +167,12 @@
     </div>
     {% endif %}
 
-    <!-- Module Breakdown Section -->
     <div class="bg-white rounded-[2rem] border border-brand-gray-border overflow-hidden shadow-sm">
         <div class="px-8 py-5 border-b border-brand-gray-border bg-gray-50/50">
             <h3 class="text-xs font-bold font-label tracking-wider text-brand-neutral/50 uppercase">Module Breakdown</h3>
         </div>
         
         <div class="flex flex-col">
-            <!-- Table Header -->
             <div class="grid grid-cols-12 gap-4 px-8 py-3 bg-brand-gray-light/30 border-b border-brand-gray-border text-xs font-bold tracking-wider text-brand-neutral/40 font-label uppercase">
                 <div class="col-span-6">Module Name</div>
                 <div class="col-span-3">Status</div>
@@ -197,7 +181,6 @@
             
             {% for mod in modules %}
                 {% if mod.id in completed_modules %}
-                    <!-- Completed -->
                     <a href="/course/module/{{ mod.id }}" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl bg-[#D4EAF5] flex items-center justify-center text-[#0A6B8E]">
@@ -220,7 +203,6 @@
                         </div>
                     </a>
                 {% elif mod.id == completed_count %}
-                    <!-- In Progress -->
                     <a href="/course/module/{{ mod.id }}" class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 hover:bg-gray-50/50 transition-colors items-center">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl bg-[#FDF2E9] flex items-center justify-center text-[#EF713F]">
@@ -244,7 +226,6 @@
                         </div>
                     </a>
                 {% else %}
-                    <!-- Locked -->
                     <div class="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-gray-border last:border-0 items-center opacity-50 cursor-not-allowed select-none">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-10 h-10 rounded-xl bg-[#F1F3F4] flex items-center justify-center text-[#5F6368]/60">

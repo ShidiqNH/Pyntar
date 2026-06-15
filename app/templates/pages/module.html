@@ -5,7 +5,6 @@
 {% block content %}
 <div class="max-w-5xl mx-auto p-8 lg:p-12 w-full font-body">
 
-    <!-- Header metadata -->
     <div class="flex items-center gap-3 flex-wrap text-sm font-semibold mb-6">
         <span class="bg-[#D4EAF5] text-[#0A6B8E] px-3.5 py-1 rounded-full text-xs font-bold font-label">
             {{ content.category }}
@@ -26,7 +25,6 @@
         </span>
     </div>
 
-    <!-- Title & Subtitle -->
     <h1 class="text-4xl md:text-5xl font-extrabold font-headline text-[#1C4B6B] mb-4 leading-tight">
         Modul {{ module.id }}: {{ content.title }}
     </h1>
@@ -35,14 +33,11 @@
     </p>
 
     {% if content.sections %}
-        <!-- Dynamic Sections Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Left Column: Core Content Blocks -->
             <div class="lg:col-span-8 space-y-8">
                 {% for sec in content.sections %}
                     {% if sec.type == "objectives" %}
-                        <!-- Objectives Section -->
                         <div class="bg-[#D4EAF5]/25 border border-brand-primary/20 rounded-[2.5rem] p-8 shadow-sm">
                             <h3 class="text-xl font-extrabold font-headline text-[#0A6B8E] mb-4">{{ sec.title }}</h3>
                             <ul class="space-y-3">
@@ -60,7 +55,6 @@
                         </div>
                         
                     {% elif sec.type == "content_block" %}
-                        <!-- Content Card Section -->
                         <div class="bg-white rounded-[2rem] border border-brand-gray-border p-8 shadow-sm">
                             <h3 class="text-2xl font-extrabold font-headline text-brand-neutral mb-4">{{ sec.title }}</h3>
                             <p class="text-brand-neutral/75 font-body text-sm leading-relaxed mb-4">{{ sec.text }}</p>
@@ -77,7 +71,6 @@
                         </div>
                         
                     {% elif sec.type == "code_block" %}
-                        <!-- Code Block Section -->
                         <div class="bg-white rounded-[2rem] border border-brand-gray-border p-8 shadow-sm">
                             <h3 class="text-2xl font-extrabold font-headline text-brand-neutral mb-4">{{ sec.title }}</h3>
                             {% if sec.text %}
@@ -108,7 +101,6 @@
                 {% endfor %}
             </div>
 
-            <!-- Right Column: Pro Tip Stack -->
             <div class="lg:col-span-4 space-y-6">
                 {% for sec in content.sections %}
                     {% if sec.type == "tip" %}
@@ -140,17 +132,14 @@
 
         </div>
     {% else %}
-        <!-- Backward Compatibility Flat Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- Left Side: Main Core Content Card -->
             <div class="lg:col-span-8 bg-white rounded-[2rem] border border-brand-gray-border p-8 shadow-sm flex flex-col">
                 <h2 class="text-2xl font-extrabold font-headline text-brand-neutral mb-4">{{ content.card_title }}</h2>
                 <p class="text-brand-neutral/75 font-body text-sm mb-6 leading-relaxed">
                     {{ content.card_text }}
                 </p>
                 
-                <!-- Code Editor Frame -->
                 <div class="bg-[#2D2D2D] rounded-xl border border-brand-gray-border/60 overflow-hidden shadow-md w-full mb-6">
                     <div class="flex items-center justify-between px-5 py-3 border-b border-[#3D3D3D] bg-[#252525]/85">
                         <div class="flex gap-2">
@@ -167,16 +156,13 @@
                     <pre class="p-5 font-mono text-xs text-[#E5E5E5] overflow-x-auto leading-relaxed"><code id="code-snippet">{{ content.code }}</code></pre>
                 </div>
 
-                <!-- Footer Explanation -->
                 <p class="text-brand-neutral/60 font-body text-xs leading-relaxed">
                     {{ content.card_footer }}
                 </p>
             </div>
 
-            <!-- Right Side: Pro Tip Card -->
             <div class="lg:col-span-4 bg-[#FDF4CD] border border-[#F6E0A4] rounded-[2rem] p-8 shadow-sm flex flex-col justify-between min-h-[300px]">
                 <div>
-                    <!-- Lightbulb Circle Badge -->
                     <div class="bg-[#2D2D2D] text-white w-10 h-10 rounded-full flex items-center justify-center mb-6 shadow-sm">
                         <svg class="w-5 h-5 text-[#FDE047]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -189,7 +175,6 @@
                     </p>
                 </div>
                 
-                <!-- Code Identifier Badge -->
                 <div class="mt-auto border-t border-brand-gray-border/20 pt-6">
                     <span class="inline-block bg-white/70 border border-brand-gray-border/40 font-mono text-[11px] px-3.5 py-1.5 rounded-xl text-brand-neutral/80 shadow-sm">
                         {{ content.tip_badge }}
@@ -204,7 +189,6 @@
 
 <script>
     function copyToClipboard(button) {
-        // Find code tag inside the parent container to allow multiple snippets dynamically
         const container = button.closest('.bg-\\[\\#2D2D2D\\]');
         const codeTag = container ? container.querySelector('code') : document.getElementById('code-snippet');
         const codeText = codeTag ? codeTag.innerText : '';

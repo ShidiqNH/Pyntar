@@ -187,7 +187,6 @@
     let starterCode = "";
     const activeModuleId = {{ module.id }};
 
-    // Load Quiz Data Async via AJAX dari Server saat halaman siap
     document.addEventListener('DOMContentLoaded', () => {
         fetch(`/api/module/${activeModuleId}/get_quiz`)
             .then(res => res.json())
@@ -195,18 +194,14 @@
                 if (data.success && data.quiz) {
                     const quiz = data.quiz;
 
-                    // Assign variabel global konfigurasi
                     starterCode = quiz.starter_code;
 
-                    // Isi teks UI
                     document.getElementById('quiz-title').innerText = quiz.title;
                     document.getElementById('quiz-text').innerText = quiz.text;
                     document.getElementById('quiz-read-time').innerText = quiz.read_time || '5 min';
 
-                    // SUNTIKAN BARU: Tampilkan target expected output dari AI ke dalam elemen DOM
                     document.getElementById('quiz-expected-output').innerText = quiz.expected_output || 'No output expected.';
 
-                    // Render Instruksi Langkah demi Langkah
                     const instructionsList = document.getElementById('quiz-instructions-list');
                     instructionsList.innerHTML = "";
                     quiz.instructions.forEach((step, index) => {
@@ -219,20 +214,16 @@
                             </li>`;
                     });
 
-                    // Render Quick Tip Box jika disediakan oleh AI
                     if (quiz.tip) {
                         document.getElementById('quiz-tip-text').innerText = quiz.tip;
                         document.getElementById('quiz-tip-box').classList.remove('hidden');
                     }
 
-                    // Masukkan starter code ke area textarea editor
                     document.getElementById('code-editor').value = starterCode;
 
-                    // Tukar Viewport: Sembunyikan loading bar, tampilkan konten utama kuis
                     document.getElementById('loading-container').classList.add('hidden');
                     document.getElementById('quiz-content-container').classList.remove('hidden');
 
-                    // Hitung ulang layout kolom nomor baris editor
                     updateLineNumbers();
                 } else {
                     showToast("Gagal memuat kuis dari server.", "error");
@@ -243,7 +234,6 @@
                 showToast("Terjadi gangguan koneksi internet.", "error");
             });
 
-        // Dukungan tombol Tab di dalam text area editor koding
         const editor = document.getElementById('code-editor');
         editor.addEventListener('keydown', (e) => {
             if (e.key === 'Tab') {
@@ -310,14 +300,11 @@
         const runBtn = document.getElementById('run-btn');
         const btnContent = document.getElementById('run-btn-content');
 
-        // Atur UI Konsol menjadi mode Loading analisis AI
         outputArea.className = 'font-mono text-brand-neutral/40 italic';
         outputArea.innerText = 'AI sedang mengeksekusi dan menganalisis kodemu...';
 
-        // Sembunyikan banner pembimbing/hint sementara analisis berjalan
         hintBox.classList.add('hidden');
 
-        // --- PROSES LOADING PADA TOMBOL ---
         runBtn.disabled = true;
         btnContent.innerHTML = `
             <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -326,7 +313,6 @@
 
         const quizTitle = document.getElementById('quiz-title').innerText;
 
-        // AJAX Request: Kirim kode user ke sandbox evaluasi Gemini API di backend
         fetch(`/api/module/${activeModuleId}/verify`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -337,7 +323,6 @@
         })
             .then(res => res.json())
             .then(data => {
-                // --- KEMBALIKAN TOMBOL KE KEADAAN SEMULA ---
                 runBtn.disabled = false;
                 btnContent.innerHTML = `
                 <svg class="w-4 h-4 fill-current text-white/95" viewBox="0 0 24 24">
@@ -347,23 +332,18 @@
             `;
 
                 if (data.success) {
-                    // Render teks cetakan (stdout) atau log error yang ditangkap Gemini
                     outputArea.className = 'font-mono text-[#E5E5E5]';
                     outputArea.innerText = data.output;
 
                     if (data.is_correct) {
-                        // JAWABAN SUBSTANSIAL COCOK (BENAR)
                         showToast("Jawaban Benar! Selamat.", "success");
                         
-                        // Kirim request ke endpoint /complete untuk mencatat progres di DB
                         fetch(`/api/module/${activeModuleId}/complete`, { method: 'POST' })
                             .then(res => res.json())
                             .then(completeData => {
                                 if (completeData.success) {
-                                    // Tampilkan success banner
                                     document.getElementById('success-banner').classList.remove('hidden');
                                     
-                                    // Set href tombol Lanjut ke modul berikutnya
                                     const nextModuleId = activeModuleId + 1;
                                     const nextBtn = document.getElementById('next-module-btn');
                                     if (nextModuleId < 12) {
@@ -381,10 +361,8 @@
                                 showToast("Gagal menghubungi server untuk menyimpan progres.", "error");
                             });
                     } else {
-                        // JAWABAN EKSPLISIT SALAH ATAU KRITERIA LOGIKA TIDAK SESUAI
                         showToast("Output kode tidak sesuai kriteria.", "error");
 
-                        // Tampilkan Hint Box jika AI menyediakan saran koreksi edukatif
                         if (data.hint) {
                             hintText.innerText = data.hint;
                             hintBox.classList.remove('hidden');
@@ -397,7 +375,6 @@
                 }
             })
             .catch(err => {
-                // --- KEMBALIKAN TOMBOL KE KEADAAN SEMULA (JIKA ERROR) ---
                 runBtn.disabled = false;
                 btnContent.innerHTML = `
                 <svg class="w-4 h-4 fill-current text-white/95" viewBox="0 0 24 24">

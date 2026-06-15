@@ -6,19 +6,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 from mysql.connector import pooling
 
-# 1. Memuat File .env (Pastikan dipanggil paling atas)
 from dotenv import load_dotenv
 dotenv_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
 load_dotenv(dotenv_path=dotenv_path)
 
-# Import fungsi ask_ai dan verify_code dari modul ai_engine
 from ai_engine import ask_ai, verify_code, generate_final_project_task, evaluate_final_project
 from storage import upload_file_to_r2
 
 app = Flask(__name__)
 CORS(app)
 
-# Ambil SECRET_KEY dari .env, berikan fallback jika tidak ditemukan
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'test-index-secret-key-12345')
 
 # ---------------------------------------------------------------------------
@@ -33,7 +30,6 @@ db_config = {
     "connection_timeout": 5  
 }
 
-# Definisikan variabel pool secara global
 db_pool = None
 
 def init_database():
@@ -48,11 +44,9 @@ def init_database():
             **db_config
         )
         
-        # Lakukan pembuatan tabel otomatis saat pool pertama kali terbentuk
         conn = db_pool.get_connection()
         cursor = conn.cursor()
         
-        # 1. Membuat Tabel Utama: users
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `users` (
             `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,7 +58,6 @@ def init_database():
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """)
         
-        # 2. Membuat Tabel Relasi: user_quizzes
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `user_quizzes` (
             `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -86,7 +79,6 @@ def init_database():
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         """)
         
-        # 3. Membuat Tabel Relasi: user_exam_results
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS `user_exam_results` (
             `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -339,14 +331,12 @@ def get_or_generate_quiz(module_id):
     conn = db_pool.get_connection()
     cursor = conn.cursor(dictionary=True)
     
-    # 1. Cek apakah kuis untuk user dan modul ini sudah tersimpan di database
     cursor.execute("SELECT * FROM user_quizzes WHERE user_id = %s AND module_id = %s", (user_id, module_id))
     saved_quiz = cursor.fetchone()
     
     if saved_quiz:
         cursor.close()
         conn.close()
-        # Rekonstruksi model data kuis ke format JSON standar agar frontend tidak berubah
         quiz_data = {
             "title": saved_quiz["title"],
             "read_time": saved_quiz["read_time"],
@@ -360,10 +350,8 @@ def get_or_generate_quiz(module_id):
         }
         return jsonify({'success': True, 'quiz': quiz_data})
 
-    # Siapkan kuis default statis sebagai skenario fallback keselamatan
     fallback_quiz = MODULES_CONTENT.get(str_module_id, {}).get('quiz', {})
     
-    # 2. Ekstraksi seluruh teks materi dari berkas JSON static sebagai basis konteks AI
     module_title = MODULES[module_id]['title']
     content_data = MODULES_CONTENT.get(str_module_id, {})
     
@@ -378,7 +366,6 @@ def get_or_generate_quiz(module_id):
         if section.get('code'):
             materi_text += f"Contoh Kode:\n{section['code']}\n"
 
-    # 3. Panggil Gemini API untuk generate soal kustom berbasis materi modul
     try:
         if module_id == 11:
             ai_response = generate_final_project_task()
@@ -395,7 +382,6 @@ def get_or_generate_quiz(module_id):
         print(f"[Fallback MySQL Active] Modul {module_id} memicu kuis bawaan. Alasan: {str(e)}")
         quiz_data = fallback_quiz
 
-    # 4. Amankan kuis baru (Hasil AI / Fallback) ke dalam tabel user_quizzes di MySQL
     try:
         cursor.execute(
             """INSERT INTO user_quizzes 
@@ -439,7 +425,6 @@ def verify_user_code(module_id):
     conn = db_pool.get_connection()
     cursor = conn.cursor(dictionary=True)
     
-    # Ambil metadata pembanding kuis asli langsung dari baris data MySQL
     cursor.execute("SELECT starter_code, expected_output FROM user_quizzes WHERE user_id = %s AND module_id = %s", (user_id, module_id))
     saved_quiz = cursor.fetchone()
     
@@ -456,7 +441,6 @@ def verify_user_code(module_id):
 
     try:
         print(f"[API Verify] Mengevaluasi kode user untuk module_id={module_id}: {quiz_title}")
-        # Kirim kode langsung ke Gemini untuk dievaluasi output beserta hint-nya secara cloud sandbox
         ai_response_raw = verify_code(module_title, quiz_title, starter_code, expected_output, user_code)
         evaluation_data = json.loads(ai_response_raw)
         
@@ -482,7 +466,6 @@ def complete_module(module_id):
     user_id = session.get('user_id')
     completed = get_user_completed_modules()
     
-    # Cek prasyarat urutan modul
     for i in range(module_id):
         if i not in completed: 
             return jsonify({'success': False, 'error': f'Module {i} not yet completed'}), 403
@@ -490,7 +473,6 @@ def complete_module(module_id):
     if module_id not in completed:
         completed.append(module_id)
         
-        # Perbarui kolom completed_modules dalam bentuk string JSON terkompresi
         conn = db_pool.get_connection()
         cursor = conn.cursor()
         try:
@@ -516,7 +498,6 @@ def upload_final_project():
     user_id = session.get('user_id')
     username = session.get('username')
     
-    # 1. Validasi file upload
     if 'file' not in request.files:
         return jsonify({'success': False, 'error': 'Tidak ada berkas file yang dikirimkan.'}), 400
         
@@ -528,15 +509,12 @@ def upload_final_project():
         return jsonify({'success': False, 'error': 'Tipe file harus berupa berkas Python (.py).'}), 400
         
     try:
-        # Membaca isi konten file untuk dikirim ke AI Reviewer
         file_content = file.read().decode('utf-8')
-        # Reset pointer file agar bisa di-upload ke R2
         file.seek(0)
     except Exception as read_err:
         print(f"[API Upload Error] Gagal membaca isi file: {read_err}")
         return jsonify({'success': False, 'error': 'Gagal membaca isi berkas.'}), 400
         
-    # 2. Ambil detail tugas dari database user_quizzes untuk module_id = 11
     conn = db_pool.get_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT title, instructions FROM user_quizzes WHERE user_id = %s AND module_id = 11", (user_id,))
@@ -550,7 +528,6 @@ def upload_final_project():
     project_title = saved_quiz['title']
     project_instructions = saved_quiz['instructions']
     
-    # 3. Unggah file ke Cloudflare R2 menggunakan boto3
     try:
         object_name = f"final_projects/user_{user_id}_{username}_final_project.py"
         print(f"[R2 Upload] Mengunggah file ke R2: {object_name}")
@@ -562,18 +539,15 @@ def upload_final_project():
         traceback.print_exc()
         return jsonify({'success': False, 'error': f'Gagal mengunggah berkas ke Cloudflare R2: {str(r2_err)}'}), 500
         
-    # 4. Evaluasi konten file menggunakan Gemini AI
     try:
         print(f"[AI Evaluation] Mengevaluasi final project untuk user_id={user_id}")
         ai_response_raw = evaluate_final_project(project_title, project_instructions, file_content)
         evaluation_data = json.loads(ai_response_raw)
         
-        # Validasi struktur respons AI
         is_correct = evaluation_data.get('is_correct', False)
         score = evaluation_data.get('score', 0)
         feedback = evaluation_data.get('feedback', '')
         
-        # 5. Jika AI menyatakan jawaban benar, tandai modul 11 sebagai lengkap
         if is_correct:
             completed = get_user_completed_modules()
             if 11 not in completed:
@@ -589,7 +563,6 @@ def upload_final_project():
                     cursor.close()
                     conn.close()
                     
-        # 6. Simpan detail hasil penilaian (skor, ulasan, file URL) ke tabel user_exam_results
         conn = db_pool.get_connection()
         cursor = conn.cursor()
         try:
@@ -622,6 +595,5 @@ def upload_final_project():
 
 
 if __name__ == '__main__':
-    # Membaca port dinamis dari OS, default ke 5000 jika tidak diatur
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port, debug=False)

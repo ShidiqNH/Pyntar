@@ -7,10 +7,8 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 
-        <!-- Left Column: Instructions and Task Details -->
         <div class="lg:col-span-5 flex flex-col">
 
-            <!-- Loading Task State -->
             <div id="loading-container"
                 class="flex flex-col items-center justify-center py-20 bg-white border border-brand-gray-border/40 rounded-3xl shadow-sm">
                 <div class="w-12 h-12 border-4 border-[#0A6B8E] border-t-transparent rounded-full animate-spin mb-4">
@@ -18,7 +16,6 @@
                 <p class="text-sm font-semibold text-brand-neutral/60 font-label">Merumuskan Tugas Proyek Akhir Anda...</p>
             </div>
 
-            <!-- Task Description (Shown once loaded) -->
             <div id="quiz-content-container" class="hidden flex flex-col">
                 <div class="flex items-center gap-2 mb-6">
                     <span class="bg-indigo-100 text-indigo-800 px-3.5 py-1 rounded-full text-xs font-bold font-label">
@@ -57,15 +54,12 @@
 
         </div>
 
-        <!-- Right Column: Drag-and-Drop Uploader and Feedback Panel -->
         <div class="lg:col-span-7 flex flex-col space-y-6">
 
-            <!-- File Upload Card -->
             <div id="upload-card" class="bg-white rounded-[2.5rem] border border-brand-gray-border/60 p-8 shadow-md flex flex-col">
                 <h3 class="text-xl font-extrabold font-headline text-brand-neutral mb-2">Unggah Berkas Proyek (.py)</h3>
                 <p class="text-xs text-brand-neutral/50 font-body mb-6">Tulis kode Python Anda di editor lokal Anda sendiri secara utuh, lalu unggah file tersebut di bawah ini untuk dievaluasi oleh sistem AI Pyntar.</p>
 
-                <!-- Drag & Drop Zone -->
                 <div id="drop-zone" class="border-2 border-dashed border-brand-primary/30 hover:border-brand-primary bg-slate-50/50 hover:bg-slate-50 transition-all rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer min-h-[180px] relative select-none">
                     <input type="file" id="file-input" class="hidden" accept=".py">
                     
@@ -98,14 +92,12 @@
                 </div>
             </div>
 
-            <!-- Analyzing/Loading State Card -->
             <div id="ai-analyzing-card" class="hidden bg-white rounded-[2.5rem] border border-brand-gray-border/60 p-10 shadow-md flex flex-col items-center justify-center text-center">
                 <div class="w-16 h-16 border-4 border-brand-primary border-t-transparent rounded-full animate-spin mb-6"></div>
                 <h4 class="text-lg font-bold font-headline text-brand-neutral mb-2">AI Sedang Mengevaluasi Proyek Anda</h4>
                 <p class="text-xs text-brand-neutral/60 max-w-md leading-relaxed">Asesor AI sedang mengunggah berkas kode ke bucket penyimpanan Cloudflare R2, meninjau pemenuhan instruksi tugas, dan menganalisis kualitas penulisan kode Anda. Ini memerlukan waktu sekitar 10-15 detik...</p>
             </div>
 
-            <!-- AI Assessor Evaluation Result Card -->
             <div id="ai-evaluation-result" class="hidden bg-white rounded-[2.5rem] border border-brand-gray-border/60 p-8 shadow-md flex flex-col space-y-6 animate-fade-in">
                 <div class="flex items-center justify-between border-b border-brand-gray-border/60 pb-6">
                     <div>
@@ -113,14 +105,12 @@
                         <p class="text-xs text-brand-neutral/50 mt-1 font-mono" id="uploaded-file-url-label">Berkas tersimpan di Cloudflare R2</p>
                     </div>
                     
-                    <!-- Score Badge -->
                     <div class="flex flex-col items-center justify-center w-20 h-20 rounded-full bg-slate-50 border border-brand-gray-border/80">
                         <span id="evaluation-score" class="text-2xl font-black text-brand-neutral font-headline">0</span>
                         <span class="text-[9px] font-bold text-brand-neutral/40 uppercase">Skor</span>
                     </div>
                 </div>
 
-                <!-- Banner Status -->
                 <div id="status-banner" class="rounded-2xl p-5 border flex items-start gap-4">
                     <div id="status-icon" class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm"></div>
                     <div>
@@ -129,7 +119,6 @@
                     </div>
                 </div>
 
-                <!-- Feedbacks -->
                 <div class="flex flex-col">
                     <span class="text-[10px] font-extrabold text-brand-neutral/40 uppercase tracking-wider block mb-2 font-label">Ulasan Reviewer AI</span>
                     <div class="bg-slate-50 border border-brand-gray-border/50 rounded-2xl p-6">
@@ -137,7 +126,6 @@
                     </div>
                 </div>
 
-                <!-- Actions -->
                 <div id="navigation-area" class="flex justify-end pt-4">
                     <a id="finish-btn" href="/dashboard" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3.5 rounded-xl font-bold flex items-center gap-2.5 transition-all text-xs font-label">
                         <span>Kembali ke Dashboard</span>
@@ -163,19 +151,16 @@
     const activeModuleId = {{ module.id }};
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Load Quiz/Final Project Prompt Data
         fetch(`/api/module/${activeModuleId}/get_quiz`)
             .then(res => res.json())
             .then(data => {
                 if (data.success && data.quiz) {
                     const quiz = data.quiz;
 
-                    // Populate UI
                     document.getElementById('quiz-title').innerText = quiz.title;
                     document.getElementById('quiz-text').innerText = quiz.text;
                     document.getElementById('quiz-read-time').innerText = quiz.read_time || '30 min';
 
-                    // Render Instructions List
                     const instructionsList = document.getElementById('quiz-instructions-list');
                     instructionsList.innerHTML = "";
                     quiz.instructions.forEach((step, index) => {
@@ -188,13 +173,11 @@
                             </li>`;
                     });
 
-                    // Tip box if provided
                     if (quiz.tip) {
                         document.getElementById('quiz-tip-text').innerText = quiz.tip;
                         document.getElementById('quiz-tip-box').classList.remove('hidden');
                     }
 
-                    // Show content layout
                     document.getElementById('loading-container').classList.add('hidden');
                     document.getElementById('quiz-content-container').classList.remove('hidden');
                 } else {
@@ -206,7 +189,6 @@
                 showToast("Terjadi gangguan koneksi internet.", "error");
             });
 
-        // Set up uploader event listeners
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
 
@@ -243,7 +225,6 @@
         }
         selectedFile = file;
 
-        // Render file details in UI
         document.getElementById('upload-prompt').classList.add('hidden');
         const nameEl = document.getElementById('file-name');
         nameEl.innerText = file.name;
@@ -261,11 +242,9 @@
     function submitFinalProject() {
         if (!selectedFile) return;
 
-        // Hide upload block and show progress loader
         document.getElementById('upload-card').classList.add('hidden');
         document.getElementById('ai-analyzing-card').classList.remove('hidden');
 
-        // Form data upload
         const formData = new FormData();
         formData.append('file', selectedFile);
 
@@ -275,15 +254,12 @@
         })
             .then(res => res.json())
             .then(data => {
-                // Hide analysis loader
                 document.getElementById('ai-analyzing-card').classList.add('hidden');
 
                 if (data.success) {
-                    // Populate evaluation details
                     document.getElementById('evaluation-score').innerText = data.score;
                     document.getElementById('evaluation-feedback').innerText = data.feedback;
                     
-                    // Show file URL
                     const urlLabel = document.getElementById('uploaded-file-url-label');
                     urlLabel.innerHTML = `<a href="${data.file_url}" target="_blank" class="text-indigo-600 hover:underline flex items-center gap-1">
                         <span>Lihat Berkas di Cloudflare R2</span>
@@ -292,14 +268,12 @@
                         </svg>
                     </a>`;
 
-                    // Set up Status Banner based on passing status
                     const banner = document.getElementById('status-banner');
                     const titleEl = document.getElementById('status-title');
                     const descEl = document.getElementById('status-desc');
                     const iconEl = document.getElementById('status-icon');
 
                     if (data.is_correct) {
-                        // Project Accepted / Passed
                         banner.className = "rounded-2xl p-5 border border-green-200 bg-green-50 flex items-start gap-4";
                         iconEl.className = "w-7 h-7 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm";
                         iconEl.innerHTML = "✓";
@@ -310,7 +284,6 @@
                         
                         document.getElementById('finish-btn').innerText = "Selesaikan Capstone & Dashboard";
                     } else {
-                        // Project Rejected / Action Required
                         banner.className = "rounded-2xl p-5 border border-red-200 bg-red-50 flex items-start gap-4";
                         iconEl.className = "w-7 h-7 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0 mt-0.5 font-bold text-sm";
                         iconEl.innerHTML = "✗";
@@ -319,7 +292,6 @@
                         descEl.className = "text-xs font-body text-red-700 mt-1 leading-relaxed";
                         descEl.innerText = "Ulas masukan reviewer di bawah, perbaiki kode Anda secara lokal, dan coba unggah kembali.";
                         
-                        // Change finish button to upload again button
                         const finishBtn = document.getElementById('finish-btn');
                         finishBtn.innerText = "Unggah Ulang File Proyek";
                         finishBtn.href = "#";
@@ -330,11 +302,9 @@
                         };
                     }
 
-                    // Display evaluation panel
                     document.getElementById('ai-evaluation-result').classList.remove('hidden');
                 } else {
                     showToast(data.error || "Gagal memproses proyek akhir.", "error");
-                    // Re-show uploader if failed
                     document.getElementById('upload-card').classList.remove('hidden');
                 }
             })
@@ -350,7 +320,6 @@
         selectedFile = null;
         document.getElementById('file-input').value = "";
         
-        // Toggle view blocks
         document.getElementById('ai-evaluation-result').classList.add('hidden');
         document.getElementById('file-details').classList.add('hidden');
         document.getElementById('upload-prompt').classList.remove('hidden');

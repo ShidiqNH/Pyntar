@@ -124,7 +124,6 @@
         <div class="flex flex-col gap-3">
             {% for mod in modules %}
                 {% if mod.id in completed_modules %}
-                    <!-- Completed Module -->
                     <a href="/course/module/{{ mod.id }}" class="flex items-center justify-between p-4 rounded-xl hover:bg-brand-gray-light/30 transition-all">
                         <div class="flex items-center gap-5">
                             <div class="w-11 h-11 rounded-full bg-[#D4EAF5] flex items-center justify-center text-[#0A6B8E]">
@@ -156,7 +155,6 @@
                         <span class="px-4 py-1.5 bg-[#FFF4EC] text-[#B05B2D] text-xs font-semibold rounded-full border border-[#FAD7C3] font-label shadow-sm">In Progress</span>
                     </a>
                 {% else %}
-                    <!-- Locked Module -->
                     <div class="flex items-center justify-between p-4 rounded-xl opacity-60 select-none cursor-not-allowed">
                         <div class="flex items-center gap-5">
                             <div class="w-11 h-11 rounded-full bg-[#E5E5E5] flex items-center justify-center text-brand-neutral/40">
