@@ -3,15 +3,15 @@ name: Deploy to AWS ECS
 on:
   push:
     branches:
-      - main # Workflow akan otomatis berjalan setiap kali kamu push ke branch main
+      - main 
 
 env:
-  AWS_REGION: ap-southeast-1           # Region Singapore (sesuai output infrastrukturmu)
-  ECR_REPOSITORY: production-flask-repo # Nama repositori ECR kamu[cite: 15]
-  ECS_SERVICE: production-flask-service    # Nama service ECS kamu
-  ECS_CLUSTER: production-ecs-cluster      # Nama cluster ECS kamu[cite: 17]
-  ECS_TASK_DEFINITION: flask-app-task      # Nama family task definition kamu[cite: 19]
-  CONTAINER_NAME: flask-app                # Nama kontainer di dalam ECS[cite: 20]
+  AWS_REGION: ap-southeast-1          
+  ECR_REPOSITORY: production-flask-repo 
+  ECS_SERVICE: production-flask-service    
+  ECS_CLUSTER: production-ecs-cluster      
+  ECS_TASK_DEFINITION: flask-app-task      
+  CONTAINER_NAME: flask-app                
 
 jobs:
   deploy:
@@ -19,11 +19,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Ambil kode terbaru dari repositori GitHub
+    
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    # 2. Login ke AWS menggunakan IAM Credentials yang disimpan di GitHub Secrets
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -31,29 +30,25 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
 
-    # 3. Otentikasi Docker CLI ke Amazon ECR
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
 
-    # 4. Build, Tag, dan Push Image Flask dari sub-folder /app ke AWS ECR
     - name: Build, Tag, and Push Image to Amazon ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }} # Menggunakan commit SHA unik sebagai tag versi (best practice)
+        IMAGE_TAG: ${{ github.sha }} 
       run: |
         # Context diarahkan ke ./app karena Dockerfile & source code berada di dalam folder tersebut[cite: 3]
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./app 
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-    # 5. Ambil konfigurasi Task Definition aktif langsung dari AWS ECS
     - name: Download Active Task Definition
       run: |
         aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > task-definition.json
 
-    # 6. Ganti konfigurasi image placeholder lama dengan URI Image Flask asli yang baru saja di-push
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -62,7 +57,6 @@ jobs:
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
 
-    # 7. Deploy Task Definition baru ke AWS ECS (Fargate akan melakukan Rolling Update otomatis)
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v2
       with:
